@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Your Rewards | Ecolyy</title>
+
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Ecolyy CSS -->
+    <link rel="stylesheet" href="../css/glass.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="../css/pages.css">
+
+    <style>
+        /* =============================================
+           REWARDS PAGE STYLES
+        ============================================= */
+
+        .page-glow {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-one {
+            width: 500px;
+            height: 500px;
+            top: -100px;
+            right: -100px;
+            background: #4CAF50;
+        }
+
+        .glow-two {
+            width: 400px;
+            height: 400px;
+            bottom: -50px;
+            left: -50px;
+            background: #2196F3;
+        }
+
+        .dashboard-body {
+            min-height: 100vh;
+            background: var(--bg-primary, #f5f7fa);
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .dark-mode .dashboard-body {
+            background: var(--bg-primary-dark, #0d0d1a);
+        }
+
+        /* =============================================
+           SIDEBAR USER STYLES
+        ============================================= */
+
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0.8rem 1rem 0.8rem;
+            background: rgba(76, 175, 80, 0.06);
+            border-radius: 12px;
+            border: 1px solid rgba(76, 175, 80, 0.08);
+        }
+
+        .sidebar-user .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+            flex-shrink: 0;
+        }
+
+        .sidebar-user .user-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .sidebar-user .user-info .user-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary, #1a1a2e);
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-user .user-info .user-role {
+            font-size: 0.65rem;
+            color: var(--text-secondary, #888);
+            font-weight: 500;
+        }
+
+        .dark-mode .sidebar-user {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .dark-mode .sidebar-user .user-info .user-name {
+            color: #e0e0e0;
+        }
+
+        .dark-mode .sidebar-user .user-info .user-role {
+            color: #888;
+        }
+
+        /* =============================================
+           TOPBAR USER AVATAR
+        ============================================= */
+
+        .profile-mini .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            background: rgba(76, 175, 80, 0.12);
+            color: #4CAF50;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .profile-mini .user-avatar:hover {
+            background: #4CAF50;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* =============================================
+           REWARD HERO
+        ============================================= */
+
+        .reward-hero {
+            background: var(--card-bg, rgba(255, 255, 255, 0.6));
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+            border-radius: 16px;
+            padding: 1.8rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            opacity: 1 !important;
+            transform: none !important;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 2rem;
+        }
+
+        .dark-mode .reward-hero {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .reward-hero .reward-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            background: rgba(255, 152, 0, 0.12);
+            color: #FF9800;
+            flex-shrink: 0;
+        }
+
+        .reward-hero .reward-info span {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary, #888);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .reward-hero .reward-info strong {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary, #1a1a2e);
+            display: block;
+            line-height: 1.2;
+        }
+
+        .dark-mode .reward-hero .reward-info strong {
+            color: #e0e0e0;
+        }
+
+        .reward-hero .reward-info p {
+            font-size: 0.85rem;
+            color: var(--text-secondary, #888);
+            margin: 0.2rem 0 0 0;
+        }
+
+        .reward-hero .reward-progress {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .reward-hero .reward-progress .progress-track {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color, rgba(0, 0, 0, 0.06));
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 0.3rem;
+        }
+
+        .reward-hero .reward-progress .progress-track .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #FF9800, #FFB74D);
+            transition: width 0.8s ease;
+        }
+
+        .reward-hero .reward-progress .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-secondary, #888);
+        }
+
+        @media (max-width: 576px) {
+            .reward-hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .reward-hero .reward-progress {
+                width: 100%;
+            }
+        }
+
+        /* =============================================
+           REWARDS GRID
+        ============================================= */
+
+        .dashboard-content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-panel {
+            background: var(--card-bg, rgba(255, 255, 255, 0.6));
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+            border-radius: 16px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        .dark-mode .dashboard-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .panel-header .panel-label {
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #4CAF50;
+            text-transform: uppercase;
+        }
+
+        .panel-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0.2rem 0 0 0;
+            color: var(--text-primary, #1a1a2e);
+        }
+
+        .dark-mode .panel-header h2 {
+            color: #e0e0e0;
+        }
+
+        /* Reward Grid Cards */
+        .reward-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+
+        @media (max-width: 992px) {
+            .reward-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .reward-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .reward-card {
+            background: var(--card-bg, rgba(255, 255, 255, 0.4));
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.15));
+            border-radius: 14px;
+            padding: 1.5rem 1.2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        .reward-card:hover {
+            transform: translateY(-4px) !important;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .dark-mode .reward-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .reward-card i {
+            font-size: 2rem;
+            color: #FF9800;
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+
+        .reward-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary, #1a1a2e);
+            margin: 0 0 0.3rem 0;
+        }
+
+        .dark-mode .reward-card h3 {
+            color: #e0e0e0;
+        }
+
+        .reward-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary, #888);
+            margin: 0 0 1rem 0;
+        }
+
+        .reward-card .reward-status {
+            font-size: 0.65rem;
+            font-weight: 600;
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            margin-bottom: 0.8rem;
+        }
+
+        .reward-card .reward-status.available {
+            background: rgba(76, 175, 80, 0.12);
+            color: #4CAF50;
+        }
+
+        .reward-card .reward-status.locked {
+            background: rgba(136, 136, 136, 0.12);
+            color: #888;
+        }
+
+        .reward-card .reward-status.claimed {
+            background: rgba(33, 150, 243, 0.12);
+            color: #2196F3;
+        }
+
+        .button-50 {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.2rem;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+            width: 100%;
+        }
+
+        .button-50:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(76, 175, 80, 0.3);
+            color: white;
+        }
+
+        .button-50:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .button-50:active:not(:disabled) {
+            transform: scale(0.95);
+        }
+
+        .button-50.secondary {
+            background: var(--border-color, rgba(0, 0, 0, 0.06));
+            color: var(--text-secondary, #888);
+            box-shadow: none;
+        }
+
+        .button-50.secondary:hover {
+            background: var(--border-color, rgba(0, 0, 0, 0.1));
+            transform: translateY(-2px);
+            color: var(--text-secondary, #888);
+        }
+
+        .dark-mode .button-50.secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: #888;
+        }
+
+        .dark-mode .button-50.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #888;
+        }
+
+        /* Dashboard Footer */
+        .dashboard-footer {
+            text-align: center;
+            padding: 1.5rem 0 0.5rem 0;
+            font-size: 0.75rem;
+            color: var(--text-secondary, #888);
+            border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.04));
+            margin-top: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dark-mode .dashboard-footer {
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .reward-hero,
+        .dashboard-panel,
+        .reward-card {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        /* Toast Notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.8rem;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .toast-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-notification i {
+            font-size: 1.2rem;
+        }
+
+        .toast-notification.success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .toast-notification.info {
+            background: #2196F3;
+            color: white;
+        }
+
+        .toast-notification.warning {
+            background: #FF9800;
+            color: white;
+        }
+
+        .toast-notification.error {
+            background: #e74c3c;
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body class="dashboard-body">
+
+    <!-- Background Glow -->
+    <div class="page-glow glow-one"></div>
+    <div class="page-glow glow-two"></div>
+
+    <div class="dashboard-layout">
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+
+        <aside class="dashboard-sidebar" id="dashboardSidebar">
+
+            <!-- BRAND -->
+            <div class="sidebar-brand">
+                <a href="../index.html">
+                    <img src="../assets/images/ecolyy.png" alt="Ecolyy">
+                </a>
+            </div>
+
+            <!-- USER INFO - ART CRAFT Style -->
+            <div class="sidebar-user">
+                <div class="user-avatar" id="sidebarUserAvatar">AC</div>
+                <div class="user-info">
+                    <span class="user-name" id="sidebarUserName">ART CRAFT</span>
+                    <span class="user-role" id="sidebarUserRole">User Account</span>
+                </div>
+            </div>
+
+            <!-- NAVIGATION -->
+            <nav class="sidebar-menu">
+
+                <div class="nav-section-label">Overview</div>
+                <a href="dashboard.html" class="sidebar-link">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <div class="nav-section-label">Pickups</div>
+                <a href="pickups.html" class="sidebar-link">
+                    <i class="bi bi-truck"></i>
+                    <span>My Pickups</span>
+                </a>
+                <a href="schedule-pickup.html" class="sidebar-link">
+                    <i class="bi bi-calendar-plus"></i>
+                    <span>Schedule Pickup</span>
+                </a>
+                <a href="tracking.html" class="sidebar-link">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>Track Pickup</span>
+                </a>
+
+                <div class="nav-section-label">Rewards</div>
+                <a href="rewards.html" class="sidebar-link active">
+                    <i class="bi bi-stars"></i>
+                    <span>Rewards</span>
+                </a>
+                <a href="wallet.html" class="sidebar-link">
+                    <i class="bi bi-wallet2"></i>
+                    <span>Wallet</span>
+                </a>
+
+                <div class="nav-section-label">Account</div>
+                <a href="history.html" class="sidebar-link">
+                    <i class="bi bi-clock-history"></i>
+                    <span>History</span>
+                </a>
+                <a href="addresses.html" class="sidebar-link">
+                    <i class="bi bi-house"></i>
+                    <span>Addresses</span>
+                </a>
+                <a href="profile.html" class="sidebar-link">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+
+            </nav>
+
+            <!-- SIDEBAR BOTTOM -->
+            <div class="sidebar-bottom">
+                <a href="../index.html" class="sidebar-home">
+                    <i class="bi bi-house"></i>
+                    <span>Back to Ecolyy</span>
+                </a>
+                <button type="button" class="sidebar-logout" id="sidebarLogout">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+
+        </aside>
+
+        <!-- SIDEBAR OVERLAY -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- =================================================
+             MAIN
+        ================================================== -->
+
+        <main class="dashboard-main">
+
+            <!-- =================================================
+                 TOPBAR
+            ================================================== -->
+
+            <header class="dashboard-topbar">
+
+                <div class="header-left">
+                    <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Open navigation">
+                        <i class="bi bi-list"></i>
+                    </button>
+
+                    <div class="topbar-left">
+                        <h1>Your Rewards</h1>
+                        <p>Earn points by recycling more.</p>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <button type="button" class="icon-button" id="themeToggle" aria-label="Toggle theme">
+                        <i class="bi bi-sun"></i>
+                    </button>
+
+                    <button type="button" class="icon-button" aria-label="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <a href="profile.html" class="profile-mini">
+                        <div class="user-avatar" id="topbarUserAvatar">AC</div>
+                    </a>
+                </div>
+
+            </header>
+
+            <!-- =================================================
+                 REWARD HERO
+            ================================================== -->
+
+            <section class="reward-hero" id="rewardHero">
+                <div class="reward-icon">
+                    <i class="bi bi-stars"></i>
+                </div>
+                <div class="reward-info">
+                    <span>Total Reward Points</span>
+                    <strong id="totalPoints">2,450</strong>
+                    <p id="pointsMessage">You are only 550 points away from the next reward.</p>
+                </div>
+                <div class="reward-progress">
+                    <div class="progress-label">
+                        <span>0 pts</span>
+                        <span id="nextReward">5,000 pts</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressFill" style="width:49%"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =================================================
+                 REWARDS GRID
+            ================================================== -->
+
+            <section class="dashboard-content-grid">
+
+                <div class="dashboard-panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <span class="panel-label">REDEEM</span>
+                            <h2>Available Rewards</h2>
+                        </div>
+                    </div>
+
+                    <div class="reward-grid" id="rewardGrid">
+                        <!-- Rewards will be rendered here -->
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <footer class="dashboard-footer">
+                © 2026 Ecolyy by CodeCraft 💌. All rights reserved. User Panel.
+            </footer>
+
+        </main>
+
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toastNotification">
+        <i class="bi bi-check-circle-fill"></i>
+        <span id="toastMessage">Action completed!</span>
+    </div>
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/user.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // =============================================
+            // GET USER DATA - IMPROVED
+            // =============================================
+
+            function getUserData() {
+                try {
+                    const userData = localStorage.getItem('ecolyy_user');
+                    if (userData) {
+                        const parsed = JSON.parse(userData);
+                        if (!parsed.initials && parsed.name) {
+                            parsed.initials = parsed.name
+                                .split(' ')
+                                .map(w => w[0])
+                                .join('')
+                                .substring(0, 2)
+                                .toUpperCase();
+                        }
+                        return parsed;
+                    }
+                    const name = localStorage.getItem('ecolyy_user_name');
+                    const email = localStorage.getItem('ecolyy_user_email');
+                    if (name || email) {
+                        const userName = name || email?.split('@')[0] || 'User';
+                        const initials = userName
+                            .split(' ')
+                            .map(w => w[0])
+                            .join('')
+                            .substring(0, 2)
+                            .toUpperCase();
+                        return {
+                            name: userName,
+                            email: email || '',
+                            initials: initials,
+                            role: 'User'
+                        };
+                    }
+                    return null;
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            function updateUserUI() {
+                const user = getUserData();
+                const sidebarAvatar = document.getElementById('sidebarUserAvatar');
+                const sidebarName = document.getElementById('sidebarUserName');
+                const sidebarRole = document.getElementById('sidebarUserRole');
+                const topbarAvatar = document.getElementById('topbarUserAvatar');
+
+                if (user) {
+                    const initials = user.initials || 'AC';
+                    const displayName = user.name || 'ART CRAFT';
+
+                    if (sidebarAvatar) {
+                        sidebarAvatar.textContent = initials;
+                        sidebarAvatar.style.background = 'rgba(76, 175, 80, 0.15)';
+                        sidebarAvatar.style.color = '#4CAF50';
+                    }
+                    if (sidebarName) sidebarName.textContent = displayName;
+                    if (sidebarRole) sidebarRole.textContent = user.role || 'User Account';
+                    if (topbarAvatar) {
+                        topbarAvatar.textContent = initials;
+                        topbarAvatar.style.background = 'rgba(76, 175, 80, 0.12)';
+                        topbarAvatar.style.color = '#4CAF50';
+                    }
+                } else {
+                    if (sidebarAvatar) {
+                        sidebarAvatar.textContent = 'AC';
+                        sidebarAvatar.style.background = 'rgba(76, 175, 80, 0.15)';
+                        sidebarAvatar.style.color = '#4CAF50';
+                    }
+                    if (sidebarName) sidebarName.textContent = 'ART CRAFT';
+                    if (sidebarRole) sidebarRole.textContent = 'User Account';
+                    if (topbarAvatar) {
+                        topbarAvatar.textContent = 'AC';
+                        topbarAvatar.style.background = 'rgba(76, 175, 80, 0.12)';
+                        topbarAvatar.style.color = '#4CAF50';
+                    }
+                }
+            }
+
+            // =============================================
+            // REWARDS DATA
+            // =============================================
+
+            const rewardsData = [{
+                id: 1,
+                name: '₹100 Wallet Credit',
+                icon: 'bi-wallet2',
+                points: 1000,
+                status: 'available'
+            }, {
+                id: 2,
+                name: '₹250 Wallet Credit',
+                icon: 'bi-gift',
+                points: 2500,
+                status: 'available'
+            }, {
+                id: 3,
+                name: 'Eco Champion Badge',
+                icon: 'bi-award',
+                points: 5000,
+                status: 'locked'
+            }, {
+                id: 4,
+                name: 'Plant a Tree',
+                icon: 'bi-tree',
+                points: 2000,
+                status: 'available'
+            }, {
+                id: 5,
+                name: 'Movie Ticket',
+                icon: 'bi-ticket',
+                points: 3500,
+                status: 'locked'
+            }, {
+                id: 6,
+                name: 'Coffee Voucher',
+                icon: 'bi-cup-hot',
+                points: 1500,
+                status: 'available'
+            }];
+
+            // =============================================
+            // USER POINTS
+            // =============================================
+
+            let userPoints = 2450;
+
+            function getUserPoints() {
+                const stored = localStorage.getItem('ecolyy_user_points');
+                if (stored) {
+                    return parseInt(stored);
+                }
+                localStorage.setItem('ecolyy_user_points', userPoints);
+                return userPoints;
+            }
+
+            function saveUserPoints(points) {
+                localStorage.setItem('ecolyy_user_points', points);
+                userPoints = points;
+            }
+
+            // =============================================
+            // RENDER REWARDS
+            // =============================================
+
+            function renderRewards() {
+                const points = getUserPoints();
+                const grid = document.getElementById('rewardGrid');
+
+                // Update hero
+                document.getElementById('totalPoints').textContent = points.toLocaleString();
+
+                const nextReward = rewardsData.reduce((min, r) => {
+                    if (r.points > points && r.points < min) return r.points;
+                    return min;
+                }, Infinity);
+
+                const nextRewardText = nextReward === Infinity ? 'Max reached!' : nextReward.toLocaleString() + ' pts';
+                document.getElementById('nextReward').textContent = nextRewardText;
+
+                const progress = Math.min((points / 5000) * 100, 100);
+                document.getElementById('progressFill').style.width = progress + '%';
+
+                const remaining = nextReward === Infinity ? 0 : nextReward - points;
+                const msg = nextReward === Infinity ?
+                    'You have reached the maximum reward level!' :
+                    `You are only ${remaining.toLocaleString()} points away from the next reward.`;
+                document.getElementById('pointsMessage').textContent = msg;
+
+                // Render reward cards
+                grid.innerHTML = rewardsData.map(r => {
+                    const isAvailable = points >= r.points;
+                    const isClaimed = r.status === 'claimed';
+                    const statusClass = isClaimed ? 'claimed' : isAvailable ? 'available' : 'locked';
+                    const statusText = isClaimed ? 'Claimed' : isAvailable ? 'Available' : 'Locked';
+                    const btnDisabled = !isAvailable || isClaimed;
+
+                    return `
+                        <div class="reward-card">
+                            <i class="bi ${r.icon}" style="color:${isAvailable && !isClaimed ? '#FF9800' : '#888'};"></i>
+                            <h3>${r.name}</h3>
+                            <p>${r.points.toLocaleString()} points required</p>
+                            <span class="reward-status ${statusClass}">${statusText}</span>
+                            <button class="button-50 ${btnDisabled ? 'secondary' : ''}"
+                                    onclick="redeemReward(${r.id})"
+                                    ${btnDisabled ? 'disabled' : ''}>
+                                ${isClaimed ? 'Claimed' : isAvailable ? 'Redeem' : 'Locked'}
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // =============================================
+            // REDEEM REWARD
+            // =============================================
+
+            window.redeemReward = function(id) {
+                const reward = rewardsData.find(r => r.id === id);
+                if (!reward) return;
+
+                const points = getUserPoints();
+
+                if (points < reward.points) {
+                    showToast(`You need ${reward.points.toLocaleString()} points for this reward!`, 'error');
+                    return;
+                }
+
+                if (reward.status === 'claimed') {
+                    showToast('You already claimed this reward!', 'info');
+                    return;
+                }
+
+                if (confirm(`Redeem "${reward.name}" for ${reward.points.toLocaleString()} points?`)) {
+                    const newPoints = points - reward.points;
+                    saveUserPoints(newPoints);
+                    reward.status = 'claimed';
+                    showToast(`"${reward.name}" redeemed successfully!`, 'success');
+                    renderRewards();
+                }
+            };
+
+            // =============================================
+            // TOAST
+            // =============================================
+
+            function showToast(message, type = 'success') {
+                const toast = document.getElementById('toastNotification');
+                const toastMsg = document.getElementById('toastMessage');
+                toastMsg.textContent = message;
+                toast.className = 'toast-notification ' + type;
+                toast.classList.add('show');
+
+                clearTimeout(toast._timeout);
+                toast._timeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+
+            // =============================================
+            // SIDEBAR
+            // =============================================
+
+            const sidebar = document.getElementById("dashboardSidebar");
+            const toggle = document.getElementById("sidebarToggle");
+            const overlay = document.getElementById("sidebarOverlay");
+            const logoutBtn = document.getElementById("sidebarLogout");
+
+            function openSidebar() {
+                sidebar?.classList.add("open");
+                overlay?.classList.add("active");
+                document.body.style.overflow = "hidden";
+            }
+
+            function closeSidebar() {
+                sidebar?.classList.remove("open");
+                overlay?.classList.remove("active");
+                document.body.style.overflow = "";
+            }
+
+            toggle?.addEventListener("click", openSidebar);
+            overlay?.addEventListener("click", closeSidebar);
+
+            document.querySelectorAll(".sidebar-link").forEach(link => {
+                link.addEventListener("click", () => {
+                    if (window.innerWidth <= 900) {
+                        closeSidebar();
+                    }
+                });
+            });
+
+            logoutBtn?.addEventListener("click", () => {
+                if (confirm('Are you sure you want to logout?')) {
+                    localStorage.removeItem("ecolyy_access_token");
+                    localStorage.removeItem("ecolyy_refresh_token");
+                    localStorage.removeItem("ecolyy_token_type");
+                    localStorage.removeItem("ecolyy_role");
+                    localStorage.removeItem("ecolyy_user");
+                    localStorage.removeItem("ecolyy_user_email");
+                    localStorage.removeItem("ecolyy_user_name");
+                    localStorage.removeItem("ecolyy_user_points");
+                    window.location.href = "../login.html";
+                }
+            });
+
+            // =============================================
+            // GSAP ANIMATIONS
+            // =============================================
+
+            if (typeof gsap !== "undefined") {
+
+                gsap.killTweensOf(".reward-hero");
+                gsap.killTweensOf(".dashboard-panel");
+                gsap.killTweensOf(".reward-card");
+
+                gsap.set(".reward-hero", { opacity: 1, y: 0, clearProps: "all" });
+                gsap.set(".dashboard-panel", { opacity: 1, y: 0, clearProps: "all" });
+                gsap.set(".reward-card", { opacity: 1, y: 0, clearProps: "all" });
+
+                const tl = gsap.timeline({
+                    onComplete: function() {
+                        gsap.set(".reward-hero", { opacity: 1, y: 0, clearProps: "opacity, transform, y" });
+                        gsap.set(".dashboard-panel", { opacity: 1, y: 0, clearProps: "opacity, transform, y" });
+                        gsap.set(".reward-card", { opacity: 1, y: 0, clearProps: "opacity, transform, y" });
+                    }
+                });
+
+                tl.from(".reward-hero", {
+                    opacity: 0,
+                    y: 15,
+                    duration: 0.5,
+                    ease: "power2.out"
+                });
+
+                tl.from(".dashboard-panel", {
+                    opacity: 0,
+                    y: 15,
+                    duration: 0.5,
+                    ease: "power2.out"
+                }, "-=0.2");
+
+                tl.from(".reward-card", {
+                    opacity: 0,
+                    y: 15,
+                    duration: 0.5,
+                    stagger: 0.06,
+                    ease: "power2.out"
+                }, "-=0.1");
+
+            }
+
+            // =============================================
+            // INIT
+            // =============================================
+
+            updateUserUI();
+            renderRewards();
+
+        });
+    </script>
+
+</body>
+</html>

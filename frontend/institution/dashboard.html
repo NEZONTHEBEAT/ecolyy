@@ -1,0 +1,2015 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Institute Dashboard | Ecolyy</title>
+
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Ecolyy CSS -->
+    <link rel="stylesheet" href="../css/glass.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="../css/pages.css">
+
+    <style>
+        .page-glow {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-one {
+            width: 500px;
+            height: 500px;
+            top: -100px;
+            right: -100px;
+            background: #2196F3;
+        }
+
+        .glow-two {
+            width: 400px;
+            height: 400px;
+            bottom: -50px;
+            left: -50px;
+            background: #4CAF50;
+        }
+
+        .dashboard-body {
+            min-height: 100vh;
+            background: var(--bg-primary, #f5f7fa);
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .dark-mode .dashboard-body {
+            background: var(--bg-primary-dark, #0d0d1a);
+        }
+
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0.8rem 1rem 0.8rem;
+            background: rgba(33, 150, 243, 0.06);
+            border-radius: 12px;
+            border: 1px solid rgba(33, 150, 243, 0.08);
+        }
+
+        .sidebar-user .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            background: rgba(33, 150, 243, 0.15);
+            color: #2196F3;
+            flex-shrink: 0;
+        }
+
+        .sidebar-user .user-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .sidebar-user .user-info .user-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary, #1a1a2e);
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-user .user-info .user-role {
+            font-size: 0.65rem;
+            color: var(--text-secondary, #888);
+            font-weight: 500;
+        }
+
+        .dark-mode .sidebar-user {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .dark-mode .sidebar-user .user-info .user-name {
+            color: #e0e0e0;
+        }
+
+        .dark-mode .sidebar-user .user-info .user-role {
+            color: #888;
+        }
+
+        .profile-mini .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            background: rgba(33, 150, 243, 0.12);
+            color: #2196F3;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .profile-mini .user-avatar:hover {
+            background: #2196F3;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 992px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat-card {
+            background: var(--card-bg, rgba(255, 255, 255, 0.6));
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+            border-radius: 16px;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .stat-card .stat-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-card .stat-info span {
+            font-size: 0.75rem;
+            color: var(--text-secondary, #888);
+            font-weight: 500;
+        }
+
+        .stat-card .stat-info strong {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary, #1a1a2e);
+            line-height: 1.2;
+        }
+
+        .dark-mode .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .dark-mode .stat-card .stat-info strong {
+            color: #e0e0e0;
+        }
+
+        .dashboard-panel {
+            background: var(--card-bg, rgba(255, 255, 255, 0.6));
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+            border-radius: 16px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            opacity: 1 !important;
+            transform: none !important;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 2rem;
+        }
+
+        .dark-mode .dashboard-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .panel-header .panel-label {
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #2196F3;
+            text-transform: uppercase;
+        }
+
+        .panel-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0.2rem 0 0 0;
+            color: var(--text-primary, #1a1a2e);
+        }
+
+        .dark-mode .panel-header h2 {
+            color: #e0e0e0;
+        }
+
+        .text-link {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #2196F3;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.2s ease;
+        }
+
+        .text-link:hover {
+            color: #1976D2;
+            transform: translateX(2px);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .dashboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .dashboard-table th {
+            text-align: left;
+            padding: 0.6rem 0.5rem 0.6rem 0;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary, #888);
+            border-bottom: 2px solid var(--border-color, rgba(0, 0, 0, 0.06));
+        }
+
+        .dashboard-table td {
+            padding: 0.6rem 0.5rem 0.6rem 0;
+            border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.04));
+            color: var(--text-primary, #1a1a2e);
+            vertical-align: middle;
+        }
+
+        .dashboard-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .dark-mode .dashboard-table td {
+            color: #d0d0d0;
+        }
+
+        .dark-mode .dashboard-table th {
+            color: #888;
+        }
+
+        .dark-mode .dashboard-table td {
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .dark-mode .dashboard-table th {
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .dashboard-table .pickup-id {
+            font-weight: 600;
+            font-family: monospace;
+            color: var(--text-primary, #1a1a2e);
+        }
+
+        .dark-mode .dashboard-table .pickup-id {
+            color: #e0e0e0;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .status.completed {
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+        }
+
+        .status.pending {
+            background: rgba(255, 152, 0, 0.15);
+            color: #FF9800;
+        }
+
+        .status.progress {
+            background: rgba(33, 150, 243, 0.15);
+            color: #2196F3;
+        }
+
+        .status.scheduled {
+            background: rgba(33, 150, 243, 0.15);
+            color: #2196F3;
+        }
+
+        .status.cancelled {
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+        }
+
+        .status.assigned {
+            background: rgba(255, 152, 0, 0.15);
+            color: #FF9800;
+        }
+
+        .status.in_progress {
+            background: rgba(33, 150, 243, 0.15);
+            color: #2196F3;
+        }
+
+        .status.disputed {
+            background: rgba(156, 39, 176, 0.15);
+            color: #9C27B0;
+        }
+
+        .table-action {
+            display: inline-block;
+            padding: 0.25rem 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-decoration: none;
+            background: rgba(33, 150, 243, 0.12);
+            color: #2196F3;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .table-action:hover {
+            background: #2196F3;
+            color: white;
+        }
+
+        .dark-mode .table-action {
+            background: rgba(33, 150, 243, 0.2);
+            color: #64B5F6;
+        }
+
+        .dark-mode .table-action:hover {
+            background: #2196F3;
+            color: white;
+        }
+
+        .dashboard-footer {
+            text-align: center;
+            padding: 1.5rem 0 0.5rem 0;
+            font-size: 0.75rem;
+            color: var(--text-secondary, #888);
+            border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.04));
+            margin-top: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dark-mode .dashboard-footer {
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .stat-card,
+        .dashboard-panel {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        .dashboard-welcome {
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-welcome .label {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            margin-bottom: 5px;
+            color: var(--text-secondary, #888);
+        }
+
+        .dashboard-welcome h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary, #1a1a2e);
+            margin: 0;
+        }
+
+        .dashboard-welcome p {
+            font-size: 0.9rem;
+            color: var(--text-secondary, #888);
+            margin: 0.2rem 0 0 0;
+        }
+
+        .dark-mode .dashboard-welcome h1 {
+            color: #e0e0e0;
+        }
+
+        .dashboard-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0 1.5rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-topbar .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .dashboard-topbar .topbar-left h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary, #1a1a2e);
+            margin: 0;
+        }
+
+        .dashboard-topbar .topbar-left p {
+            font-size: 0.85rem;
+            color: var(--text-secondary, #888);
+            margin: 0;
+        }
+
+        .dark-mode .dashboard-topbar .topbar-left h1 {
+            color: #e0e0e0;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .icon-button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: var(--border-color, rgba(0, 0, 0, 0.04));
+            color: var(--text-secondary, #888);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .icon-button:hover {
+            background: rgba(33, 150, 243, 0.08);
+            color: #2196F3;
+        }
+
+        .dark-mode .icon-button {
+            background: rgba(255, 255, 255, 0.04);
+            color: #888;
+        }
+
+        .dark-mode .icon-button:hover {
+            background: rgba(33, 150, 243, 0.12);
+            color: #64B5F6;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #e74c3c;
+            border: 2px solid var(--card-bg, #fff);
+        }
+
+        .sidebar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-primary, #1a1a2e);
+            cursor: pointer;
+            padding: 0.3rem;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar-toggle {
+                display: block;
+            }
+        }
+
+        /* API loading/error */
+        .loading-row {
+            text-align: center;
+            padding: 2rem !important;
+            color: var(--text-secondary, #888) !important;
+        }
+
+        .loading-row i {
+            margin-right: 0.35rem;
+        }
+
+        .error-row {
+            text-align: center;
+            padding: 2rem !important;
+            color: #e74c3c !important;
+        }
+
+        .empty-row {
+            text-align: center;
+            padding: 2rem !important;
+            color: var(--text-secondary, #888) !important;
+        }
+
+        .muted-value {
+            color: var(--text-secondary, #888);
+        }
+    </style>
+
+</head>
+
+<body class="dashboard-body">
+
+    <!-- Background Glow -->
+    <div class="page-glow glow-one"></div>
+    <div class="page-glow glow-two"></div>
+
+    <div class="dashboard-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="dashboard-sidebar" id="dashboardSidebar">
+
+            <div class="sidebar-brand">
+                <a href="../index.html">
+                    <img src="../assets/images/ecolyy.png" alt="Ecolyy">
+                </a>
+            </div>
+
+            <div class="sidebar-user">
+                <div class="user-avatar" id="sidebarUserAvatar">EI</div>
+                <div class="user-info">
+                    <span class="user-name" id="sidebarUserName">Ecolyy Institute</span>
+                    <span class="user-role" id="sidebarUserRole">Institute Partner</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+
+                <div class="nav-section-label">Overview</div>
+
+                <a href="dashboard.html" class="sidebar-link">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="certificates.html" class="sidebar-link">
+                    <i class="bi bi-award"></i>
+                    <span>Certificates</span>
+                </a>
+
+                <div class="nav-section-label">Pickups</div>
+
+                <a href="pickups.html" class="sidebar-link">
+                    <i class="bi bi-truck"></i>
+                    <span>Pickup Requests</span>
+                </a>
+
+                <a href="locations.html" class="sidebar-link">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>Locations</span>
+                </a>
+
+                <a href="schedule.html" class="sidebar-link">
+                    <i class="bi bi-calendar"></i>
+                    <span>Schedule</span>
+                </a>
+
+                <div class="nav-section-label">Analytics</div>
+
+                <a href="reports.html" class="sidebar-link">
+                    <i class="bi bi-bar-chart"></i>
+                    <span>Reports</span>
+                </a>
+
+                <div class="nav-section-label">Account</div>
+
+                <a href="profile.html" class="sidebar-link">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="../index.html" class="sidebar-home">
+                    <i class="bi bi-house"></i>
+                    <span>Back to Ecolyy</span>
+                </a>
+
+                <button type="button" class="sidebar-logout" id="sidebarLogout">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- MAIN -->
+        <main class="dashboard-main">
+
+            <!-- TOPBAR -->
+            <header class="dashboard-topbar">
+
+                <div class="header-left">
+
+                    <button
+                        type="button"
+                        class="sidebar-toggle"
+                        id="sidebarToggle"
+                        aria-label="Open navigation">
+                        <i class="bi bi-list"></i>
+                    </button>
+
+                    <div class="topbar-left">
+                        <h1>Institute Dashboard</h1>
+                        <p>Manage pickup requests and track your recycling impact.</p>
+                    </div>
+
+                </div>
+
+                <div class="topbar-right">
+
+                    <button
+                        type="button"
+                        class="icon-button"
+                        id="themeToggle"
+                        aria-label="Toggle theme">
+                        <i class="bi bi-sun"></i>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="icon-button"
+                        aria-label="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <a href="profile.html" class="profile-mini">
+                        <div class="user-avatar" id="topbarUserAvatar">EI</div>
+                    </a>
+
+                </div>
+
+            </header>
+
+            <!-- WELCOME -->
+            <section class="dashboard-welcome">
+
+                <div>
+                    <div class="label">INSTITUTE PORTAL</div>
+
+                    <h1 id="welcomeMessage">
+                        Welcome back, Institute 👋
+                    </h1>
+
+                    <p>
+                        Here's what's happening with your pickup requests.
+                    </p>
+                </div>
+
+            </section>
+
+            <!-- STATS -->
+            <section class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div
+                        class="stat-icon"
+                        style="background:rgba(33,150,243,0.1);color:#2196F3;">
+
+                        <i class="bi bi-box-seam"></i>
+
+                    </div>
+
+                    <div class="stat-info">
+                        <span>Total Pickups</span>
+                        <strong id="totalPickupsStat">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div
+                        class="stat-icon"
+                        style="background:rgba(76,175,80,0.1);color:#4CAF50;">
+
+                        <i class="bi bi-check-circle"></i>
+
+                    </div>
+
+                    <div class="stat-info">
+                        <span>Completed</span>
+                        <strong id="completedPickupsStat">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div
+                        class="stat-icon"
+                        style="background:rgba(255,152,0,0.1);color:#FF9800;">
+
+                        <i class="bi bi-clock"></i>
+
+                    </div>
+
+                    <div class="stat-info">
+                        <span>Pending</span>
+                        <strong id="pendingPickupsStat">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div
+                        class="stat-icon"
+                        style="background:rgba(156,39,176,0.1);color:#9C27B0;">
+
+                        <i class="bi bi-recycle"></i>
+
+                    </div>
+
+                    <div class="stat-info">
+                        <span>Recycled</span>
+                        <strong id="recycledWeightStat">0 KG</strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- RECENT PICKUPS -->
+            <section class="dashboard-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="panel-label">RECENT</span>
+                        <h2>Recent Pickup Requests</h2>
+                    </div>
+
+                    <a href="pickups.html" class="text-link">
+                        View All
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="dashboard-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Pickup</th>
+                                <th>Partner</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="pickupsTableBody">
+
+                            <tr>
+                                <td colspan="5" class="loading-row">
+                                    <i class="bi bi-arrow-repeat"></i>
+                                    Loading pickup requests...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="dashboard-footer">
+                © 2026 Ecolyy by CodeCraft 💌. All rights reserved. Institute Panel.
+            </footer>
+
+        </main>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/api.js"></script>
+
+
+    <script>
+
+    document.addEventListener("DOMContentLoaded", async function () {
+
+        /* =========================================================
+           CONFIG
+        ========================================================= */
+
+        const API_BASE_URL = "http://localhost:8000/api/v1";
+
+        const ACCESS_TOKEN_KEY = "ecolyy_access_token";
+        const ROLE_KEY = "ecolyy_role";
+        const USER_KEY = "ecolyy_user";
+
+
+        /* =========================================================
+           AUTH HELPERS
+        ========================================================= */
+
+        function clearAuth() {
+
+            const keys = [
+                "ecolyy_access_token",
+                "ecolyy_refresh_token",
+                "ecolyy_token_type",
+                "ecolyy_role",
+                "ecolyy_user",
+                "ecolyy_user_name",
+                "ecolyy_user_email",
+                "ecolyy_partner_name",
+                "ecolyy_partner_email",
+                "ecolyy_institute_name",
+                "ecolyy_institute_email"
+            ];
+
+            keys.forEach(key => {
+                localStorage.removeItem(key);
+            });
+        }
+
+
+        function redirectToLogin() {
+
+            clearAuth();
+
+            window.location.replace("../pages/login.html");
+        }
+
+
+        const token = localStorage.getItem(ACCESS_TOKEN_KEY);
+        const role = (localStorage.getItem(ROLE_KEY) || "").toLowerCase();
+
+        if (!token || role !== "institution") {
+
+            redirectToLogin();
+
+            return;
+        }
+
+
+        /* =========================================================
+           API REQUEST
+        ========================================================= */
+
+        async function apiRequest(endpoint, options = {}) {
+
+            const accessToken =
+                localStorage.getItem(ACCESS_TOKEN_KEY);
+
+            const headers = {
+                "Content-Type": "application/json",
+                ...(options.headers || {})
+            };
+
+            if (accessToken) {
+
+                headers.Authorization =
+                    `Bearer ${accessToken}`;
+
+            }
+
+
+            const response = await fetch(
+                `${API_BASE_URL}${endpoint}`,
+                {
+                    ...options,
+                    headers
+                }
+            );
+
+
+            const contentType =
+                response.headers.get("content-type") || "";
+
+
+            const data =
+                contentType.includes("application/json")
+                    ? await response.json()
+                    : await response.text();
+
+
+            if (response.status === 401 || response.status === 403) {
+
+                redirectToLogin();
+
+                throw new Error(
+                    data?.detail ||
+                    "Authentication failed"
+                );
+
+            }
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data?.detail ||
+                    data?.message ||
+                    "API request failed"
+                );
+
+            }
+
+
+            return data;
+
+        }
+
+
+        /* =========================================================
+           DOM HELPERS
+        ========================================================= */
+
+        function setText(id, value) {
+
+            const element =
+                document.getElementById(id);
+
+            if (element) {
+                element.textContent = value;
+            }
+
+        }
+
+
+        function escapeHTML(value) {
+
+            if (value === null || value === undefined) {
+                return "";
+            }
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        function getInitials(name) {
+
+            const safeName =
+                String(name || "Ecolyy Institute").trim();
+
+
+            const parts =
+                safeName
+                    .split(/\s+/)
+                    .filter(Boolean);
+
+
+            if (!parts.length) {
+                return "EI";
+            }
+
+
+            return parts
+                .map(word => word.charAt(0))
+                .join("")
+                .slice(0, 2)
+                .toUpperCase();
+
+        }
+
+
+        /* =========================================================
+           USER UI
+        ========================================================= */
+
+        function loadLocalUser() {
+
+            try {
+
+                const raw =
+                    localStorage.getItem(USER_KEY);
+
+                if (!raw) {
+                    return {};
+                }
+
+                return JSON.parse(raw) || {};
+
+            } catch (error) {
+
+                console.error(
+                    "Invalid ecolyy_user:",
+                    error
+                );
+
+                return {};
+
+            }
+
+        }
+
+
+        function updateUserUI(profile) {
+
+            const localUser =
+                loadLocalUser();
+
+
+            const mergedUser = {
+                ...localUser,
+                ...(profile || {})
+            };
+
+
+            const name =
+                mergedUser.name ||
+                mergedUser.institution_name ||
+                mergedUser.organization_name ||
+                "Ecolyy Institute";
+
+
+            const email =
+                mergedUser.email ||
+                localStorage.getItem("ecolyy_user_email") ||
+                "";
+
+
+            const displayRole =
+                mergedUser.display_role ||
+                mergedUser.role_display ||
+                "Institute Partner";
+
+
+            const initials =
+                mergedUser.initials ||
+                getInitials(name);
+
+
+            setText(
+                "sidebarUserAvatar",
+                initials
+            );
+
+
+            setText(
+                "topbarUserAvatar",
+                initials
+            );
+
+
+            setText(
+                "sidebarUserName",
+                name
+            );
+
+
+            setText(
+                "sidebarUserRole",
+                displayRole
+            );
+
+
+            setText(
+                "welcomeMessage",
+                `Welcome back, ${name.split(/\s+/)[0] || "Institute"} 👋`
+            );
+
+
+            localStorage.setItem(
+                USER_KEY,
+                JSON.stringify({
+                    ...mergedUser,
+                    name,
+                    email,
+                    initials,
+                    display_role: displayRole
+                })
+            );
+
+        }
+
+
+        /* =========================================================
+           FORMAT HELPERS
+        ========================================================= */
+
+        function formatPickupId(id) {
+
+            const raw =
+                String(id || "").trim();
+
+
+            if (!raw) {
+                return "—";
+            }
+
+
+            return raw.startsWith("#")
+                ? raw
+                : `#EC-${raw.slice(-6).toUpperCase()}`;
+
+        }
+
+
+        function formatStatus(status) {
+
+            const normalized =
+                String(status || "")
+                    .trim()
+                    .toLowerCase();
+
+
+            const labels = {
+
+                pending: "Pending",
+
+                assigned: "Assigned",
+
+                in_progress: "In Progress",
+
+                completed: "Completed",
+
+                cancelled: "Cancelled",
+
+                disputed: "Disputed"
+
+            };
+
+
+            return labels[normalized] ||
+                normalized.replace(/_/g, " ") ||
+                "Unknown";
+
+        }
+
+
+        function statusClass(status) {
+
+            const normalized =
+                String(status || "")
+                    .trim()
+                    .toLowerCase();
+
+
+            return normalized || "pending";
+
+        }
+
+
+        function formatDate(dateString) {
+
+            if (!dateString) {
+                return "—";
+            }
+
+
+            const date =
+                new Date(`${dateString}T00:00:00`);
+
+
+            if (Number.isNaN(date.getTime())) {
+                return dateString;
+            }
+
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        function formatWeight(value) {
+
+            const weight =
+                Number(value || 0);
+
+
+            if (!Number.isFinite(weight)) {
+                return "0 KG";
+            }
+
+
+            if (weight >= 1000) {
+
+                return `${(weight / 1000)
+                    .toFixed(weight % 1000 === 0 ? 0 : 1)}T`;
+
+            }
+
+
+            return `${weight.toFixed(
+                weight % 1 === 0 ? 0 : 1
+            )} KG`;
+
+        }
+
+
+        /* =========================================================
+           PROFILE
+        ========================================================= */
+
+        async function loadInstitutionProfile() {
+
+            try {
+
+                const profile =
+                    await apiRequest(
+                        "/institutions/me"
+                    );
+
+
+                updateUserUI(profile);
+
+
+                return profile;
+
+            } catch (error) {
+
+                console.error(
+                    "Institution profile error:",
+                    error
+                );
+
+
+                updateUserUI(
+                    loadLocalUser()
+                );
+
+
+                return null;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           PICKUPS
+        ========================================================= */
+
+        async function loadInstitutionPickups() {
+
+            const tbody =
+                document.getElementById(
+                    "pickupsTableBody"
+                );
+
+
+            try {
+
+                const pickups =
+                    await apiRequest(
+                        "/institutions/me/pickups"
+                    );
+
+
+                const safePickups =
+                    Array.isArray(pickups)
+                        ? pickups
+                        : [];
+
+
+                updateStatsFromPickups(
+                    safePickups
+                );
+
+
+                renderPickups(
+                    safePickups
+                );
+
+
+                return safePickups;
+
+            } catch (error) {
+
+                console.error(
+                    "Institution pickups error:",
+                    error
+                );
+
+
+                if (tbody) {
+
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="error-row">
+                                <i class="bi bi-exclamation-triangle"></i>
+                                Failed to load pickup requests.
+                            </td>
+                        </tr>
+                    `;
+
+                }
+
+
+                return [];
+
+            }
+
+        }
+
+
+        function updateStatsFromPickups(
+            pickups
+        ) {
+
+            const total =
+                pickups.length;
+
+
+            const completed =
+                pickups.filter(
+                    pickup =>
+                        pickup.status === "completed"
+                ).length;
+
+
+            const pending =
+                pickups.filter(
+                    pickup =>
+                        pickup.status === "pending"
+                ).length;
+
+
+            const totalRecycled =
+                pickups.reduce(
+                    (sum, pickup) => {
+
+                        if (
+                            pickup.status === "completed" &&
+                            pickup.actual_weight_kg !== null &&
+                            pickup.actual_weight_kg !== undefined
+                        ) {
+
+                            return sum +
+                                Number(
+                                    pickup.actual_weight_kg
+                                );
+
+                        }
+
+                        return sum;
+
+                    },
+                    0
+                );
+
+
+            setText(
+                "totalPickupsStat",
+                total
+            );
+
+
+            setText(
+                "completedPickupsStat",
+                completed
+            );
+
+
+            setText(
+                "pendingPickupsStat",
+                pending
+            );
+
+
+            setText(
+                "recycledWeightStat",
+                formatWeight(totalRecycled)
+            );
+
+        }
+
+
+        function renderPickups(
+            pickups
+        ) {
+
+            const tbody =
+                document.getElementById(
+                    "pickupsTableBody"
+                );
+
+
+            if (!tbody) {
+                return;
+            }
+
+
+            if (!pickups.length) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="empty-row">
+                            <i
+                                class="bi bi-inbox"
+                                style="
+                                    font-size:1.5rem;
+                                    display:block;
+                                    margin-bottom:0.5rem;
+                                    opacity:0.4;
+                                ">
+                            </i>
+                            No pickup requests yet.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+
+            const recentPickups =
+                pickups.slice(0, 5);
+
+
+            tbody.innerHTML =
+                recentPickups.map(
+                    pickup => {
+
+                        const id =
+                            pickup._id ||
+                            pickup.id ||
+                            "";
+
+
+                        const pickupId =
+                            formatPickupId(id);
+
+
+                        const partner =
+                            pickup.partner_id
+                                ? String(
+                                    pickup.partner_id
+                                )
+                                : "Not assigned";
+
+
+                        const date =
+                            formatDate(
+                                pickup.scheduled_date
+                            );
+
+
+                        const status =
+                            statusClass(
+                                pickup.status
+                            );
+
+
+                        const statusLabel =
+                            formatStatus(
+                                pickup.status
+                            );
+
+
+                        const encodedId =
+                            encodeURIComponent(
+                                id
+                            );
+
+
+                        return `
+                            <tr>
+
+                                <td>
+                                    <span class="pickup-id">
+                                        ${escapeHTML(pickupId)}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    ${
+                                        pickup.partner_id
+                                            ? escapeHTML(partner)
+                                            : '<span class="muted-value">Not assigned</span>'
+                                    }
+                                </td>
+
+                                <td>
+                                    ${escapeHTML(date)}
+                                </td>
+
+                                <td>
+
+                                    <span class="status ${escapeHTML(status)}">
+                                        ${escapeHTML(statusLabel)}
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <a
+                                        href="pickups.html?id=${encodedId}"
+                                        class="table-action">
+                                        Details
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        `;
+
+                    }
+                ).join("");
+
+        }
+
+
+        /* =========================================================
+           REPORTS
+        ========================================================= */
+
+        async function loadInstitutionReports() {
+
+            try {
+
+                const report =
+                    await apiRequest(
+                        "/institutions/me/reports"
+                    );
+
+
+                /*
+                    Backend reports response:
+
+                    {
+                        total_weight_kg,
+                        total_pickups,
+                        by_category
+                    }
+                */
+
+
+                if (
+                    report &&
+                    typeof report.total_weight_kg === "number"
+                ) {
+
+                    setText(
+                        "recycledWeightStat",
+                        formatWeight(
+                            report.total_weight_kg
+                        )
+                    );
+
+                }
+
+
+                if (
+                    report &&
+                    typeof report.total_pickups === "number"
+                ) {
+
+                    setText(
+                        "completedPickupsStat",
+                        report.total_pickups
+                    );
+
+                }
+
+
+                return report;
+
+            } catch (error) {
+
+                /*
+                    Dashboard pickup data remains usable
+                    even if report API fails.
+                */
+
+                console.error(
+                    "Institution reports error:",
+                    error
+                );
+
+
+                return null;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+        const sidebar =
+            document.getElementById(
+                "dashboardSidebar"
+            );
+
+
+        const toggle =
+            document.getElementById(
+                "sidebarToggle"
+            );
+
+
+        const overlay =
+            document.getElementById(
+                "sidebarOverlay"
+            );
+
+
+        function openSidebar() {
+
+            sidebar?.classList.add(
+                "open"
+            );
+
+
+            overlay?.classList.add(
+                "active"
+            );
+
+
+            document.body.style.overflow =
+                "hidden";
+
+        }
+
+
+        function closeSidebar() {
+
+            sidebar?.classList.remove(
+                "open"
+            );
+
+
+            overlay?.classList.remove(
+                "active"
+            );
+
+
+            document.body.style.overflow =
+                "";
+
+        }
+
+
+        toggle?.addEventListener(
+            "click",
+            openSidebar
+        );
+
+
+        overlay?.addEventListener(
+            "click",
+            closeSidebar
+        );
+
+
+        document
+            .querySelectorAll(".sidebar-link")
+            .forEach(link => {
+
+                link.addEventListener(
+                    "click",
+                    () => {
+
+                        if (
+                            window.innerWidth <= 900
+                        ) {
+
+                            closeSidebar();
+
+                        }
+
+                    }
+                );
+
+            });
+
+
+        /* =========================================================
+           ACTIVE SIDEBAR LINK
+        ========================================================= */
+
+        const currentFile =
+            window.location.pathname
+                .split("/")
+                .pop()
+                .toLowerCase();
+
+
+        document
+            .querySelectorAll(".sidebar-link")
+            .forEach(link => {
+
+                const href =
+                    link.getAttribute("href");
+
+
+                if (!href) {
+                    return;
+                }
+
+
+                const linkFile =
+                    href
+                        .split("/")
+                        .pop()
+                        .toLowerCase();
+
+
+                if (
+                    linkFile === currentFile
+                ) {
+
+                    link.classList.add(
+                        "active"
+                    );
+
+                }
+
+            });
+
+
+        /* =========================================================
+           LOGOUT
+        ========================================================= */
+
+        const logoutBtn =
+            document.getElementById(
+                "sidebarLogout"
+            );
+
+
+        logoutBtn?.addEventListener(
+            "click",
+            function () {
+
+                const confirmed =
+                    window.confirm(
+                        "Are you sure you want to logout?"
+                    );
+
+
+                if (!confirmed) {
+                    return;
+                }
+
+
+                clearAuth();
+
+
+                window.location.replace(
+                    "../pages/login.html"
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           INITIAL LOAD
+        ========================================================= */
+
+        updateUserUI(
+            loadLocalUser()
+        );
+
+
+        try {
+
+            await Promise.all([
+                loadInstitutionProfile(),
+                loadInstitutionPickups(),
+                loadInstitutionReports()
+            ]);
+
+        } catch (error) {
+
+            console.error(
+                "Dashboard initialization failed:",
+                error
+            );
+
+        }
+
+
+        /* =========================================================
+           GSAP ANIMATIONS
+        ========================================================= */
+
+        if (
+            typeof gsap !== "undefined"
+        ) {
+
+            gsap.killTweensOf(
+                ".stat-card"
+            );
+
+
+            gsap.killTweensOf(
+                ".dashboard-panel"
+            );
+
+
+            gsap.killTweensOf(
+                ".dashboard-welcome"
+            );
+
+
+            gsap.set(
+                ".stat-card",
+                {
+                    opacity: 1,
+                    y: 0,
+                    clearProps: "all"
+                }
+            );
+
+
+            gsap.set(
+                ".dashboard-panel",
+                {
+                    opacity: 1,
+                    y: 0,
+                    clearProps: "all"
+                }
+            );
+
+
+            gsap.set(
+                ".dashboard-welcome",
+                {
+                    opacity: 1,
+                    y: 0,
+                    clearProps: "all"
+                }
+            );
+
+
+            const tl =
+                gsap.timeline();
+
+
+            tl.from(
+                ".dashboard-welcome",
+                {
+                    opacity: 0,
+                    y: 15,
+                    duration: 0.6,
+                    ease: "power2.out"
+                }
+            );
+
+
+            tl.from(
+                ".stat-card",
+                {
+                    opacity: 0,
+                    y: 15,
+                    duration: 0.5,
+                    stagger: 0.08,
+                    ease: "power2.out"
+                },
+                "-=0.2"
+            );
+
+
+            tl.from(
+                ".dashboard-panel",
+                {
+                    opacity: 0,
+                    y: 15,
+                    duration: 0.5,
+                    ease: "power2.out"
+                },
+                "-=0.2"
+            );
+
+        }
+
+
+        console.log(
+            "Ecolyy Institution Dashboard loaded successfully."
+        );
+
+    });
+
+    </script>
+
+</body>
+</html>

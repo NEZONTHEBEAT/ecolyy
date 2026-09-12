@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Recycling History | Ecolyy</title>
+
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Ecolyy CSS -->
+    <link rel="stylesheet" href="../css/glass.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="../css/pages.css">
+
+    <style>
+        /* =============================================
+           HISTORY PAGE STYLES
+        ============================================= */
+
+        .page-glow {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-one {
+            width: 500px;
+            height: 500px;
+            top: -100px;
+            right: -100px;
+            background: #4CAF50;
+        }
+
+        .glow-two {
+            width: 400px;
+            height: 400px;
+            bottom: -50px;
+            left: -50px;
+            background: #2196F3;
+        }
+
+        .dashboard-body {
+            min-height: 100vh;
+            background: var(--bg-primary, #f5f7fa);
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .dark-mode .dashboard-body {
+            background: var(--bg-primary-dark, #0d0d1a);
+        }
+
+        /* =============================================
+           SIDEBAR USER STYLES
+        ============================================= */
+
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0.8rem 1rem 0.8rem;
+            background: rgba(76, 175, 80, 0.06);
+            border-radius: 12px;
+            border: 1px solid rgba(76, 175, 80, 0.08);
+        }
+
+        .sidebar-user .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+            flex-shrink: 0;
+        }
+
+        .sidebar-user .user-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .sidebar-user .user-info .user-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary, #1a1a2e);
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-user .user-info .user-role {
+            font-size: 0.65rem;
+            color: var(--text-secondary, #888);
+            font-weight: 500;
+        }
+
+        .dark-mode .sidebar-user {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .dark-mode .sidebar-user .user-info .user-name {
+            color: #e0e0e0;
+        }
+
+        .dark-mode .sidebar-user .user-info .user-role {
+            color: #888;
+        }
+
+        /* =============================================
+           TOPBAR USER AVATAR
+        ============================================= */
+
+        .profile-mini .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            background: rgba(76, 175, 80, 0.12);
+            color: #4CAF50;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .profile-mini .user-avatar:hover {
+            background: #4CAF50;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Dashboard Panel */
+        .dashboard-panel {
+            background: var(--card-bg, rgba(255, 255, 255, 0.6));
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+            border-radius: 16px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            opacity: 1 !important;
+            transform: none !important;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 2rem;
+        }
+
+        .dark-mode .dashboard-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .panel-header .panel-label {
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #4CAF50;
+            text-transform: uppercase;
+        }
+
+        .panel-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0.2rem 0 0 0;
+            color: var(--text-primary, #1a1a2e);
+        }
+
+        .dark-mode .panel-header h2 {
+            color: #e0e0e0;
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 992px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stats-row .stat-mini {
+            background: var(--card-bg, rgba(255, 255, 255, 0.4));
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.15));
+            border-radius: 12px;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.3s ease;
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        .stats-row .stat-mini:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .dark-mode .stats-row .stat-mini {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .stats-row .stat-mini .stat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .stats-row .stat-mini .stat-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stats-row .stat-mini .stat-info span {
+            font-size: 0.65rem;
+            color: var(--text-secondary, #888);
+            font-weight: 500;
+        }
+
+        .stats-row .stat-mini .stat-info strong {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary, #1a1a2e);
+            line-height: 1.2;
+        }
+
+        .dark-mode .stats-row .stat-mini .stat-info strong {
+            color: #e0e0e0;
+        }
+
+        /* Table */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .dashboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .dashboard-table th {
+            text-align: left;
+            padding: 0.7rem 0.5rem 0.7rem 0;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary, #888);
+            border-bottom: 2px solid var(--border-color, rgba(0, 0, 0, 0.06));
+        }
+
+        .dashboard-table td {
+            padding: 0.7rem 0.5rem 0.7rem 0;
+            border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.04));
+            color: var(--text-primary, #1a1a2e);
+            vertical-align: middle;
+        }
+
+        .dashboard-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .dark-mode .dashboard-table td {
+            color: #d0d0d0;
+        }
+
+        .dark-mode .dashboard-table th {
+            color: #888;
+        }
+
+        .dark-mode .dashboard-table td {
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .dark-mode .dashboard-table th {
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .dashboard-table .pickup-id {
+            font-weight: 600;
+            font-family: monospace;
+            color: var(--text-primary, #1a1a2e);
+        }
+
+        .dark-mode .dashboard-table .pickup-id {
+            color: #e0e0e0;
+        }
+
+        .dashboard-table .reward-pts {
+            font-weight: 600;
+            color: #FF9800;
+        }
+
+        /* Status Badges */
+        .status {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .status.completed {
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+        }
+
+        .status.pending {
+            background: rgba(255, 152, 0, 0.15);
+            color: #FF9800;
+        }
+
+        .status.progress {
+            background: rgba(33, 150, 243, 0.15);
+            color: #2196F3;
+        }
+
+        .status.cancelled {
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+        }
+
+        /* Search & Filters */
+        .table-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--input-bg, rgba(255, 255, 255, 0.5));
+            border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
+            border-radius: 10px;
+            padding: 0.4rem 0.8rem;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .search-wrapper:focus-within {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .search-wrapper i {
+            color: var(--text-secondary, #888);
+            font-size: 0.9rem;
+        }
+
+        .search-wrapper input {
+            border: none;
+            background: transparent;
+            padding: 0.3rem 0;
+            font-size: 0.85rem;
+            color: var(--text-primary, #1a1a2e);
+            outline: none;
+            width: 100%;
+        }
+
+        .search-wrapper input::placeholder {
+            color: #aaa;
+        }
+
+        .dark-mode .search-wrapper {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .dark-mode .search-wrapper input {
+            color: #e0e0e0;
+        }
+
+        .filter-badge {
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
+            background: transparent;
+            color: var(--text-secondary, #888);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-badge:hover {
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+
+        .filter-badge.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .dark-mode .filter-badge {
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #888;
+        }
+
+        .dark-mode .filter-badge:hover {
+            border-color: #4CAF50;
+            color: #81C784;
+        }
+
+        .dark-mode .filter-badge.active {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        /* Pagination */
+        .pagination-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .pagination-info {
+            font-size: 0.8rem;
+            color: var(--text-secondary, #888);
+        }
+
+        .page-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text-secondary, #888);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-btn:hover {
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+
+        .page-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .dark-mode .page-btn {
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #888;
+        }
+
+        .dark-mode .page-btn:hover {
+            border-color: #4CAF50;
+            color: #81C784;
+        }
+
+        .dark-mode .page-btn.active {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 2.5rem;
+            color: var(--text-secondary, #888);
+            display: none;
+        }
+
+        .no-results i {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.8rem;
+            opacity: 0.4;
+        }
+
+        .no-results h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary, #1a1a2e);
+            margin: 0 0 0.3rem 0;
+        }
+
+        .dark-mode .no-results h4 {
+            color: #e0e0e0;
+        }
+
+        /* Dashboard Footer */
+        .dashboard-footer {
+            text-align: center;
+            padding: 1.5rem 0 0.5rem 0;
+            font-size: 0.75rem;
+            color: var(--text-secondary, #888);
+            border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.04));
+            margin-top: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dark-mode .dashboard-footer {
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .dashboard-panel,
+        .stat-mini {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        @media (max-width: 576px) {
+            .dashboard-panel {
+                padding: 1rem;
+            }
+
+            .table-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-wrapper {
+                max-width: 100%;
+            }
+
+            .filter-group {
+                justify-content: center;
+            }
+
+            .pagination-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+
+</head>
+
+<body class="dashboard-body">
+
+    <!-- Background Glow -->
+    <div class="page-glow glow-one"></div>
+    <div class="page-glow glow-two"></div>
+
+    <div class="dashboard-layout">
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+
+        <aside class="dashboard-sidebar" id="dashboardSidebar">
+
+            <!-- BRAND -->
+            <div class="sidebar-brand">
+                <a href="../index.html">
+                    <img src="../assets/images/ecolyy.png" alt="Ecolyy">
+                </a>
+            </div>
+
+            <!-- USER INFO - ART CRAFT Style -->
+            <div class="sidebar-user">
+                <div class="user-avatar" id="sidebarUserAvatar">AC</div>
+                <div class="user-info">
+                    <span class="user-name" id="sidebarUserName">ART CRAFT</span>
+                    <span class="user-role" id="sidebarUserRole">User Account</span>
+                </div>
+            </div>
+
+            <!-- NAVIGATION -->
+            <nav class="sidebar-menu">
+
+                <div class="nav-section-label">Overview</div>
+                <a href="dashboard.html" class="sidebar-link">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <div class="nav-section-label">Pickups</div>
+                <a href="pickups.html" class="sidebar-link">
+                    <i class="bi bi-truck"></i>
+                    <span>My Pickups</span>
+                </a>
+                <a href="schedule-pickup.html" class="sidebar-link">
+                    <i class="bi bi-calendar-plus"></i>
+                    <span>Schedule Pickup</span>
+                </a>
+                <a href="tracking.html" class="sidebar-link">
+                    <i class="bi bi-geo-alt"></i>
+                    <span>Track Pickup</span>
+                </a>
+
+                <div class="nav-section-label">Rewards</div>
+                <a href="rewards.html" class="sidebar-link">
+                    <i class="bi bi-stars"></i>
+                    <span>Rewards</span>
+                </a>
+                <a href="wallet.html" class="sidebar-link">
+                    <i class="bi bi-wallet2"></i>
+                    <span>Wallet</span>
+                </a>
+
+                <div class="nav-section-label">Account</div>
+                <a href="history.html" class="sidebar-link active">
+                    <i class="bi bi-clock-history"></i>
+                    <span>History</span>
+                </a>
+                <a href="addresses.html" class="sidebar-link">
+                    <i class="bi bi-house"></i>
+                    <span>Addresses</span>
+                </a>
+                <a href="profile.html" class="sidebar-link">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+
+            </nav>
+
+            <!-- SIDEBAR BOTTOM -->
+            <div class="sidebar-bottom">
+                <a href="../index.html" class="sidebar-home">
+                    <i class="bi bi-house"></i>
+                    <span>Back to Ecolyy</span>
+                </a>
+                <button type="button" class="sidebar-logout" id="sidebarLogout">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+
+        </aside>
+
+        <!-- SIDEBAR OVERLAY -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- =================================================
+             MAIN
+        ================================================== -->
+
+        <main class="dashboard-main">
+
+            <!-- =================================================
+                 TOPBAR
+            ================================================== -->
+
+            <header class="dashboard-topbar">
+
+                <div class="header-left">
+                    <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Open navigation">
+                        <i class="bi bi-list"></i>
+                    </button>
+
+                    <div class="topbar-left">
+                        <h1>Recycling History</h1>
+                        <p>Your complete recycling activity.</p>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <button type="button" class="icon-button" id="themeToggle" aria-label="Toggle theme">
+                        <i class="bi bi-sun"></i>
+                    </button>
+
+                    <button type="button" class="icon-button" aria-label="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <a href="profile.html" class="profile-mini">
+                        <div class="user-avatar" id="topbarUserAvatar">AC</div>
+                    </a>
+                </div>
+
+            </header>
+
+            <!-- =================================================
+                 STATS ROW
+            ================================================== -->
+
+            <section class="stats-row" id="statsRow">
+                <div class="stat-mini">
+                    <div class="stat-icon" style="background:rgba(156,39,176,0.1);color:#9C27B0;">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span>Total Pickups</span>
+                        <strong id="totalPickups">24</strong>
+                    </div>
+                </div>
+
+                <div class="stat-mini">
+                    <div class="stat-icon" style="background:rgba(76,175,80,0.1);color:#4CAF50;">
+                        <i class="bi bi-recycle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span>Total Recycled</span>
+                        <strong id="totalRecycled">186.5 KG</strong>
+                    </div>
+                </div>
+
+                <div class="stat-mini">
+                    <div class="stat-icon" style="background:rgba(255,152,0,0.1);color:#FF9800;">
+                        <i class="bi bi-stars"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span>Total Rewards</span>
+                        <strong id="totalRewards">2,450 pts</strong>
+                    </div>
+                </div>
+
+                <div class="stat-mini">
+                    <div class="stat-icon" style="background:rgba(33,150,243,0.1);color:#2196F3;">
+                        <i class="bi bi-calendar"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span>Last Pickup</span>
+                        <strong id="lastPickup">16 Aug 2026</strong>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =================================================
+                 HISTORY TABLE
+            ================================================== -->
+
+            <section class="dashboard-panel" id="historyPanel">
+
+                <div class="panel-header">
+                    <div>
+                        <span class="panel-label">ACTIVITY</span>
+                        <h2>All History</h2>
+                    </div>
+                </div>
+
+                <!-- Table Controls -->
+                <div class="table-controls">
+                    <div class="search-wrapper">
+                        <i class="bi bi-search"></i>
+                        <input type="text" placeholder="Search history..." id="searchHistory">
+                    </div>
+                    <div class="filter-group">
+                        <button class="filter-badge active" data-filter="all">All</button>
+                        <button class="filter-badge" data-filter="completed">Completed</button>
+                        <button class="filter-badge" data-filter="pending">Pending</button>
+                        <button class="filter-badge" data-filter="progress">Processing</button>
+                        <button class="filter-badge" data-filter="cancelled">Cancelled</button>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Pickup</th>
+                                <th>Category</th>
+                                <th>Weight</th>
+                                <th>Reward</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody">
+                            <!-- Data will be rendered here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- No Results -->
+                <div class="no-results" id="noResults">
+                    <i class="bi bi-inbox"></i>
+                    <h4>No history found</h4>
+                    <p>Try adjusting your search or filter.</p>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-wrapper">
+                    <span class="pagination-info">
+                        Showing <strong id="showingCount">0</strong> of <strong id="totalCount">0</strong> records
+                    </span>
+                    <div class="pagination-buttons">
+                        <button class="page-btn" onclick="changePage('prev')">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <button class="page-btn active" data-page="1">1</button>
+                        <button class="page-btn" data-page="2">2</button>
+                        <button class="page-btn" data-page="3">3</button>
+                        <button class="page-btn" onclick="changePage('next')">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <footer class="dashboard-footer">
+                © 2026 Ecolyy by CodeCraft 💌. All rights reserved. User Panel.
+            </footer>
+
+        </main>
+
+    </div>
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/user.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // =============================================
+            // GET USER DATA - IMPROVED
+            // =============================================
+
+            function getUserData() {
+                try {
+                    const userData = localStorage.getItem('ecolyy_user');
+                    if (userData) {
+                        const parsed = JSON.parse(userData);
+                        if (!parsed.initials && parsed.name) {
+                            parsed.initials = parsed.name
+                                .split(' ')
+                                .map(w => w[0])
+                                .join('')
+                                .substring(0, 2)
+                                .toUpperCase();
+                        }
+                        return parsed;
+                    }
+                    const name = localStorage.getItem('ecolyy_user_name');
+                    const email = localStorage.getItem('ecolyy_user_email');
+                    if (name || email) {
+                        const userName = name || email?.split('@')[0] || 'User';
+                        const initials = userName
+                            .split(' ')
+                            .map(w => w[0])
+                            .join('')
+                            .substring(0, 2)
+                            .toUpperCase();
+                        return {
+                            name: userName,
+                            email: email || '',
+                            initials: initials,
+                            role: 'User'
+                        };
+                    }
+                    return null;
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            function updateUserUI() {
+                const user = getUserData();
+                const sidebarAvatar = document.getElementById('sidebarUserAvatar');
+                const sidebarName = document.getElementById('sidebarUserName');
+                const sidebarRole = document.getElementById('sidebarUserRole');
+                const topbarAvatar = document.getElementById('topbarUserAvatar');
+
+                if (user) {
+                    const initials = user.initials || 'AC';
+                    const displayName = user.name || 'ART CRAFT';
+
+                    if (sidebarAvatar) {
+                        sidebarAvatar.textContent = initials;
+                        sidebarAvatar.style.background = 'rgba(76, 175, 80, 0.15)';
+                        sidebarAvatar.style.color = '#4CAF50';
+                    }
+                    if (sidebarName) sidebarName.textContent = displayName;
+                    if (sidebarRole) sidebarRole.textContent = user.role || 'User Account';
+                    if (topbarAvatar) {
+                        topbarAvatar.textContent = initials;
+                        topbarAvatar.style.background = 'rgba(76, 175, 80, 0.12)';
+                        topbarAvatar.style.color = '#4CAF50';
+                    }
+                } else {
+                    // Default fallback - ART CRAFT
+                    if (sidebarAvatar) {
+                        sidebarAvatar.textContent = 'AC';
+                        sidebarAvatar.style.background = 'rgba(76, 175, 80, 0.15)';
+                        sidebarAvatar.style.color = '#4CAF50';
+                    }
+                    if (sidebarName) sidebarName.textContent = 'ART CRAFT';
+                    if (sidebarRole) sidebarRole.textContent = 'User Account';
+                    if (topbarAvatar) {
+                        topbarAvatar.textContent = 'AC';
+                        topbarAvatar.style.background = 'rgba(76, 175, 80, 0.12)';
+                        topbarAvatar.style.color = '#4CAF50';
+                    }
+                }
+            }
+
+            // =============================================
+            // HISTORY DATA (LocalStorage)
+            // =============================================
+
+            const defaultHistory = [{
+                id: 1,
+                date: '16 Aug 2026',
+                pickup: '#EC-1024',
+                category: 'Paper',
+                weight: '12 KG',
+                reward: '+180 pts',
+                status: 'completed',
+                statusLabel: 'Completed'
+            }, {
+                id: 2,
+                date: '12 Aug 2026',
+                pickup: '#EC-1023',
+                category: 'Plastic',
+                weight: '8.5 KG',
+                reward: '+120 pts',
+                status: 'completed',
+                statusLabel: 'Completed'
+            }, {
+                id: 3,
+                date: '07 Aug 2026',
+                pickup: '#EC-1020',
+                category: 'Metal',
+                weight: '15 KG',
+                reward: '+250 pts',
+                status: 'completed',
+                statusLabel: 'Completed'
+            }, {
+                id: 4,
+                date: '01 Aug 2026',
+                pickup: '#EC-1018',
+                category: 'Cardboard',
+                weight: '20 KG',
+                reward: '+210 pts',
+                status: 'completed',
+                statusLabel: 'Completed'
+            }, {
+                id: 5,
+                date: '28 Jul 2026',
+                pickup: '#EC-1015',
+                category: 'E-Waste',
+                weight: '4 KG',
+                reward: '+80 pts',
+                status: 'progress',
+                statusLabel: 'Processing'
+            }, {
+                id: 6,
+                date: '22 Jul 2026',
+                pickup: '#EC-1012',
+                category: 'Paper',
+                weight: '10 KG',
+                reward: '+150 pts',
+                status: 'completed',
+                statusLabel: 'Completed'
+            }];
+
+            function loadHistory() {
+                const stored = localStorage.getItem('ecolyy_history');
+                if (stored) {
+                    try {
+                        return JSON.parse(stored);
+                    } catch (e) {
+                        return defaultHistory;
+                    }
+                }
+                localStorage.setItem('ecolyy_history', JSON.stringify(defaultHistory));
+                return defaultHistory;
+            }
+
+            // =============================================
+            // RENDER TABLE
+            // =============================================
+
+            function renderTable() {
+                const history = loadHistory();
+                const tbody = document.getElementById('historyTableBody');
+                const filter = document.querySelector('.filter-badge.active');
+                const filterValue = filter ? filter.dataset.filter : 'all';
+                const searchTerm = document.getElementById('searchHistory').value.toLowerCase();
+
+                let filtered = history.filter(h => {
+                    const statusMatch = filterValue === 'all' || h.status === filterValue;
+                    const searchMatch = h.pickup.toLowerCase().includes(searchTerm) ||
+                        h.category.toLowerCase().includes(searchTerm) ||
+                        h.date.toLowerCase().includes(searchTerm);
+                    return statusMatch && searchMatch;
+                });
+
+                // Update stats
+                updateStats(history);
+
+                if (filtered.length === 0) {
+                    tbody.innerHTML = '';
+                    document.getElementById('noResults').style.display = 'block';
+                    document.getElementById('showingCount').textContent = '0';
+                    document.getElementById('totalCount').textContent = '0';
+                    return;
+                }
+
+                document.getElementById('noResults').style.display = 'none';
+                document.getElementById('showingCount').textContent = filtered.length;
+                document.getElementById('totalCount').textContent = filtered.length;
+
+                const statusClasses = {
+                    completed: 'completed',
+                    pending: 'pending',
+                    progress: 'progress',
+                    cancelled: 'cancelled'
+                };
+
+                tbody.innerHTML = filtered.map(h => `
+                    <tr data-status="${h.status}">
+                        <td>${h.date}</td>
+                        <td><span class="pickup-id">${h.pickup}</span></td>
+                        <td>${h.category}</td>
+                        <td>${h.weight}</td>
+                        <td><span class="reward-pts">${h.reward}</span></td>
+                        <td><span class="status ${statusClasses[h.status] || 'pending'}">${h.statusLabel}</span></td>
+                    </tr>
+                `).join('');
+            }
+
+            // =============================================
+            // UPDATE STATS
+            // =============================================
+
+            function updateStats(history) {
+                const total = history.length;
+                const totalWeight = history.reduce((sum, h) => {
+                    const weight = parseFloat(h.weight.replace(' KG', ''));
+                    return sum + (isNaN(weight) ? 0 : weight);
+                }, 0);
+
+                const totalPoints = history.reduce((sum, h) => {
+                    const pts = parseInt(h.reward.replace('+', '').replace(' pts', ''));
+                    return sum + (isNaN(pts) ? 0 : pts);
+                }, 0);
+
+                const lastPickup = history.length > 0 ? history[0].date : 'N/A';
+
+                document.getElementById('totalPickups').textContent = total;
+                document.getElementById('totalRecycled').textContent = totalWeight.toFixed(1) + ' KG';
+                document.getElementById('totalRewards').textContent = totalPoints.toLocaleString() + ' pts';
+                document.getElementById('lastPickup').textContent = lastPickup;
+            }
+
+            // =============================================
+            // FILTER + SEARCH
+            // =============================================
+
+            document.querySelectorAll('.filter-badge').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-badge').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    renderTable();
+                });
+            });
+
+            document.getElementById('searchHistory')?.addEventListener('input', renderTable);
+
+            // =============================================
+            // PAGINATION
+            // =============================================
+
+            window.changePage = function(direction) {
+                const activeBtn = document.querySelector('.page-btn.active');
+                const allBtns = document.querySelectorAll('.page-btn');
+                let currentIdx = Array.from(allBtns).indexOf(activeBtn);
+
+                if (direction === 'prev' && currentIdx > 1) {
+                    allBtns[currentIdx].classList.remove('active');
+                    allBtns[currentIdx - 1].classList.add('active');
+                } else if (direction === 'next' && currentIdx < allBtns.length - 1) {
+                    allBtns[currentIdx].classList.remove('active');
+                    allBtns[currentIdx + 1].classList.add('active');
+                }
+            };
+
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (!this.dataset.page) return;
+                    document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // =============================================
+            // SIDEBAR
+            // =============================================
+
+            const sidebar = document.getElementById("dashboardSidebar");
+            const toggle = document.getElementById("sidebarToggle");
+            const overlay = document.getElementById("sidebarOverlay");
+            const logoutBtn = document.getElementById("sidebarLogout");
+
+            function openSidebar() {
+                sidebar?.classList.add("open");
+                overlay?.classList.add("active");
+                document.body.style.overflow = "hidden";
+            }
+
+            function closeSidebar() {
+                sidebar?.classList.remove("open");
+                overlay?.classList.remove("active");
+                document.body.style.overflow = "";
+            }
+
+            toggle?.addEventListener("click", openSidebar);
+            overlay?.addEventListener("click", closeSidebar);
+
+            document.querySelectorAll(".sidebar-link").forEach(link => {
+                link.addEventListener("click", () => {
+                    if (window.innerWidth <= 900) {
+                        closeSidebar();
+                    }
+                });
+            });
+
+            logoutBtn?.addEventListener("click", () => {
+                if (confirm('Are you sure you want to logout?')) {
+                    localStorage.removeItem("ecolyy_access_token");
+                    localStorage.removeItem("ecolyy_refresh_token");
+                    localStorage.removeItem("ecolyy_token_type");
+                    localStorage.removeItem("ecolyy_role");
+                    localStorage.removeItem("ecolyy_user");
+                    localStorage.removeItem("ecolyy_user_email");
+                    localStorage.removeItem("ecolyy_user_name");
+                    window.location.href = "../login.html";
+                }
+            });
+
+            // =============================================
+            // GSAP ANIMATIONS - FIXED ✅
+            // =============================================
+
+            if (typeof gsap !== "undefined") {
+
+                gsap.killTweensOf(".stat-mini");
+                gsap.killTweensOf(".dashboard-panel");
+
+                gsap.set(".stat-mini", { opacity: 1, y: 0, clearProps: "all" });
+                gsap.set(".dashboard-panel", { opacity: 1, y: 0, clearProps: "all" });
+
+                const tl = gsap.timeline({
+                    onComplete: function() {
+                        gsap.set(".stat-mini", { opacity: 1, y: 0, clearProps: "opacity, transform, y" });
+                        gsap.set(".dashboard-panel", { opacity: 1, y: 0, clearProps: "opacity, transform, y" });
+                    }
+                });
+
+                tl.from(".stat-mini", {
+                    opacity: 0,
+                    y: 15,
+                    duration: 0.5,
+                    stagger: 0.08,
+                    ease: "power2.out"
+                });
+
+                tl.from(".dashboard-panel", {
+                    opacity: 0,
+                    y: 15,
+                    duration: 0.5,
+                    ease: "power2.out"
+                }, "-=0.2");
+
+            }
+
+            // =============================================
+            // INIT
+            // =============================================
+
+            updateUserUI();
+            renderTable();
+
+        });
+    </script>
+
+</body>
+</html>

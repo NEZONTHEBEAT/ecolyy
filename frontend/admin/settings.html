@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecolyy — Settings</title>
+
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/glass.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="../css/pages.css">
+
+    <style>
+        .settings-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .settings-form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary, #666);
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.3px;
+        }
+
+        .settings-form-group input,
+        .settings-form-group select {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 1px solid var(--border-color, rgba(0,0,0,0.1));
+            border-radius: 10px;
+            background: var(--input-bg, rgba(255,255,255,0.6));
+            color: var(--text-primary, #1a1a2e);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .settings-form-group input:focus,
+        .settings-form-group select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+        }
+
+        .settings-form-group input::placeholder {
+            color: #aaa;
+        }
+
+        .settings-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .settings-form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+
+        .settings-toggle-group {
+            margin-top: 1.5rem;
+            border-top: 1px solid var(--border-color, rgba(0,0,0,0.06));
+            padding-top: 1.5rem;
+        }
+
+        .settings-toggle-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-color, rgba(0,0,0,0.04));
+        }
+
+        .settings-toggle-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-toggle-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .settings-toggle-info strong {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary, #1a1a2e);
+        }
+
+        .settings-toggle-info small {
+            font-size: 0.8rem;
+            color: var(--text-secondary, #888);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #ccc;
+            border-radius: 26px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .toggle-slider::before {
+            content: "";
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background: #4CAF50;
+        }
+
+        .toggle-switch input:checked + .toggle-slider::before {
+            transform: translateX(22px);
+        }
+
+        .toggle-switch input:focus + .toggle-slider {
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.25);
+        }
+
+        .btn-save-settings {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.25);
+        }
+
+        .btn-save-settings:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(76, 175, 80, 0.35);
+        }
+
+        .btn-save-settings:active {
+            transform: translateY(0);
+        }
+
+        .settings-card {
+            padding: 1.8rem 2rem;
+        }
+
+        .settings-card .panel-header {
+            margin-bottom: 1.8rem;
+        }
+
+        .settings-card .panel-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #4CAF50;
+            text-transform: uppercase;
+        }
+
+        .settings-card h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0.3rem 0 0 0;
+            color: var(--text-primary, #1a1a2e);
+        }
+
+        .dark-mode .settings-card h2 {
+            color: #e0e0e0;
+        }
+
+        .dark-mode .settings-form-group label {
+            color: #aaa;
+        }
+
+        .dark-mode .settings-form-group input,
+        .dark-mode .settings-form-group select {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.1);
+            color: #e0e0e0;
+        }
+
+        .dark-mode .settings-form-group input::placeholder {
+            color: #666;
+        }
+
+        .dark-mode .settings-toggle-info strong {
+            color: #e0e0e0;
+        }
+
+        .dark-mode .settings-toggle-info small {
+            color: #888;
+        }
+
+        .dark-mode .settings-toggle-item {
+            border-color: rgba(255,255,255,0.06);
+        }
+
+        .dark-mode .settings-toggle-group {
+            border-color: rgba(255,255,255,0.06);
+        }
+
+        /* Toast notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #4CAF50;
+            color: white;
+            padding: 1rem 1.8rem;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 8px 30px rgba(76, 175, 80, 0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .toast-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-notification i {
+            font-size: 1.2rem;
+        }
+    </style>
+
+</head>
+
+<body class="dashboard-body">
+
+    <div class="page-glow glow-one"></div>
+    <div class="page-glow glow-two"></div>
+
+    <div class="dashboard-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="dashboard-sidebar" id="dashboardSidebar">
+
+            <div class="sidebar-brand">
+                <a href="../index.html">
+                    <img src="../assets/images/ecolyy.png" alt="Ecolyy">
+                </a>
+            </div>
+
+            <nav class="sidebar-menu">
+                <div class="nav-section-label">Overview</div>
+                <a href="dashboard.html" class="sidebar-link">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <div class="nav-section-label">Management</div>
+                <a href="users.html" class="sidebar-link">
+                    <i class="bi bi-people"></i>
+                    <span>Users</span>
+                    <span class="nav-badge">12K</span>
+                </a>
+                <a href="partners.html" class="sidebar-link">
+                    <i class="bi bi-truck"></i>
+                    <span>Partners</span>
+                </a>
+
+                <a href="documents.html" class="sidebar-link"> <i class="bi bi-file-earmark-text"></i><span>Documents</span></a>
+
+                <a href="institutions.html" class="sidebar-link">
+                    <i class="bi bi-building"></i>
+                    <span>Institutions</span>
+                </a>
+                <a href="pickups.html" class="sidebar-link">
+                    <i class="bi bi-box-seam"></i>
+                    <span>Pickups</span>
+                    <span class="nav-badge">24</span>
+                </a>
+
+                <div class="nav-section-label">Platform</div>
+                <a href="waste-categories.html" class="sidebar-link">
+                    <i class="bi bi-recycle"></i>
+                    <span>Waste Categories</span>
+                </a>
+                <a href="rewards.html" class="sidebar-link">
+                    <i class="bi bi-stars"></i>
+                    <span>Rewards</span>
+                </a>
+                <a href="analytics.html" class="sidebar-link">
+                    <i class="bi bi-bar-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+
+                <div class="nav-section-label">System</div>
+                <a href="disputes.html" class="sidebar-link">
+                    <i class="bi bi-exclamation-circle"></i>
+                    <span>Disputes</span>
+                    <span class="nav-badge">3</span>
+                </a>
+                <a href="settings.html" class="sidebar-link active">
+                    <i class="bi bi-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="../index.html" class="sidebar-home">
+                    <i class="bi bi-house"></i>
+                    <span>Back to Ecolyy</span>
+                </a>
+                <button type="button" class="sidebar-logout" id="sidebarLogout">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- MAIN -->
+        <main class="dashboard-main">
+
+            <!-- TOPBAR -->
+            <header class="dashboard-topbar">
+                <div class="header-left">
+                    <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Open navigation">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <div class="topbar-left">
+                        <h1>Settings</h1>
+                        <p>Configure platform settings and preferences</p>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <button type="button" class="icon-button" id="themeToggle" aria-label="Toggle theme">
+                        <i class="bi bi-sun"></i>
+                    </button>
+                    <button type="button" class="icon-button" aria-label="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+                    <div class="header-profile">
+                        <img id="adminAvatar" class="profile-avatar" src="../assets/images/ecolyy.png" alt="Admin">
+                        <div>
+                            <span class="profile-name" id="adminName">Admin</span>
+                            <span class="profile-role">Super Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- SETTINGS CONTENT -->
+            <section class="dashboard-panel glass-card settings-card">
+                <div class="panel-header">
+                    <div>
+                        <span class="panel-label">GENERAL</span>
+                        <h2>Platform Settings</h2>
+                    </div>
+                </div>
+
+                <form id="settingsForm">
+                    <!-- Form Row -->
+                    <div class="settings-form-row">
+                        <div class="settings-form-group">
+                            <label for="platformName">Platform Name</label>
+                            <input type="text" id="platformName" value="Ecolyy" placeholder="Enter platform name">
+                        </div>
+
+                        <div class="settings-form-group">
+                            <label for="supportEmail">Support Email</label>
+                            <input type="email" id="supportEmail" value="support@ecolyy.com" placeholder="Enter support email">
+                        </div>
+                    </div>
+
+                    <div class="settings-form-row">
+                        <div class="settings-form-group">
+                            <label for="pickupRadius">Default Pickup Radius</label>
+                            <input type="number" id="pickupRadius" value="10" placeholder="Enter radius in KM">
+                        </div>
+
+                        <div class="settings-form-group">
+                            <label for="rewardCalc">Reward Calculation</label>
+                            <select id="rewardCalc">
+                                <option value="per-kg" selected>Per KG</option>
+                                <option value="fixed">Fixed</option>
+                                <option value="hybrid">Hybrid</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Toggle Switches -->
+                    <div class="settings-toggle-group">
+                        <!-- Toggle 1: Registrations -->
+                        <div class="settings-toggle-item">
+                            <div class="settings-toggle-info">
+                                <strong>Enable New Registrations</strong>
+                                <small>Allow users to create new accounts</small>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggleRegistrations" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- Toggle 2: Partner Verification -->
+                        <div class="settings-toggle-item">
+                            <div class="settings-toggle-info">
+                                <strong>Partner Verification Required</strong>
+                                <small>Require admin approval for new partners</small>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggleVerification" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- Toggle 3: Pickup Notifications -->
+                        <div class="settings-toggle-item">
+                            <div class="settings-toggle-info">
+                                <strong>Pickup Notifications</strong>
+                                <small>Send pickup status notifications</small>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggleNotifications" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- Toggle 4: Rewards Program -->
+                        <div class="settings-toggle-item">
+                            <div class="settings-toggle-info">
+                                <strong>Rewards Program</strong>
+                                <small>Enable the rewards and points system</small>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggleRewards" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Save Button -->
+                    <button type="submit" class="btn-save-settings" id="saveSettingsBtn">
+                        <i class="bi bi-check-lg"></i> Save Settings
+                    </button>
+                </form>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="dashboard-footer">
+                © 2026 Ecolyy by CodeCraft 💌. All rights reserved. Admin Panel.
+            </footer>
+
+        </main>
+
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toastNotification">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>Settings saved successfully!</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/admin.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const sidebar = document.getElementById("dashboardSidebar");
+            const toggle = document.getElementById("sidebarToggle");
+            const overlay = document.getElementById("sidebarOverlay");
+            const logout = document.getElementById("sidebarLogout");
+
+            // =============================================
+            // SIDEBAR FUNCTIONS
+            // =============================================
+            function openSidebar() {
+                sidebar?.classList.add("open");
+                overlay?.classList.add("active");
+                document.body.style.overflow = "hidden";
+            }
+
+            function closeSidebar() {
+                sidebar?.classList.remove("open");
+                overlay?.classList.remove("active");
+                document.body.style.overflow = "";
+            }
+
+            toggle?.addEventListener("click", openSidebar);
+            overlay?.addEventListener("click", closeSidebar);
+
+            document.querySelectorAll(".sidebar-link").forEach(link => {
+                link.addEventListener("click", () => {
+                    if (window.innerWidth <= 900) {
+                        closeSidebar();
+                    }
+                });
+            });
+
+            logout?.addEventListener("click", () => {
+                if (typeof window.logout === "function") {
+                    window.logout();
+                } else {
+                    localStorage.removeItem("ecolyy_access_token");
+                    localStorage.removeItem("ecolyy_refresh_token");
+                    localStorage.removeItem("ecolyy_token_type");
+                    localStorage.removeItem("ecolyy_role");
+                    localStorage.removeItem("ecolyy_user");
+                    window.location.href = "../login.html";
+                }
+            });
+
+            // =============================================
+            // SETTINGS - LOAD SAVED STATE
+            // =============================================
+            const toggleIds = [
+                'toggleRegistrations',
+                'toggleVerification',
+                'toggleNotifications',
+                'toggleRewards'
+            ];
+
+            // Load saved toggle states from localStorage
+            toggleIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    const saved = localStorage.getItem('settings_' + id);
+                    if (saved !== null) {
+                        el.checked = saved === 'true';
+                    }
+                }
+            });
+
+            // Load saved form values
+            const platformName = document.getElementById('platformName');
+            const supportEmail = document.getElementById('supportEmail');
+            const pickupRadius = document.getElementById('pickupRadius');
+            const rewardCalc = document.getElementById('rewardCalc');
+
+            if (platformName) {
+                const saved = localStorage.getItem('settings_platformName');
+                if (saved) platformName.value = saved;
+            }
+            if (supportEmail) {
+                const saved = localStorage.getItem('settings_supportEmail');
+                if (saved) supportEmail.value = saved;
+            }
+            if (pickupRadius) {
+                const saved = localStorage.getItem('settings_pickupRadius');
+                if (saved) pickupRadius.value = saved;
+            }
+            if (rewardCalc) {
+                const saved = localStorage.getItem('settings_rewardCalc');
+                if (saved) rewardCalc.value = saved;
+            }
+
+            // =============================================
+            // SETTINGS - SAVE
+            // =============================================
+            const form = document.getElementById('settingsForm');
+            const toast = document.getElementById('toastNotification');
+
+            form?.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Save toggle states
+                toggleIds.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        localStorage.setItem('settings_' + id, el.checked);
+                    }
+                });
+
+                // Save form values
+                if (platformName) {
+                    localStorage.setItem('settings_platformName', platformName.value);
+                }
+                if (supportEmail) {
+                    localStorage.setItem('settings_supportEmail', supportEmail.value);
+                }
+                if (pickupRadius) {
+                    localStorage.setItem('settings_pickupRadius', pickupRadius.value);
+                }
+                if (rewardCalc) {
+                    localStorage.setItem('settings_rewardCalc', rewardCalc.value);
+                }
+
+                // Show toast notification
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2500);
+
+                // Button feedback
+                const btn = document.getElementById('saveSettingsBtn');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="bi bi-check-circle"></i> Saved!';
+                btn.style.background = 'linear-gradient(135deg, #2196F3, #1976D2)';
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.style.background = '';
+                }, 2000);
+            });
+
+            // =============================================
+            // REAL-TIME TOGGLE UPDATE (optional)
+            // =============================================
+            // When a toggle is changed, save immediately (optional)
+            // Uncomment below if you want auto-save on toggle change
+            /*
+            toggleIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('change', function() {
+                        localStorage.setItem('settings_' + id, this.checked);
+                    });
+                }
+            });
+            */
+
+            // =============================================
+            // GSAP ANIMATION
+            // =============================================
+            if (typeof gsap !== "undefined") {
+                gsap.from(".settings-card", {
+                    opacity: 0,
+                    y: 15,
+                    duration: .5,
+                    ease: "power2.out"
+                });
+            }
+
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecolyy — Institutions</title>
+
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/glass.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="../css/pages.css">
+
+    <style>
+        /* =============================================
+           INSTITUTIONS PAGE STYLES
+        ============================================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 992px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat-card {
+            background: var(--card-bg, rgba(255, 255, 255, 0.6));
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+            border-radius: 16px;
+            padding: 1.2rem 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .stat-card h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary, #1a1a2e);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .stat-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary, #888);
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .stat-positive {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
+            margin-top: 0.3rem;
+        }
+
+        .dark-mode .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .dark-mode .stat-card h3 {
+            color: #e0e0e0;
+        }
+
+        /* Dashboard Panel */
+        .dashboard-panel {
+            background: var(--card-bg, rgba(255, 255, 255, 0.6));
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+            border-radius: 16px;
+            padding: 1.8rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            opacity: 1 !important;
+            transform: none !important;
+            margin-bottom: 2rem;
+        }
+
+        .dark-mode .dashboard-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .panel-header .panel-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #4CAF50;
+            text-transform: uppercase;
+        }
+
+        .panel-header h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0.2rem 0 0 0;
+            color: var(--text-primary, #1a1a2e);
+        }
+
+        .dark-mode .panel-header h2 {
+            color: #e0e0e0;
+        }
+
+        .panel-header p {
+            font-size: 0.85rem;
+            color: var(--text-secondary, #888);
+            margin: 0;
+        }
+
+        /* Table Styles */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 0.5rem;
+        }
+
+        .table-wrapper table {
+            min-width: 700px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-wrapper th {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary, #888);
+            padding: 0.8rem 0.5rem 0.8rem 0;
+            border-bottom: 2px solid var(--border-color, rgba(0, 0, 0, 0.06));
+            text-align: left;
+        }
+
+        .table-wrapper td {
+            padding: 0.8rem 0.5rem 0.8rem 0;
+            border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.04));
+            color: var(--text-primary, #1a1a2e);
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        .dark-mode .table-wrapper td {
+            color: #d0d0d0;
+        }
+
+        .dark-mode .table-wrapper th {
+            color: #888;
+        }
+
+        .dark-mode .table-wrapper td {
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .dark-mode .table-wrapper th {
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .inst-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .inst-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            background: rgba(76, 175, 80, 0.12);
+            color: #4CAF50;
+        }
+
+        .inst-name {
+            font-weight: 600;
+            color: var(--text-primary, #1a1a2e);
+        }
+
+        .dark-mode .inst-name {
+            color: #e0e0e0;
+        }
+
+        .inst-id {
+            font-size: 0.7rem;
+            color: var(--text-secondary, #888);
+            display: block;
+        }
+
+        .type-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        .type-badge.school {
+            background: rgba(52, 152, 219, 0.15);
+            color: #3498db;
+        }
+
+        .type-badge.college {
+            background: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+        }
+
+        .type-badge.ngo {
+            background: rgba(243, 156, 18, 0.15);
+            color: #f39c12;
+        }
+
+        .type-badge.corporate {
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+        }
+
+        .type-badge.other {
+            background: rgba(136, 136, 136, 0.15);
+            color: #888;
+        }
+
+        .dark-mode .type-badge.school {
+            background: rgba(52, 152, 219, 0.25);
+        }
+        .dark-mode .type-badge.college {
+            background: rgba(46, 204, 113, 0.25);
+        }
+        .dark-mode .type-badge.ngo {
+            background: rgba(243, 156, 18, 0.25);
+        }
+        .dark-mode .type-badge.corporate {
+            background: rgba(231, 76, 60, 0.25);
+        }
+        .dark-mode .type-badge.other {
+            background: rgba(136, 136, 136, 0.25);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .status-badge.status-completed {
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+        }
+
+        .status-badge.status-pending {
+            background: rgba(255, 152, 0, 0.15);
+            color: #FF9800;
+        }
+
+        .status-badge.status-progress {
+            background: rgba(33, 150, 243, 0.15);
+            color: #2196F3;
+        }
+
+        .status-badge.status-inactive {
+            background: rgba(136, 136, 136, 0.15);
+            color: #888;
+        }
+
+        .table-action {
+            padding: 0.3rem 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: rgba(33, 150, 243, 0.12);
+            color: #2196F3;
+        }
+
+        .table-action:hover {
+            background: #2196F3;
+            color: white;
+        }
+
+        .table-action.success {
+            background: rgba(76, 175, 80, 0.12);
+            color: #4CAF50;
+        }
+
+        .table-action.success:hover {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .table-action.danger {
+            background: rgba(231, 76, 60, 0.12);
+            color: #e74c3c;
+        }
+
+        .table-action.danger:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .dark-mode .table-action {
+            background: rgba(33, 150, 243, 0.2);
+            color: #64B5F6;
+        }
+
+        .dark-mode .table-action:hover {
+            background: #2196F3;
+            color: white;
+        }
+
+        .dark-mode .table-action.success {
+            background: rgba(76, 175, 80, 0.2);
+            color: #81C784;
+        }
+
+        .dark-mode .table-action.success:hover {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .dark-mode .table-action.danger {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ef9a9a;
+        }
+
+        .dark-mode .table-action.danger:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .action-cell {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        /* Search and Filters */
+        .panel-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--input-bg, rgba(255, 255, 255, 0.5));
+            border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
+            border-radius: 10px;
+            padding: 0.4rem 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-wrapper:focus-within {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .search-wrapper i {
+            color: var(--text-secondary, #888);
+            font-size: 0.9rem;
+        }
+
+        .search-wrapper input {
+            border: none;
+            background: transparent;
+            padding: 0.3rem 0;
+            font-size: 0.85rem;
+            color: var(--text-primary, #1a1a2e);
+            outline: none;
+            width: 160px;
+        }
+
+        .search-wrapper input::placeholder {
+            color: #aaa;
+        }
+
+        .dark-mode .search-wrapper {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .dark-mode .search-wrapper input {
+            color: #e0e0e0;
+        }
+
+        .filter-badge {
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
+            background: transparent;
+            color: var(--text-secondary, #888);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-badge:hover {
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+
+        .filter-badge.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .dark-mode .filter-badge {
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #888;
+        }
+
+        .dark-mode .filter-badge:hover {
+            border-color: #4CAF50;
+            color: #81C784;
+        }
+
+        .dark-mode .filter-badge.active {
+            background: #4CAF50;
+            color: white;
+        }
+
+        /* Pagination */
+        .pagination-info {
+            font-size: 0.8rem;
+            color: var(--text-secondary, #888);
+        }
+
+        .page-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text-secondary, #888);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-btn:hover {
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+
+        .page-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .dark-mode .page-btn {
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #888;
+        }
+
+        .dark-mode .page-btn:hover {
+            border-color: #4CAF50;
+            color: #81C784;
+        }
+
+        .dark-mode .page-btn.active {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .pagination-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .panel-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .panel-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .search-wrapper input {
+                width: 100%;
+            }
+
+            .search-wrapper {
+                flex: 1;
+                min-width: 120px;
+            }
+
+            .pagination-wrapper {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        .dashboard-footer {
+            text-align: center;
+            padding: 1.5rem 0 0.5rem 0;
+            font-size: 0.75rem;
+            color: var(--text-secondary, #888);
+            border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.04));
+            margin-top: 0.5rem;
+        }
+
+        .dark-mode .dashboard-footer {
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .stat-card,
+        .dashboard-panel {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        /* No results */
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary, #888);
+            display: none;
+        }
+
+        .no-results i {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Toast */
+        .toast-notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.8rem;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .toast-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-notification i {
+            font-size: 1.2rem;
+        }
+
+        .toast-notification.success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .toast-notification.info {
+            background: #2196F3;
+            color: white;
+        }
+
+        .toast-notification.warning {
+            background: #FF9800;
+            color: white;
+        }
+
+        /* Add Institution Button */
+        .btn-add {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-add:active {
+            transform: scale(0.95);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--card-bg, #fff);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalIn 0.3s ease;
+        }
+
+        .dark-mode .modal-box {
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        @keyframes modalIn {
+            from {
+                transform: scale(0.9) translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-box h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 0 1.2rem 0;
+            color: var(--text-primary, #1a1a2e);
+        }
+
+        .dark-mode .modal-box h2 {
+            color: #e0e0e0;
+        }
+
+        .modal-box .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .modal-box .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary, #888);
+            margin-bottom: 0.3rem;
+        }
+
+        .modal-box .form-group input,
+        .modal-box .form-group select {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+            border-radius: 10px;
+            background: var(--input-bg, rgba(255, 255, 255, 0.5));
+            color: var(--text-primary, #1a1a2e);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .modal-box .form-group input:focus,
+        .modal-box .form-group select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .dark-mode .modal-box .form-group input,
+        .dark-mode .modal-box .form-group select {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #e0e0e0;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+            justify-content: flex-end;
+        }
+
+        .modal-actions button {
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-actions .btn-cancel {
+            background: var(--border-color, rgba(0, 0, 0, 0.06));
+            color: var(--text-secondary, #888);
+        }
+
+        .modal-actions .btn-cancel:hover {
+            background: var(--border-color, rgba(0, 0, 0, 0.1));
+        }
+
+        .modal-actions .btn-submit {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .modal-actions .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .dark-mode .modal-actions .btn-cancel {
+            background: rgba(255, 255, 255, 0.06);
+            color: #888;
+        }
+
+        .dark-mode .modal-actions .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+
+</head>
+
+<body class="dashboard-body">
+
+    <div class="page-glow glow-one"></div>
+    <div class="page-glow glow-two"></div>
+
+    <div class="dashboard-layout">
+
+        <aside class="dashboard-sidebar" id="dashboardSidebar">
+
+            <div class="sidebar-brand">
+                <a href="../index.html">
+                    <img src="../assets/images/ecolyy.png" alt="Ecolyy">
+                </a>
+            </div>
+
+            <nav class="sidebar-menu">
+                <div class="nav-section-label">Overview</div>
+                <a href="dashboard.html" class="sidebar-link">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <div class="nav-section-label">Management</div>
+                <a href="users.html" class="sidebar-link">
+                    <i class="bi bi-people"></i>
+                    <span>Users</span>
+                    <span class="nav-badge">12K</span>
+                </a>
+                <a href="partners.html" class="sidebar-link">
+                    <i class="bi bi-truck"></i>
+                    <span>Partners</span>
+                </a>
+                                
+                <a href="documents.html" class="sidebar-link"> <i class="bi bi-file-earmark-text"></i><span>Documents</span></a>
+
+                <a href="institutions.html" class="sidebar-link active">
+                    <i class="bi bi-building"></i>
+                    <span>Institutions</span>
+                </a>
+                <a href="pickups.html" class="sidebar-link">
+                    <i class="bi bi-box-seam"></i>
+                    <span>Pickups</span>
+                    <span class="nav-badge">24</span>
+                </a>
+
+                <div class="nav-section-label">Platform</div>
+                <a href="waste-categories.html" class="sidebar-link">
+                    <i class="bi bi-recycle"></i>
+                    <span>Waste Categories</span>
+                </a>
+                <a href="rewards.html" class="sidebar-link">
+                    <i class="bi bi-stars"></i>
+                    <span>Rewards</span>
+                </a>
+                <a href="analytics.html" class="sidebar-link">
+                    <i class="bi bi-bar-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+
+                <div class="nav-section-label">System</div>
+                <a href="disputes.html" class="sidebar-link">
+                    <i class="bi bi-exclamation-circle"></i>
+                    <span>Disputes</span>
+                    <span class="nav-badge">3</span>
+                </a>
+                <a href="settings.html" class="sidebar-link">
+                    <i class="bi bi-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="../index.html" class="sidebar-home">
+                    <i class="bi bi-house"></i>
+                    <span>Back to Ecolyy</span>
+                </a>
+                <button type="button" class="sidebar-logout" id="sidebarLogout">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-topbar">
+                <div class="header-left">
+                    <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Open navigation">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <div class="topbar-left">
+                        <h1>Institutions</h1>
+                        <p>Manage educational and organizational partners</p>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <button type="button" class="icon-button" id="themeToggle" aria-label="Toggle theme">
+                        <i class="bi bi-sun"></i>
+                    </button>
+                    <button type="button" class="icon-button" aria-label="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+                    <div class="header-profile">
+                        <img id="adminAvatar" class="profile-avatar" src="../assets/images/ecolyy.png" alt="Admin">
+                        <div>
+                            <span class="profile-name" id="adminName">Admin</span>
+                            <span class="profile-role">Super Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- STATS CARDS -->
+            <section class="stats-grid" id="statsGrid">
+                <article class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon" style="background:rgba(156,39,176,0.1);color:#9C27B0;"><i class="bi bi-building"></i></div>
+                    </div>
+                    <h3 id="totalInstitutions">84</h3>
+                    <p>Total Institutions</p>
+                    <span class="stat-positive"><i class="bi bi-arrow-up"></i> 5.4%</span>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon" style="background:rgba(52,152,219,0.1);color:#3498db;"><i class="bi bi-mortarboard"></i></div>
+                    </div>
+                    <h3 id="schoolCount">52</h3>
+                    <p>Schools</p>
+                    <span class="stat-positive"><i class="bi bi-arrow-up"></i> 6.1%</span>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon" style="background:rgba(46,204,113,0.1);color:#2ecc71;"><i class="bi bi-bank"></i></div>
+                    </div>
+                    <h3 id="collegeCount">18</h3>
+                    <p>Colleges</p>
+                    <span class="stat-positive"><i class="bi bi-arrow-up"></i> 3.8%</span>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon" style="background:rgba(243,156,18,0.1);color:#f39c12;"><i class="bi bi-people"></i></div>
+                    </div>
+                    <h3 id="otherCount">14</h3>
+                    <p>Other Orgs</p>
+                    <span class="stat-positive"><i class="bi bi-arrow-up"></i> 2.5%</span>
+                </article>
+            </section>
+
+            <!-- INSTITUTIONS TABLE -->
+            <section class="dashboard-panel glass-card" id="instPanel">
+                <div class="panel-header">
+                    <div>
+                        <span class="panel-label">MANAGEMENT</span>
+                        <h2>All Institutions</h2>
+                        <p>Complete list of partner institutions</p>
+                    </div>
+                    <div class="panel-actions">
+                        <div class="search-wrapper">
+                            <i class="bi bi-search"></i>
+                            <input type="text" placeholder="Search institutions..." id="searchInstitutions">
+                        </div>
+                        <button class="btn-add" onclick="openAddModal()">
+                            <i class="bi bi-plus"></i> Add Institution
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1rem;">
+                    <button class="filter-badge active" data-filter="all">All</button>
+                    <button class="filter-badge" data-filter="school">Schools</button>
+                    <button class="filter-badge" data-filter="college">Colleges</button>
+                    <button class="filter-badge" data-filter="ngo">NGOs</button>
+                    <button class="filter-badge" data-filter="corporate">Corporate</button>
+                    <button class="filter-badge" data-filter="other">Other</button>
+                </div>
+
+                <!-- Table -->
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Institution</th>
+                                <th>Type</th>
+                                <th>Location</th>
+                                <th>Students</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="institutionsTableBody">
+                            <!-- Data will be rendered here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- No Results -->
+                <div class="no-results" id="noResults">
+                    <i class="bi bi-inbox"></i>
+                    <p>No institutions found matching your criteria</p>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-wrapper">
+                    <span class="pagination-info">
+                        Showing <strong id="showingCount">0</strong> of <strong id="totalCount">0</strong> institutions
+                    </span>
+                    <div class="pagination-buttons">
+                        <button class="page-btn" onclick="changePage('prev')">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <button class="page-btn active" data-page="1">1</button>
+                        <button class="page-btn" data-page="2">2</button>
+                        <button class="page-btn" data-page="3">3</button>
+                        <button class="page-btn" onclick="changePage('next')">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </section>
+
+            <footer class="dashboard-footer">
+                © 2026 Ecolyy by CodeCraft 💌. All rights reserved. Admin Panel.
+            </footer>
+
+        </main>
+
+    </div>
+
+    <!-- ADD INSTITUTION MODAL -->
+    <div class="modal-overlay" id="addInstModal">
+        <div class="modal-box">
+            <h2 id="modalTitle">Add New Institution</h2>
+            <form id="addInstForm">
+                <div class="form-group">
+                    <label for="instName">Institution Name</label>
+                    <input type="text" id="instName" placeholder="e.g. Delhi Public School" required>
+                </div>
+                <div class="form-group">
+                    <label for="instType">Type</label>
+                    <select id="instType">
+                        <option value="school">School</option>
+                        <option value="college">College</option>
+                        <option value="ngo">NGO</option>
+                        <option value="corporate">Corporate</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="instLocation">Location</label>
+                    <input type="text" id="instLocation" placeholder="e.g. New Delhi" required>
+                </div>
+                <div class="form-group">
+                    <label for="instStudents">Number of Students</label>
+                    <input type="number" id="instStudents" placeholder="e.g. 2450" required>
+                </div>
+                <div class="form-group">
+                    <label for="instStatus">Status</label>
+                    <select id="instStatus">
+                        <option value="status-completed">Active</option>
+                        <option value="status-pending">Pending</option>
+                        <option value="status-inactive">Inactive</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-submit" id="submitBtn">Add Institution</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toastNotification">
+        <i class="bi bi-check-circle-fill"></i>
+        <span id="toastMessage">Action completed!</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/admin.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // =============================================
+            // SIDEBAR
+            // =============================================
+            const sidebar = document.getElementById("dashboardSidebar");
+            const toggle = document.getElementById("sidebarToggle");
+            const overlay = document.getElementById("sidebarOverlay");
+            const logout = document.getElementById("sidebarLogout");
+
+            function openSidebar() {
+                sidebar?.classList.add("open");
+                overlay?.classList.add("active");
+                document.body.style.overflow = "hidden";
+            }
+
+            function closeSidebar() {
+                sidebar?.classList.remove("open");
+                overlay?.classList.remove("active");
+                document.body.style.overflow = "";
+            }
+
+            toggle?.addEventListener("click", openSidebar);
+            overlay?.addEventListener("click", closeSidebar);
+
+            document.querySelectorAll(".sidebar-link").forEach(link => {
+                link.addEventListener("click", () => {
+                    if (window.innerWidth <= 900) {
+                        closeSidebar();
+                    }
+                });
+            });
+
+            logout?.addEventListener("click", () => {
+                if (typeof window.logout === "function") {
+                    window.logout();
+                } else {
+                    localStorage.removeItem("ecolyy_access_token");
+                    localStorage.removeItem("ecolyy_refresh_token");
+                    localStorage.removeItem("ecolyy_token_type");
+                    localStorage.removeItem("ecolyy_role");
+                    localStorage.removeItem("ecolyy_user");
+                    window.location.href = "../login.html";
+                }
+            });
+
+            // =============================================
+            // INSTITUTIONS DATA (LocalStorage)
+            // =============================================
+            const defaultInstitutions = [{
+                id: 1,
+                name: 'Delhi Public School',
+                type: 'school',
+                typeLabel: 'School',
+                location: 'New Delhi',
+                students: '2,450',
+                status: 'status-completed',
+                statusLabel: 'Active'
+            }, {
+                id: 2,
+                name: 'IIT Bombay',
+                type: 'college',
+                typeLabel: 'College',
+                location: 'Mumbai',
+                students: '8,750',
+                status: 'status-completed',
+                statusLabel: 'Active'
+            }, {
+                id: 3,
+                name: 'WWF India',
+                type: 'ngo',
+                typeLabel: 'NGO',
+                location: 'Bengaluru',
+                students: '320',
+                status: 'status-pending',
+                statusLabel: 'Pending'
+            }, {
+                id: 4,
+                name: 'TCS Corporate',
+                type: 'corporate',
+                typeLabel: 'Corporate',
+                location: 'Pune',
+                students: '15,200',
+                status: 'status-completed',
+                statusLabel: 'Active'
+            }, {
+                id: 5,
+                name: 'Ahmedabad Grammar School',
+                type: 'school',
+                typeLabel: 'School',
+                location: 'Ahmedabad',
+                students: '1,850',
+                status: 'status-inactive',
+                statusLabel: 'Inactive'
+            }, {
+                id: 6,
+                name: 'Green Earth Foundation',
+                type: 'ngo',
+                typeLabel: 'NGO',
+                location: 'Chennai',
+                students: '150',
+                status: 'status-completed',
+                statusLabel: 'Active'
+            }];
+
+            function loadInstitutions() {
+                const stored = localStorage.getItem('ecolyy_institutions');
+                if (stored) {
+                    try {
+                        return JSON.parse(stored);
+                    } catch (e) {
+                        return defaultInstitutions;
+                    }
+                }
+                localStorage.setItem('ecolyy_institutions', JSON.stringify(defaultInstitutions));
+                return defaultInstitutions;
+            }
+
+            function saveInstitutions(institutions) {
+                localStorage.setItem('ecolyy_institutions', JSON.stringify(institutions));
+            }
+
+            function updateInstStatus(id, newStatus) {
+                let institutions = loadInstitutions();
+                const index = institutions.findIndex(i => i.id === id);
+                if (index !== -1) {
+                    const statusMap = {
+                        'status-completed': 'Active',
+                        'status-pending': 'Pending',
+                        'status-inactive': 'Inactive'
+                    };
+                    institutions[index].status = newStatus;
+                    institutions[index].statusLabel = statusMap[newStatus] || newStatus;
+                    saveInstitutions(institutions);
+                    return true;
+                }
+                return false;
+            }
+
+            // =============================================
+            // RENDER TABLE
+            // =============================================
+            function renderTable() {
+                const institutions = loadInstitutions();
+                const tbody = document.getElementById('institutionsTableBody');
+                const filter = document.querySelector('.filter-badge.active');
+                const filterValue = filter ? filter.dataset.filter : 'all';
+                const searchTerm = document.getElementById('searchInstitutions').value.toLowerCase();
+
+                let filtered = institutions.filter(i => {
+                    const typeMatch = filterValue === 'all' || i.type === filterValue;
+                    const searchMatch = i.name.toLowerCase().includes(searchTerm) ||
+                        i.location.toLowerCase().includes(searchTerm);
+                    return typeMatch && searchMatch;
+                });
+
+                // Update stats
+                updateStats(institutions);
+
+                if (filtered.length === 0) {
+                    tbody.innerHTML = '';
+                    document.getElementById('noResults').style.display = 'block';
+                    document.getElementById('showingCount').textContent = '0';
+                    document.getElementById('totalCount').textContent = '0';
+                    return;
+                }
+
+                document.getElementById('noResults').style.display = 'none';
+                document.getElementById('showingCount').textContent = filtered.length;
+                document.getElementById('totalCount').textContent = filtered.length;
+
+                const colors = ['#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#e74c3c', '#795548'];
+
+                tbody.innerHTML = filtered.map((i, index) => {
+                    const statusBadges = {
+                        'status-completed': '<span class="status-badge status-completed">Active</span>',
+                        'status-pending': '<span class="status-badge status-pending">Pending</span>',
+                        'status-inactive': '<span class="status-badge status-inactive">Inactive</span>'
+                    };
+
+                    const typeBadges = {
+                        school: '<span class="type-badge school">School</span>',
+                        college: '<span class="type-badge college">College</span>',
+                        ngo: '<span class="type-badge ngo">NGO</span>',
+                        corporate: '<span class="type-badge corporate">Corporate</span>',
+                        other: '<span class="type-badge other">Other</span>'
+                    };
+
+                    const avatarColor = colors[index % colors.length];
+                    const initials = i.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+
+                    const actionButtons = `
+                        <button class="table-action" onclick="viewInstitution(${i.id})">
+                            <i class="bi bi-eye"></i> View
+                        </button>
+                        <button class="table-action success" onclick="editInstitution(${i.id})">
+                            <i class="bi bi-pencil"></i> Edit
+                        </button>
+                        ${i.status === 'status-pending' ? `
+                            <button class="table-action" onclick="approveInstitution(${i.id})">
+                                <i class="bi bi-check-lg"></i> Approve
+                            </button>
+                        ` : ''}
+                        <button class="table-action danger" onclick="deleteInstitution(${i.id})">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    `;
+
+                    return `
+                        <tr data-type="${i.type}" data-status="${i.status}">
+                            <td>
+                                <div class="inst-cell">
+                                    <div class="inst-avatar" style="background:${avatarColor}20;color:${avatarColor};">
+                                        ${initials}
+                                    </div>
+                                    <div>
+                                        <span class="inst-name">${i.name}</span>
+                                        <span class="inst-id">#INST-${String(i.id).padStart(3, '0')}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>${typeBadges[i.type] || typeBadges.other}</td>
+                            <td>${i.location}</td>
+                            <td>${i.students}</td>
+                            <td>${statusBadges[i.status] || statusBadges['status-inactive']}</td>
+                            <td>
+                                <div class="action-cell">
+                                    ${actionButtons}
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            // =============================================
+            // UPDATE STATS
+            // =============================================
+            function updateStats(institutions) {
+                const total = institutions.length;
+                const schools = institutions.filter(i => i.type === 'school').length;
+                const colleges = institutions.filter(i => i.type === 'college').length;
+                const others = institutions.filter(i => i.type === 'ngo' || i.type === 'corporate' || i.type === 'other')
+                    .length;
+
+                document.getElementById('totalInstitutions').textContent = total;
+                document.getElementById('schoolCount').textContent = schools;
+                document.getElementById('collegeCount').textContent = colleges;
+                document.getElementById('otherCount').textContent = others;
+            }
+
+            // =============================================
+            // MODAL FUNCTIONS
+            // =============================================
+            window.openAddModal = function() {
+                document.getElementById('modalTitle').textContent = 'Add New Institution';
+                document.getElementById('submitBtn').textContent = 'Add Institution';
+                document.getElementById('addInstForm').reset();
+                document.getElementById('addInstForm').dataset.editId = '';
+                document.getElementById('addInstModal').classList.add('active');
+            };
+
+            window.closeModal = function() {
+                document.getElementById('addInstModal').classList.remove('active');
+                document.getElementById('addInstForm').reset();
+                document.getElementById('addInstForm').dataset.editId = '';
+            };
+
+            // =============================================
+            // ADD/EDIT INSTITUTION
+            // =============================================
+            document.getElementById('addInstForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const editId = this.dataset.editId;
+                const name = document.getElementById('instName').value.trim();
+                const type = document.getElementById('instType').value;
+                const location = document.getElementById('instLocation').value.trim();
+                const students = document.getElementById('instStudents').value;
+                const status = document.getElementById('instStatus').value;
+
+                if (!name || !location || !students) {
+                    showToast('Please fill all required fields!', 'warning');
+                    return;
+                }
+
+                let institutions = loadInstitutions();
+
+                const typeLabels = {
+                    school: 'School',
+                    college: 'College',
+                    ngo: 'NGO',
+                    corporate: 'Corporate',
+                    other: 'Other'
+                };
+
+                const statusMap = {
+                    'status-completed': 'Active',
+                    'status-pending': 'Pending',
+                    'status-inactive': 'Inactive'
+                };
+
+                if (editId) {
+                    // Edit existing
+                    const index = institutions.findIndex(i => i.id === parseInt(editId));
+                    if (index !== -1) {
+                        institutions[index] = {
+                            ...institutions[index],
+                            name: name,
+                            type: type,
+                            typeLabel: typeLabels[type] || type,
+                            location: location,
+                            students: parseInt(students).toLocaleString(),
+                            status: status,
+                            statusLabel: statusMap[status] || status
+                        };
+                        saveInstitutions(institutions);
+                        renderTable();
+                        closeModal();
+                        showToast(`✅ "${name}" updated successfully!`, 'success');
+                    }
+                } else {
+                    // Add new
+                    const newInstitution = {
+                        id: Date.now(),
+                        name: name,
+                        type: type,
+                        typeLabel: typeLabels[type] || type,
+                        location: location,
+                        students: parseInt(students).toLocaleString(),
+                        status: status,
+                        statusLabel: statusMap[status] || status
+                    };
+
+                    institutions.push(newInstitution);
+                    saveInstitutions(institutions);
+                    renderTable();
+                    closeModal();
+                    showToast(`✅ "${name}" added successfully!`, 'success');
+                }
+            });
+
+            // =============================================
+            // ACTION FUNCTIONS
+            // =============================================
+            window.viewInstitution = function(id) {
+                showToast('Viewing institution #INST-' + String(id).padStart(3, '0'), 'info');
+            };
+
+            window.editInstitution = function(id) {
+                const institutions = loadInstitutions();
+                const inst = institutions.find(i => i.id === id);
+                if (inst) {
+                    document.getElementById('modalTitle').textContent = 'Edit Institution';
+                    document.getElementById('submitBtn').textContent = 'Update Institution';
+                    document.getElementById('instName').value = inst.name;
+                    document.getElementById('instType').value = inst.type;
+                    document.getElementById('instLocation').value = inst.location;
+                    document.getElementById('instStudents').value = inst.students.replace(/,/g, '');
+                    document.getElementById('instStatus').value = inst.status;
+                    document.getElementById('addInstForm').dataset.editId = id;
+                    document.getElementById('addInstModal').classList.add('active');
+                }
+            };
+
+            window.deleteInstitution = function(id) {
+                const institutions = loadInstitutions();
+                const inst = institutions.find(i => i.id === id);
+                if (confirm(`Delete "${inst?.name}"?`)) {
+                    const filtered = institutions.filter(i => i.id !== id);
+                    saveInstitutions(filtered);
+                    renderTable();
+                    showToast(`"${inst?.name}" deleted!`, 'warning');
+                }
+            };
+
+            window.approveInstitution = function(id) {
+                if (confirm('Approve this institution?')) {
+                    const success = updateInstStatus(id, 'status-completed');
+                    if (success) {
+                        showToast('Institution approved!', 'success');
+                        renderTable();
+                    }
+                }
+            };
+
+            // =============================================
+            // TOAST
+            // =============================================
+            function showToast(message, type = 'success') {
+                const toast = document.getElementById('toastNotification');
+                const toastMsg = document.getElementById('toastMessage');
+                toastMsg.textContent = message;
+                toast.className = 'toast-notification ' + type;
+                toast.classList.add('show');
+
+                clearTimeout(toast._timeout);
+                toast._timeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+
+            // =============================================
+            // FILTER + SEARCH
+            // =============================================
+            document.querySelectorAll('.filter-badge').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-badge').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    renderTable();
+                });
+            });
+
+            document.getElementById('searchInstitutions')?.addEventListener('input', renderTable);
+
+            // =============================================
+            // PAGINATION
+            // =============================================
+            window.changePage = function(direction) {
+                const activeBtn = document.querySelector('.page-btn.active');
+                const allBtns = document.querySelectorAll('.page-btn');
+                let currentIdx = Array.from(allBtns).indexOf(activeBtn);
+
+                if (direction === 'prev' && currentIdx > 1) {
+                    allBtns[currentIdx].classList.remove('active');
+                    allBtns[currentIdx - 1].classList.add('active');
+                } else if (direction === 'next' && currentIdx < allBtns.length - 1) {
+                    allBtns[currentIdx].classList.remove('active');
+                    allBtns[currentIdx + 1].classList.add('active');
+                }
+            };
+
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (!this.dataset.page) return;
+                    document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // =============================================
+            // CLOSE MODAL ON OVERLAY CLICK
+            // =============================================
+            document.getElementById('addInstModal')?.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+
+            // =============================================
+            // GSAP ANIMATIONS
+            // =============================================
+            if (typeof gsap !== "undefined") {
+
+                gsap.killTweensOf(".stat-card");
+                gsap.killTweensOf(".dashboard-panel");
+
+                gsap.set(".stat-card", { opacity: 1, y: 0, clearProps: "all" });
+                gsap.set(".dashboard-panel", { opacity: 1, y: 0, clearProps: "all" });
+
+                const tl = gsap.timeline({
+                    onComplete: function() {
+                        gsap.set(".stat-card", { opacity: 1, y: 0, clearProps: "opacity, transform, y" });
+                        gsap.set(".dashboard-panel", { opacity: 1, y: 0, clearProps: "opacity, transform, y" });
+                    }
+                });
+
+                tl.from(".stat-card", {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.5,
+                    stagger: 0.08,
+                    ease: "power2.out"
+                });
+
+                tl.from(".dashboard-panel", {
+                    opacity: 0,
+                    y: 15,
+                    duration: 0.5,
+                    ease: "power2.out"
+                }, "-=0.2");
+
+            }
+
+            // =============================================
+            // INIT
+            // =============================================
+            renderTable();
+
+        });
+    </script>
+
+</body>
+</html>

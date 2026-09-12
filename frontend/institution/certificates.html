@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Certificates | Ecolyy</title>
+
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <!-- Ecolyy CSS -->
+    <link rel="stylesheet" href="../css/glass.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="../css/pages.css">
+
+    <style>
+
+        /* =============================================
+           INSTITUTION PAGE GLOW
+        ============================================= */
+
+        .page-glow {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-one {
+            width: 500px;
+            height: 500px;
+            top: -100px;
+            right: -100px;
+            background: #2196F3;
+        }
+
+        .glow-two {
+            width: 400px;
+            height: 400px;
+            bottom: -50px;
+            left: -50px;
+            background: #4CAF50;
+        }
+
+
+        /* =============================================
+           BODY
+        ============================================= */
+
+        .dashboard-body {
+            min-height: 100vh;
+            background: var(--bg-primary, #f5f7fa);
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .dark-mode .dashboard-body {
+            background: var(--bg-primary-dark, #0d0d1a);
+        }
+
+
+        /* =============================================
+           SIDEBAR USER
+        ============================================= */
+
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0.8rem 1rem 0.8rem;
+
+            background: rgba(33, 150, 243, 0.06);
+
+            border-radius: 12px;
+
+            border: 1px solid rgba(33, 150, 243, 0.08);
+        }
+
+        .sidebar-user .user-avatar {
+
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 700;
+            font-size: 0.9rem;
+
+            background: rgba(33, 150, 243, 0.15);
+            color: #2196F3;
+
+            flex-shrink: 0;
+        }
+
+        .sidebar-user .user-info {
+
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+        }
+
+        .sidebar-user .user-info .user-name {
+
+            font-size: 0.85rem;
+            font-weight: 600;
+
+            color: var(--text-primary, #1a1a2e);
+
+            line-height: 1.3;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-user .user-info .user-role {
+
+            font-size: 0.65rem;
+
+            color: var(--text-secondary, #888);
+
+            font-weight: 500;
+        }
+
+        .dark-mode .sidebar-user {
+
+            background: rgba(255, 255, 255, 0.04);
+
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .dark-mode .sidebar-user .user-info .user-name {
+
+            color: #e0e0e0;
+        }
+
+        .dark-mode .sidebar-user .user-info .user-role {
+
+            color: #888;
+        }
+
+
+        /* =============================================
+           TOPBAR
+        ============================================= */
+
+        .dashboard-topbar {
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 1rem 0 1.5rem;
+
+            position: relative;
+
+            z-index: 1;
+        }
+
+        .dashboard-topbar .header-left {
+
+            display: flex;
+            align-items: center;
+
+            gap: 1rem;
+        }
+
+        .dashboard-topbar .topbar-left h1 {
+
+            font-size: 1.5rem;
+            font-weight: 700;
+
+            color: var(--text-primary, #1a1a2e);
+
+            margin: 0;
+        }
+
+        .dashboard-topbar .topbar-left p {
+
+            font-size: 0.85rem;
+
+            color: var(--text-secondary, #888);
+
+            margin: 0;
+        }
+
+        .dark-mode .dashboard-topbar .topbar-left h1 {
+
+            color: #e0e0e0;
+        }
+
+        .topbar-right {
+
+            display: flex;
+            align-items: center;
+
+            gap: 0.8rem;
+        }
+
+
+        /* =============================================
+           ICON BUTTON
+        ============================================= */
+
+        .icon-button {
+
+            width: 40px;
+            height: 40px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: var(
+                --border-color,
+                rgba(0, 0, 0, 0.04)
+            );
+
+            color: var(--text-secondary, #888);
+
+            font-size: 1.1rem;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+        }
+
+        .icon-button:hover {
+
+            background: rgba(33, 150, 243, 0.08);
+
+            color: #2196F3;
+        }
+
+
+        /* =============================================
+           PROFILE MINI
+        ============================================= */
+
+        .profile-mini {
+
+            text-decoration: none;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-mini .user-avatar {
+
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 700;
+            font-size: 0.85rem;
+
+            background: rgba(33, 150, 243, 0.12);
+
+            color: #2196F3;
+
+            text-decoration: none;
+
+            transition: all 0.3s ease;
+        }
+
+        .profile-mini .user-avatar:hover {
+
+            background: #2196F3;
+
+            color: white;
+
+            transform: scale(1.05);
+        }
+
+
+        /* =============================================
+           NOTIFICATION
+        ============================================= */
+
+        .notification-dot {
+
+            position: absolute;
+
+            top: 8px;
+            right: 8px;
+
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #e74c3c;
+
+            border: 2px solid var(--card-bg, #fff);
+        }
+
+
+        /* =============================================
+           MOBILE SIDEBAR TOGGLE
+        ============================================= */
+
+        .sidebar-toggle {
+
+            display: none;
+
+            background: none;
+            border: none;
+
+            font-size: 1.5rem;
+
+            color: var(--text-primary, #1a1a2e);
+
+            cursor: pointer;
+
+            padding: 0.3rem;
+        }
+
+        @media (max-width: 900px) {
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+        }
+
+
+        /* =============================================
+           WELCOME
+        ============================================= */
+
+        .dashboard-welcome {
+
+            margin-bottom: 2rem;
+
+            position: relative;
+
+            z-index: 1;
+        }
+
+        .dashboard-welcome .label {
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            opacity: 0.7;
+
+            margin-bottom: 5px;
+
+            color: var(--text-secondary, #888);
+        }
+
+        .dashboard-welcome h1 {
+
+            font-size: 1.8rem;
+
+            font-weight: 700;
+
+            color: var(--text-primary, #1a1a2e);
+
+            margin: 0;
+        }
+
+        .dashboard-welcome p {
+
+            font-size: 0.9rem;
+
+            color: var(--text-secondary, #888);
+
+            margin: 0.2rem 0 0 0;
+        }
+
+        .dark-mode .dashboard-welcome h1 {
+
+            color: #e0e0e0;
+        }
+
+
+        /* =============================================
+           CERTIFICATE GRID
+        ============================================= */
+
+        .certificate-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 1.2rem;
+
+            position: relative;
+
+            z-index: 1;
+        }
+
+        .certificate-card {
+
+            padding: 1.5rem;
+
+            border-radius: 16px;
+
+            background:
+                var(
+                    --card-bg,
+                    rgba(255, 255, 255, 0.6)
+                );
+
+            backdrop-filter: blur(20px);
+
+            border:
+                1px solid
+                var(
+                    --border-color,
+                    rgba(255, 255, 255, 0.2)
+                );
+
+            box-shadow:
+                0 4px 20px
+                rgba(0, 0, 0, 0.04);
+
+            transition: all 0.3s ease;
+        }
+
+        .certificate-card:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 30px
+                rgba(0, 0, 0, 0.08);
+        }
+
+        .dark-mode .certificate-card {
+
+            background:
+                rgba(255, 255, 255, 0.05);
+
+            border-color:
+                rgba(255, 255, 255, 0.06);
+        }
+
+
+        /* =============================================
+           CERTIFICATE ICON
+        ============================================= */
+
+        .certificate-icon {
+
+            width: 52px;
+            height: 52px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 14px;
+
+            margin-bottom: 1rem;
+
+            background:
+                rgba(33, 150, 243, 0.1);
+
+            color: #2196F3;
+
+            font-size: 1.5rem;
+        }
+
+
+        /* =============================================
+           CERTIFICATE CONTENT
+        ============================================= */
+
+        .certificate-card h3 {
+
+            font-size: 1rem;
+
+            font-weight: 700;
+
+            margin-bottom: 0.35rem;
+
+            color:
+                var(
+                    --text-primary,
+                    #1a1a2e
+                );
+        }
+
+        .certificate-card p {
+
+            font-size: 0.78rem;
+
+            color:
+                var(
+                    --text-secondary,
+                    #888
+                );
+
+            margin-bottom: 1rem;
+        }
+
+        .dark-mode .certificate-card h3 {
+
+            color: #e0e0e0;
+        }
+
+
+        /* =============================================
+           CERTIFICATE STATUS
+        ============================================= */
+
+        .certificate-status {
+
+            display: inline-block;
+
+            padding:
+                0.22rem 0.65rem;
+
+            border-radius: 20px;
+
+            font-size: 0.65rem;
+
+            font-weight: 700;
+
+            background:
+                rgba(76, 175, 80, 0.15);
+
+            color: #4CAF50;
+
+            margin-bottom: 1rem;
+        }
+
+
+        /* =============================================
+           FOOTER
+        ============================================= */
+
+        .dashboard-footer {
+
+            text-align: center;
+
+            padding:
+                1.5rem 0 0.5rem;
+
+            font-size: 0.75rem;
+
+            color:
+                var(
+                    --text-secondary,
+                    #888
+                );
+
+            border-top:
+                1px solid
+                var(
+                    --border-color,
+                    rgba(0, 0, 0, 0.04)
+                );
+
+            margin-top: 1rem;
+
+            position: relative;
+
+            z-index: 1;
+        }
+
+        .dark-mode .dashboard-footer {
+
+            border-color:
+                rgba(255, 255, 255, 0.04);
+        }
+
+
+        /* =============================================
+           MOBILE
+        ============================================= */
+
+        @media (max-width: 750px) {
+
+            .certificate-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="dashboard-body">
+
+
+    <!-- Background Glow -->
+
+    <div class="page-glow glow-one"></div>
+
+    <div class="page-glow glow-two"></div>
+
+
+    <div class="dashboard-layout">
+
+
+        <!-- =========================================
+             SIDEBAR
+        ========================================== -->
+
+        <aside
+            class="dashboard-sidebar"
+            id="dashboardSidebar"
+        >
+
+
+            <!-- BRAND -->
+
+            <div class="sidebar-brand">
+
+                <a href="../index.html">
+
+                    <img
+                        src="../assets/images/ecolyy.png"
+                        alt="Ecolyy"
+                    >
+
+                </a>
+
+            </div>
+
+
+            <!-- USER -->
+
+            <div class="sidebar-user">
+
+                <div
+                    class="user-avatar"
+                    id="sidebarUserAvatar"
+                >
+                    EI
+                </div>
+
+                <div class="user-info">
+
+                    <span
+                        class="user-name"
+                        id="sidebarUserName"
+                    >
+                        Ecolyy Institute
+                    </span>
+
+                    <span
+                        class="user-role"
+                        id="sidebarUserRole"
+                    >
+                        Institute Partner
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- NAVIGATION -->
+
+            <nav class="sidebar-menu">
+
+
+                <!-- OVERVIEW -->
+
+                <div class="nav-section-label">
+                    Overview
+                </div>
+
+
+                <a
+                    href="dashboard.html"
+                    class="sidebar-link"
+                >
+
+                    <i class="bi bi-grid-1x2-fill"></i>
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="certificates.html"
+                    class="sidebar-link active"
+                >
+
+                    <i class="bi bi-award"></i>
+
+                    <span>
+                        Certificates
+                    </span>
+
+                </a>
+
+
+                <!-- PICKUPS -->
+
+                <div class="nav-section-label">
+                    Pickups
+                </div>
+
+
+                <a
+                    href="pickups.html"
+                    class="sidebar-link"
+                >
+
+                    <i class="bi bi-truck"></i>
+
+                    <span>
+                        Pickup Requests
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="locations.html"
+                    class="sidebar-link"
+                >
+
+                    <i class="bi bi-geo-alt"></i>
+
+                    <span>
+                        Locations
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="schedule.html"
+                    class="sidebar-link"
+                >
+
+                    <i class="bi bi-calendar"></i>
+
+                    <span>
+                        Schedule
+                    </span>
+
+                </a>
+
+
+                <!-- ANALYTICS -->
+
+                <div class="nav-section-label">
+                    Analytics
+                </div>
+
+
+                <a
+                    href="reports.html"
+                    class="sidebar-link"
+                >
+
+                    <i class="bi bi-bar-chart"></i>
+
+                    <span>
+                        Reports
+                    </span>
+
+                </a>
+
+
+                <!-- ACCOUNT -->
+
+                <div class="nav-section-label">
+                    Account
+                </div>
+
+
+                <a
+                    href="profile.html"
+                    class="sidebar-link"
+                >
+
+                    <i class="bi bi-person"></i>
+
+                    <span>
+                        Profile
+                    </span>
+
+                </a>
+
+
+            </nav>
+
+
+            <!-- SIDEBAR BOTTOM -->
+
+            <div class="sidebar-bottom">
+
+
+                <a
+                    href="../index.html"
+                    class="sidebar-home"
+                >
+
+                    <i class="bi bi-house"></i>
+
+                    <span>
+                        Back to Ecolyy
+                    </span>
+
+                </a>
+
+
+                <button
+                    type="button"
+                    class="sidebar-logout"
+                    id="sidebarLogout"
+                >
+
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    <span>
+                        Logout
+                    </span>
+
+                </button>
+
+
+            </div>
+
+
+        </aside>
+
+
+        <!-- SIDEBAR OVERLAY -->
+
+        <div
+            class="sidebar-overlay"
+            id="sidebarOverlay"
+        ></div>
+
+
+        <!-- =========================================
+             MAIN
+        ========================================== -->
+
+        <main class="dashboard-main">
+
+
+            <!-- TOPBAR -->
+
+            <header class="dashboard-topbar">
+
+
+                <div class="header-left">
+
+
+                    <button
+                        type="button"
+                        class="sidebar-toggle"
+                        id="sidebarToggle"
+                        aria-label="Open navigation"
+                    >
+
+                        <i class="bi bi-list"></i>
+
+                    </button>
+
+
+                    <div class="topbar-left">
+
+                        <h1>
+                            Certificates
+                        </h1>
+
+                        <p>
+                            View and download your recycling certificates.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="topbar-right">
+
+
+                    <!-- THEME -->
+
+                    <button
+                        type="button"
+                        class="icon-button"
+                        id="themeToggle"
+                        aria-label="Toggle theme"
+                    >
+
+                        <i class="bi bi-sun"></i>
+
+                    </button>
+
+
+                    <!-- NOTIFICATION -->
+
+                    <button
+                        type="button"
+                        class="icon-button"
+                        aria-label="Notifications"
+                    >
+
+                        <i class="bi bi-bell"></i>
+
+                        <span
+                            class="notification-dot"
+                        ></span>
+
+                    </button>
+
+
+                    <!-- PROFILE -->
+
+                    <a
+                        href="profile.html"
+                        class="profile-mini"
+                    >
+
+                        <div
+                            class="user-avatar"
+                            id="topbarUserAvatar"
+                        >
+                            EI
+                        </div>
+
+                    </a>
+
+
+                </div>
+
+
+            </header>
+
+
+            <!-- =====================================
+                 WELCOME
+            ====================================== -->
+
+            <section class="dashboard-welcome">
+
+
+                <div>
+
+
+                    <div class="label">
+                        CERTIFICATION
+                    </div>
+
+
+                    <h1>
+                        Recycling Certificates
+                    </h1>
+
+
+                    <p>
+                        Download certificates for your institution's recycling activity.
+                    </p>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =====================================
+                 CERTIFICATES
+            ====================================== -->
+
+            <section class="certificate-grid">
+
+
+                <!-- JULY -->
+
+                <div class="certificate-card">
+
+
+                    <div class="certificate-icon">
+
+                        <i class="bi bi-award"></i>
+
+                    </div>
+
+
+                    <h3>
+                        July 2026
+                    </h3>
+
+
+                    <p>
+                        Monthly Recycling Certificate
+                    </p>
+
+
+                    <span class="certificate-status">
+                        Issued
+                    </span>
+
+
+                    <br>
+
+
+                    <button
+                        type="button"
+                        class="button-50"
+                        onclick="alert('Certificate download will be connected to the backend next.')"
+                    >
+
+                        <i class="bi bi-download"></i>
+
+                        Download Certificate
+
+                    </button>
+
+
+                </div>
+
+
+                <!-- JUNE -->
+
+                <div class="certificate-card">
+
+
+                    <div class="certificate-icon">
+
+                        <i class="bi bi-award"></i>
+
+                    </div>
+
+
+                    <h3>
+                        June 2026
+                    </h3>
+
+
+                    <p>
+                        Monthly Recycling Certificate
+                    </p>
+
+
+                    <span class="certificate-status">
+                        Issued
+                    </span>
+
+
+                    <br>
+
+
+                    <button
+                        type="button"
+                        class="button-50"
+                        onclick="alert('Certificate download will be connected to the backend next.')"
+                    >
+
+                        <i class="bi bi-download"></i>
+
+                        Download Certificate
+
+                    </button>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =====================================
+                 FOOTER
+            ====================================== -->
+
+            <footer class="dashboard-footer">
+
+                © 2026 Ecolyy by CodeCraft 💌.
+                All rights reserved. Institute Panel.
+
+            </footer>
+
+
+        </main>
+
+
+    </div>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+
+    <script src="../js/theme.js"></script>
+
+    <script src="../js/api.js"></script>
+
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+
+                // =========================================
+                // AUTH CHECK
+                // =========================================
+
+                const token =
+                    localStorage.getItem(
+                        "ecolyy_access_token"
+                    );
+
+
+                const role =
+                    localStorage.getItem(
+                        "ecolyy_role"
+                    );
+
+
+                const userData =
+                    localStorage.getItem(
+                        "ecolyy_user"
+                    );
+
+
+                console.log(
+                    "Certificates Page Loaded"
+                );
+
+
+                console.log(
+                    "Token:",
+                    token
+                        ? "Present"
+                        : "Missing"
+                );
+
+
+                console.log(
+                    "Role:",
+                    role || "Missing"
+                );
+
+
+                console.log(
+                    "User:",
+                    userData
+                        ? "Present"
+                        : "Missing"
+                );
+
+
+                if (
+                    !token ||
+                    !userData ||
+                    (role || "").toLowerCase()
+                        !== "institution"
+                ) {
+
+                    console.log(
+                        "Invalid authentication. Redirecting..."
+                    );
+
+
+                    localStorage.clear();
+
+
+                    window.location.replace(
+                        "../pages/login.html"
+                    );
+
+
+                    return;
+
+                }
+
+
+                // =========================================
+                // USER DATA
+                // =========================================
+
+                try {
+
+
+                    const user =
+                        JSON.parse(
+                            userData
+                        );
+
+
+                    const displayName =
+                        user.name ||
+                        "Ecolyy Institute";
+
+
+                    const initials =
+                        user.initials ||
+                        displayName
+                            .split(" ")
+                            .map(
+                                word =>
+                                    word.charAt(0)
+                            )
+                            .join("")
+                            .substring(0, 2)
+                            .toUpperCase();
+
+
+                    const sidebarAvatar =
+                        document.getElementById(
+                            "sidebarUserAvatar"
+                        );
+
+
+                    const sidebarName =
+                        document.getElementById(
+                            "sidebarUserName"
+                        );
+
+
+                    const sidebarRole =
+                        document.getElementById(
+                            "sidebarUserRole"
+                        );
+
+
+                    const topbarAvatar =
+                        document.getElementById(
+                            "topbarUserAvatar"
+                        );
+
+
+                    if (sidebarAvatar) {
+
+                        sidebarAvatar.textContent =
+                            initials;
+
+
+                        sidebarAvatar.style.background =
+                            "rgba(33, 150, 243, 0.15)";
+
+
+                        sidebarAvatar.style.color =
+                            "#2196F3";
+
+                    }
+
+
+                    if (sidebarName) {
+
+                        sidebarName.textContent =
+                            displayName;
+
+                    }
+
+
+                    if (sidebarRole) {
+
+                        sidebarRole.textContent =
+                            user.display_role ||
+                            user.role ||
+                            "Institute";
+
+                    }
+
+
+                    if (topbarAvatar) {
+
+                        topbarAvatar.textContent =
+                            initials;
+
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "User data error:",
+                        error
+                    );
+
+                }
+
+
+                // =========================================
+                // SIDEBAR
+                // =========================================
+
+                const sidebar =
+                    document.getElementById(
+                        "dashboardSidebar"
+                    );
+
+
+                const toggle =
+                    document.getElementById(
+                        "sidebarToggle"
+                    );
+
+
+                const overlay =
+                    document.getElementById(
+                        "sidebarOverlay"
+                    );
+
+
+                function openSidebar() {
+
+                    sidebar?.classList.add(
+                        "open"
+                    );
+
+                    overlay?.classList.add(
+                        "active"
+                    );
+
+                    document.body.style.overflow =
+                        "hidden";
+
+                }
+
+
+                function closeSidebar() {
+
+                    sidebar?.classList.remove(
+                        "open"
+                    );
+
+                    overlay?.classList.remove(
+                        "active"
+                    );
+
+                    document.body.style.overflow =
+                        "";
+
+                }
+
+
+                toggle?.addEventListener(
+                    "click",
+                    openSidebar
+                );
+
+
+                overlay?.addEventListener(
+                    "click",
+                    closeSidebar
+                );
+
+
+                document
+                    .querySelectorAll(
+                        ".sidebar-link"
+                    )
+                    .forEach(
+                        link => {
+
+                            link.addEventListener(
+                                "click",
+                                function () {
+
+                                    if (
+                                        window.innerWidth
+                                        <= 900
+                                    ) {
+
+                                        closeSidebar();
+
+                                    }
+
+                                }
+                            );
+
+                        }
+                    );
+
+
+                // =========================================
+                // LOGOUT
+                // =========================================
+
+                document
+                    .getElementById(
+                        "sidebarLogout"
+                    )
+                    ?.addEventListener(
+                        "click",
+                        function () {
+
+
+                            if (
+                                !confirm(
+                                    "Are you sure you want to logout?"
+                                )
+                            ) {
+
+                                return;
+
+                            }
+
+
+                            const keys = [
+
+                                "ecolyy_access_token",
+
+                                "ecolyy_refresh_token",
+
+                                "ecolyy_token_type",
+
+                                "ecolyy_role",
+
+                                "ecolyy_user",
+
+                                "ecolyy_user_name",
+
+                                "ecolyy_user_email",
+
+                                "ecolyy_partner_name",
+
+                                "ecolyy_partner_email",
+
+                                "ecolyy_institute_name",
+
+                                "ecolyy_institute_email"
+
+                            ];
+
+
+                            keys.forEach(
+                                key =>
+                                    localStorage.removeItem(
+                                        key
+                                    )
+                            );
+
+
+                            window.location.replace(
+                                "../pages/login.html"
+                            );
+
+
+                        }
+                    );
+
+
+                console.log(
+                    "Certificates page loaded successfully!"
+                );
+
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

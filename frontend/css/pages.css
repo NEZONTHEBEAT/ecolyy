@@ -1,0 +1,153 @@
+/* =========================================================
+   AUTH PAGES
+========================================================= */
+
+.auth-page {
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 60px 20px;
+}
+
+
+.auth-container {
+    width: 100%;
+
+    max-width: 470px;
+}
+
+
+.auth-brand {
+    text-align: center;
+
+    margin-bottom: 25px;
+}
+
+
+.auth-brand img {
+    width: 150px;
+
+    height: auto;
+}
+
+
+.auth-card {
+    padding: 42px;
+}
+
+
+.auth-card h1 {
+    font-family: "Manrope", sans-serif;
+
+    font-size: 38px;
+
+    font-weight: 800;
+
+    margin: 15px 0 10px;
+}
+
+
+.auth-card > p {
+    opacity: .7;
+
+    line-height: 1.6;
+
+    margin-bottom: 30px;
+}
+
+
+.auth-form .form-group {
+    margin-bottom: 18px;
+}
+
+
+.auth-submit {
+    width: 100%;
+
+    margin-top: 8px;
+}
+
+
+.auth-options {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    font-size: 13px;
+
+    margin-bottom: 20px;
+}
+
+
+.auth-options a,
+.auth-register a {
+    color: #0B4F3A;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+
+.auth-divider {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin: 25px 0;
+}
+
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+
+    height: 1px;
+
+    flex: 1;
+
+    background: rgba(0,0,0,.1);
+}
+
+
+.auth-divider span {
+    font-size: 12px;
+
+    opacity: .5;
+}
+
+
+.auth-register {
+    text-align: center;
+
+    margin-bottom: 0 !important;
+
+    font-size: 14px;
+}
+
+
+@media (max-width: 480px) {
+
+    .auth-page {
+        padding: 30px 15px;
+    }
+
+
+    .auth-card {
+        padding: 28px 22px;
+    }
+
+
+    .auth-card h1 {
+        font-size: 32px;
+    }
+
+}

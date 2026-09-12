@@ -1,0 +1,2361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login — Ecolyy</title>
+
+    <meta
+        name="description"
+        content="Login to your Ecolyy account."
+    >
+
+    <meta
+        name="theme-color"
+        content="#0B4F3A"
+    >
+
+    <link
+        rel="icon"
+        type="image/x-icon"
+        href="../favicon.ico"
+    >
+
+    <!-- ============ GOOGLE FONTS ================ -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         GOOGLE IDENTITY SERVICES
+    ====================================================== -->
+
+    <script
+        src="https://accounts.google.com/gsi/client"
+        async
+        defer
+    ></script>
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         ECOLYY CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/glass.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/responsive.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/dark-mode.css"
+    >
+
+
+    <!-- =====================================================
+         LOGIN PAGE CSS
+    ====================================================== -->
+
+    <style>
+
+        /* =====================================================
+           AUTH METHODS
+        ====================================================== */
+
+        .auth-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+
+        /* =====================================================
+           METHOD HELP
+        ====================================================== */
+
+        .method-help {
+            margin-top: 0.7rem;
+            margin-bottom: 0;
+            text-align: center;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            color: #777;
+        }
+
+        .dark-mode .method-help {
+            color: #aaa;
+        }
+
+
+        /* =====================================================
+           OTP PANEL
+        ====================================================== */
+
+        .otp-panel {
+            display: none;
+            margin-top: 0.9rem;
+            padding: 1rem;
+            border-radius: 14px;
+            border: 1px solid rgba(76, 175, 80, 0.16);
+            background: rgba(76, 175, 80, 0.05);
+        }
+
+        .otp-panel.active {
+            display: block;
+        }
+
+
+        .otp-title {
+            margin-bottom: 0.3rem;
+            font-size: 0.92rem;
+            font-weight: 700;
+        }
+
+
+        .otp-subtitle {
+            margin-bottom: 0.8rem;
+            font-size: 0.74rem;
+            line-height: 1.5;
+            color: #777;
+        }
+
+        .dark-mode .otp-subtitle {
+            color: #aaa;
+        }
+
+
+        /* =====================================================
+           OTP ACTIONS
+        ====================================================== */
+
+        .otp-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+
+        .otp-actions .button-50 {
+            flex: 1;
+            min-width: 140px;
+        }
+
+
+        /* =====================================================
+           EMAIL OTP BUTTON
+           IMPORTANT HOVER FIX
+        ====================================================== */
+
+        .secondary-auth-btn {
+            background: transparent !important;
+            border: 1px solid rgba(11, 79, 58, 0.22) !important;
+            color: #0B4F3A !important;
+            box-shadow: none !important;
+            transition:
+                background 0.25s ease,
+                border-color 0.25s ease,
+                color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .secondary-auth-btn:hover,
+        .secondary-auth-btn:focus,
+        .secondary-auth-btn:active,
+        .secondary-auth-btn:focus-visible {
+            background: rgba(11, 79, 58, 0.08) !important;
+            border-color: #0B4F3A !important;
+            color: #0B4F3A !important;
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+
+        .secondary-auth-btn:hover {
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           DARK MODE OTP BUTTON
+        ====================================================== */
+
+        .dark-mode .secondary-auth-btn {
+            background: transparent !important;
+            border-color: rgba(255, 255, 255, 0.14) !important;
+            color: #81C784 !important;
+        }
+
+
+        .dark-mode .secondary-auth-btn:hover,
+        .dark-mode .secondary-auth-btn:focus,
+        .dark-mode .secondary-auth-btn:active,
+        .dark-mode .secondary-auth-btn:focus-visible {
+            background: rgba(129, 199, 132, 0.10) !important;
+            border-color: #81C784 !important;
+            color: #81C784 !important;
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+
+        /* =====================================================
+           ERROR / SUCCESS
+        ====================================================== */
+
+        .error-message,
+        .success-message {
+            display: none;
+            margin-bottom: 0.65rem;
+            padding: 0.65rem 0.8rem;
+            border-radius: 9px;
+            font-size: 0.8rem;
+            line-height: 1.45;
+        }
+
+
+        .error-message {
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.10);
+        }
+
+
+        .success-message {
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.10);
+        }
+
+
+        /* =====================================================
+           GOOGLE LOADING
+        ====================================================== */
+
+        .google-loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           AUTH INFO
+        ====================================================== */
+
+        .auth-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-top: 0.9rem;
+            padding: 0.7rem 0.8rem;
+            border-radius: 10px;
+            background: rgba(11, 79, 58, 0.05);
+            color: #666;
+            font-size: 0.74rem;
+            line-height: 1.5;
+        }
+
+
+        .auth-note i {
+            margin-top: 0.08rem;
+            color: #0B4F3A;
+            flex-shrink: 0;
+        }
+
+
+        .dark-mode .auth-note {
+            background: rgba(255, 255, 255, 0.04);
+            color: #aaa;
+        }
+
+
+        .dark-mode .auth-note i {
+            color: #81C784;
+        }
+
+
+        /* =====================================================
+           OTP CODE
+        ====================================================== */
+
+        .otp-code-input {
+            letter-spacing: 0.45rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           DISABLED BUTTON
+        ====================================================== */
+
+        .auth-submit:disabled,
+        .secondary-auth-btn:disabled,
+        #requestOtpBtn:disabled,
+        #verifyOtpBtn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="page-glow glow-one"></div>
+    <div class="page-glow glow-two"></div>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar-wrapper">
+
+        <nav class="rekart-navbar glass-nav">
+
+            <a
+                href="../index.html"
+                class="brand"
+            >
+
+                <img
+                    src="../assets/images/ecolyy.png"
+                    alt="Ecolyy"
+                    class="brand-logo"
+                >
+
+            </a>
+
+
+            <div class="desktop-nav">
+
+                <a href="../index.html">
+                    Home
+                </a>
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="how-it-works.html">
+                    How It Works
+                </a>
+
+                <a href="collect.html">
+                    What We Collect
+                </a>
+
+                <a href="institutions.html">
+                    Institutions
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+            </div>
+
+
+            <div class="nav-actions">
+
+                <button
+                    class="theme-toggle"
+                    id="themeToggle"
+                    aria-label="Toggle dark mode"
+                    type="button"
+                >
+                    <i class="bi bi-moon-stars"></i>
+                </button>
+
+
+                <a
+                    href="register.html"
+                    class="button-50"
+                >
+                    Register
+                </a>
+
+
+                <button
+                    class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                    aria-label="Open menu"
+                    type="button"
+                >
+                    <i class="bi bi-list"></i>
+                </button>
+
+            </div>
+
+        </nav>
+
+
+        <div
+            class="mobile-menu glass-card"
+            id="mobileMenu"
+        >
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a href="how-it-works.html">
+                How It Works
+            </a>
+
+            <a href="collect.html">
+                What We Collect
+            </a>
+
+            <a href="institutions.html">
+                Institutions
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+            <a
+                href="register.html"
+                class="button-50 mobile-cta"
+            >
+                Register
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         LOGIN
+    ====================================================== -->
+
+    <main>
+
+        <section class="auth-section section-spacing">
+
+            <div class="container">
+
+                <div class="auth-wrapper glass-card">
+
+                    <div class="auth-content">
+
+                        <span class="section-label">
+                            WELCOME BACK
+                        </span>
+
+
+                        <h1>
+                            Login to <span>Ecolyy.</span>
+                        </h1>
+
+
+                        <p>
+                            Access your account, manage pickups
+                            and track your recycling rewards.
+                        </p>
+
+
+                        <!-- =============================================
+                             PASSWORD LOGIN
+                        ============================================== -->
+
+                        <form
+                            class="auth-form"
+                            id="loginForm"
+                            novalidate
+                        >
+
+                            <div class="form-group">
+
+                                <label for="email">
+                                    Email Address
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="you@example.com"
+                                    autocomplete="email"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="password">
+                                    Password
+                                </label>
+
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Enter your password"
+                                    autocomplete="current-password"
+                                >
+
+                            </div>
+
+
+                            <div
+                                class="error-message"
+                                id="loginError"
+                                role="alert"
+                            ></div>
+
+
+                            <div
+                                class="success-message"
+                                id="loginSuccess"
+                                role="status"
+                            ></div>
+
+
+                            <button
+                                type="submit"
+                                class="button-50 auth-submit"
+                                id="loginSubmitBtn"
+                            >
+
+                                <span id="loginButtonText">
+                                    Login with Password
+                                </span>
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </button>
+
+                        </form>
+
+
+                        <!-- =============================================
+                             AUTH INFO
+                        ============================================== -->
+
+                        <div class="auth-note">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            <span>
+                                Ecolyy automatically identifies your
+                                account type from your verified email.
+                                You do not need to select a role.
+                            </span>
+
+                        </div>
+
+
+                        <!-- =============================================
+                             DIVIDER
+                        ============================================== -->
+
+                        <div class="auth-divider">
+                            <span>or</span>
+                        </div>
+
+
+                        <!-- =============================================
+                             AUTH METHODS
+                        ============================================== -->
+
+                        <div class="auth-methods">
+
+                            <!-- GOOGLE -->
+
+                            <button
+                                type="button"
+                                id="googleLoginBtn"
+                                class="button-50 social-auth"
+                            >
+
+                                <i class="bi bi-google"></i>
+
+                                Continue with Google
+
+                            </button>
+
+
+                            <div
+                                id="googleButtonContainer"
+                                style="display: none;"
+                            ></div>
+
+
+                            <!-- EMAIL OTP -->
+
+                            <button
+                                type="button"
+                                id="otpToggleBtn"
+                                class="button-50 secondary-auth-btn"
+                            >
+
+                                <i class="bi bi-envelope-at"></i>
+
+                                Login with Email OTP
+
+                            </button>
+
+                        </div>
+
+
+                        <p class="method-help">
+                            Partner and Institution accounts use password login.
+                            User accounts can use Google or Email OTP.
+                            Admin access uses Google Sign-In.
+                        </p>
+
+
+                        <!-- =============================================
+                             OTP PANEL
+                        ============================================== -->
+
+                        <div
+                            class="otp-panel"
+                            id="otpPanel"
+                        >
+
+                            <div class="otp-title">
+                                Email OTP Login
+                            </div>
+
+
+                            <div class="otp-subtitle">
+                                Enter your email and we'll send you
+                                a 6-digit verification code.
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="otpEmail">
+                                    Email Address
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="otpEmail"
+                                    placeholder="you@example.com"
+                                    autocomplete="email"
+                                >
+
+                            </div>
+
+
+                            <div
+                                class="form-group"
+                                id="otpCodeGroup"
+                                style="display: none;"
+                            >
+
+                                <label for="otpCode">
+                                    Verification Code
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="otpCode"
+                                    class="otp-code-input"
+                                    placeholder="000000"
+                                    inputmode="numeric"
+                                    autocomplete="one-time-code"
+                                    maxlength="6"
+                                >
+
+                            </div>
+
+
+                            <div class="otp-actions">
+
+                                <button
+                                    type="button"
+                                    class="button-50"
+                                    id="requestOtpBtn"
+                                >
+
+                                    <span id="requestOtpText">
+                                        Send OTP
+                                    </span>
+
+                                    <i class="bi bi-send"></i>
+
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="button-50 secondary-auth-btn"
+                                    id="verifyOtpBtn"
+                                    style="display: none;"
+                                >
+
+                                    <span id="verifyOtpText">
+                                        Verify & Login
+                                    </span>
+
+                                    <i class="bi bi-check2-circle"></i>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =============================================
+                             REGISTER
+                        ============================================== -->
+
+                        <p class="auth-bottom">
+
+                            Don't have an account?
+
+                            <a href="register.html">
+                                Create Account
+                            </a>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <div class="footer-main">
+
+                <div class="footer-brand">
+
+                    <img
+                        src="../assets/images/ecolyy.png"
+                        alt="Ecolyy"
+                        class="footer-logo"
+                    >
+
+                    <p>
+                        Recycling, Simplified.
+                    </p>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h4>
+                        Platform
+                    </h4>
+
+                    <a href="how-it-works.html">
+                        How It Works
+                    </a>
+
+                    <a href="collect.html">
+                        What We Collect
+                    </a>
+
+                    <a href="institutions.html">
+                        Institutions
+                    </a>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h4>
+                        Company
+                    </h4>
+
+                    <a href="about.html">
+                        About
+                    </a>
+
+                    <a href="contact.html">
+                        Contact
+                    </a>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h4>
+                        Account
+                    </h4>
+
+                    <a href="login.html">
+                        Login
+                    </a>
+
+                    <a href="register.html">
+                        Create Account
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer-bottom">
+
+                <span>
+                    © 2026 Ecolyy by CodeCraft 💌.
+                    All rights reserved.
+                </span>
+
+
+                <div class="social-links">
+
+                    <a
+                        href="#"
+                        aria-label="Instagram"
+                    >
+                        <i class="bi bi-instagram"></i>
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="LinkedIn"
+                    >
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="Facebook"
+                    >
+                        <i class="bi bi-facebook"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+
+    <!-- =====================================================
+         ECOLYY JS
+    ====================================================== -->
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/animations.js"></script>
+    <script src="../js/main.js"></script>
+
+
+    <!-- =====================================================
+         LOGIN SCRIPT
+    ====================================================== -->
+
+    <script>
+
+        "use strict";
+
+
+        /* =====================================================
+           API CONFIG
+        ====================================================== */
+
+        const API_BASE_URL =
+            "http://localhost:8000";
+
+        const API_PREFIX =
+            "/api/v1";
+
+
+        /* =====================================================
+           GOOGLE CLIENT ID
+        ====================================================== */
+
+        const GOOGLE_CLIENT_ID =
+            "243474168990-90ci2ll2bpcn85lu9dd4lpipprhqbpr3.apps.googleusercontent.com";
+
+
+        /* =====================================================
+           DOM
+        ====================================================== */
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const emailInput =
+            document.getElementById("email");
+
+        const passwordInput =
+            document.getElementById("password");
+
+        const submitBtn =
+            document.getElementById("loginSubmitBtn");
+
+        const loginButtonText =
+            document.getElementById("loginButtonText");
+
+        const googleBtn =
+            document.getElementById("googleLoginBtn");
+
+        const googleContainer =
+            document.getElementById("googleButtonContainer");
+
+        const otpToggleBtn =
+            document.getElementById("otpToggleBtn");
+
+        const otpPanel =
+            document.getElementById("otpPanel");
+
+        const otpEmail =
+            document.getElementById("otpEmail");
+
+        const otpCode =
+            document.getElementById("otpCode");
+
+        const otpCodeGroup =
+            document.getElementById("otpCodeGroup");
+
+        const requestOtpBtn =
+            document.getElementById("requestOtpBtn");
+
+        const requestOtpText =
+            document.getElementById("requestOtpText");
+
+        const verifyOtpBtn =
+            document.getElementById("verifyOtpBtn");
+
+        const verifyOtpText =
+            document.getElementById("verifyOtpText");
+
+
+        /* =====================================================
+           MESSAGE HELPERS
+        ====================================================== */
+
+        function showError(message) {
+
+            const error =
+                document.getElementById("loginError");
+
+            const success =
+                document.getElementById("loginSuccess");
+
+
+            error.textContent =
+                message || "Something went wrong.";
+
+            error.style.display =
+                "block";
+
+            success.style.display =
+                "none";
+        }
+
+
+        function showSuccess(message) {
+
+            const error =
+                document.getElementById("loginError");
+
+            const success =
+                document.getElementById("loginSuccess");
+
+
+            success.textContent =
+                message || "Success.";
+
+            success.style.display =
+                "block";
+
+            error.style.display =
+                "none";
+        }
+
+
+        function hideMessages() {
+
+            document.getElementById(
+                "loginError"
+            ).style.display = "none";
+
+            document.getElementById(
+                "loginSuccess"
+            ).style.display = "none";
+        }
+
+
+        /* =====================================================
+           RESPONSE PARSER
+        ====================================================== */
+
+        async function parseResponse(response) {
+
+            try {
+
+                return await response.json();
+
+            } catch (error) {
+
+                return {};
+
+            }
+
+        }
+
+
+        /* =====================================================
+           SAVE AUTH SESSION
+           ROLE COMES FROM BACKEND
+        ====================================================== */
+
+        function saveAuthData(data) {
+
+            const user =
+                data && data.user
+                    ? data.user
+                    : {};
+
+
+            const role =
+                data && data.role
+                    ? data.role
+                    : user.role || "user";
+
+
+            const email =
+                user.email ||
+                data.email ||
+                "";
+
+
+            const name =
+                user.name ||
+                data.name ||
+                (
+                    email
+                        ? email.split("@")[0]
+                        : "User"
+                );
+
+
+            /* -------------------------------------------------
+               Clear previous session
+            ------------------------------------------------- */
+
+            const keysToRemove = [
+
+                "ecolyy_access_token",
+                "ecolyy_refresh_token",
+                "ecolyy_token_type",
+                "ecolyy_role",
+                "ecolyy_user",
+                "ecolyy_user_name",
+                "ecolyy_user_email",
+
+                "ecolyy_admin_name",
+                "ecolyy_admin_email",
+
+                "ecolyy_partner_name",
+                "ecolyy_partner_email",
+
+                "ecolyy_institute_name",
+                "ecolyy_institute_email"
+
+            ];
+
+
+            keysToRemove.forEach(
+                function (key) {
+                    localStorage.removeItem(key);
+                }
+            );
+
+
+            /* -------------------------------------------------
+               Tokens
+            ------------------------------------------------- */
+
+            if (data.access_token) {
+
+                localStorage.setItem(
+                    "ecolyy_access_token",
+                    data.access_token
+                );
+
+            }
+
+
+            if (data.refresh_token) {
+
+                localStorage.setItem(
+                    "ecolyy_refresh_token",
+                    data.refresh_token
+                );
+
+            }
+
+
+            localStorage.setItem(
+                "ecolyy_token_type",
+                data.token_type || "bearer"
+            );
+
+
+            /* -------------------------------------------------
+               User
+            ------------------------------------------------- */
+
+            const safeUser = {
+
+                ...user,
+
+                name: name,
+
+                email: email,
+
+                role: role
+
+            };
+
+
+            localStorage.setItem(
+                "ecolyy_role",
+                role
+            );
+
+
+            localStorage.setItem(
+                "ecolyy_user",
+                JSON.stringify(safeUser)
+            );
+
+
+            localStorage.setItem(
+                "ecolyy_user_name",
+                name
+            );
+
+
+            localStorage.setItem(
+                "ecolyy_user_email",
+                email
+            );
+
+
+            /* -------------------------------------------------
+               Convenience fields
+            ------------------------------------------------- */
+
+            if (role === "admin") {
+
+                localStorage.setItem(
+                    "ecolyy_admin_name",
+                    name
+                );
+
+                localStorage.setItem(
+                    "ecolyy_admin_email",
+                    email
+                );
+
+            }
+
+
+            if (role === "partner") {
+
+                localStorage.setItem(
+                    "ecolyy_partner_name",
+                    name
+                );
+
+                localStorage.setItem(
+                    "ecolyy_partner_email",
+                    email
+                );
+
+            }
+
+
+            if (role === "institution") {
+
+                localStorage.setItem(
+                    "ecolyy_institute_name",
+                    name
+                );
+
+                localStorage.setItem(
+                    "ecolyy_institute_email",
+                    email
+                );
+
+            }
+
+
+            console.log(
+                "Ecolyy authentication saved:",
+                {
+                    role: role,
+                    email: email,
+                    name: name
+                }
+            );
+
+
+            return role;
+        }
+
+
+        /* =====================================================
+           REDIRECT
+           BACKEND REDIRECT IS PREFERRED
+        ====================================================== */
+
+        function getRedirectUrl(data, role) {
+
+            const backendRedirect =
+                data &&
+                data.user &&
+                data.user.redirect_url;
+
+
+            if (
+                backendRedirect &&
+                typeof backendRedirect === "string"
+            ) {
+
+                return backendRedirect;
+
+            }
+
+
+            /* ---------------------------------------------
+               Fallback only
+            --------------------------------------------- */
+
+            const fallbackRedirects = {
+
+                admin:
+                    "../../admin/dashboard.html",
+
+                partner:
+                    "../../partner/dashboard.html",
+
+                institution:
+                    "../../institution/dashboard.html",
+
+                user:
+                    "../../user/dashboard.html"
+
+            };
+
+
+            return (
+                fallbackRedirects[role] ||
+                fallbackRedirects.user
+            );
+        }
+
+
+        /* =====================================================
+           REDIRECT AFTER SUCCESS
+        ====================================================== */
+
+        function redirectAfterLogin(data) {
+
+            const role =
+                saveAuthData(data);
+
+
+            const redirectUrl =
+                getRedirectUrl(
+                    data,
+                    role
+                );
+
+
+            showSuccess(
+                "Login successful! Redirecting..."
+            );
+
+
+            setTimeout(
+                function () {
+
+                    window.location.href =
+                        redirectUrl;
+
+                },
+                900
+            );
+
+        }
+
+
+        /* =====================================================
+           RESET PASSWORD BUTTON
+        ====================================================== */
+
+        function resetLoginButton() {
+
+            submitBtn.disabled =
+                false;
+
+
+            loginButtonText.textContent =
+                "Login with Password";
+
+
+            const icon =
+                submitBtn.querySelector("i");
+
+
+            if (icon) {
+
+                icon.className =
+                    "bi bi-arrow-right";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           PASSWORD LOGIN
+        ====================================================== */
+
+        loginForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+                hideMessages();
+
+
+                const email =
+                    emailInput.value
+                        .trim()
+                        .toLowerCase();
+
+
+                const password =
+                    passwordInput.value;
+
+
+                /* ---------------------------------------------
+                   Validation
+                --------------------------------------------- */
+
+                if (!email) {
+
+                    showError(
+                        "Please enter your email address."
+                    );
+
+                    emailInput.focus();
+
+                    return;
+
+                }
+
+
+                if (!email.includes("@")) {
+
+                    showError(
+                        "Please enter a valid email address."
+                    );
+
+                    emailInput.focus();
+
+                    return;
+
+                }
+
+
+                if (!password) {
+
+                    showError(
+                        "Please enter your password."
+                    );
+
+                    passwordInput.focus();
+
+                    return;
+
+                }
+
+
+                /* ---------------------------------------------
+                   Loading
+                --------------------------------------------- */
+
+                submitBtn.disabled =
+                    true;
+
+
+                loginButtonText.textContent =
+                    "Logging in...";
+
+
+                const icon =
+                    submitBtn.querySelector("i");
+
+
+                if (icon) {
+
+                    icon.className =
+                        "bi bi-spinner bi-spin";
+
+                }
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `${API_BASE_URL}${API_PREFIX}/auth/login`,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    email: email,
+                                    password: password
+                                })
+                            }
+                        );
+
+
+                    const data =
+                        await parseResponse(
+                            response
+                        );
+
+
+                    console.log(
+                        "Password login response:",
+                        data
+                    );
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.detail ||
+                            data.message ||
+                            "Login failed."
+                        );
+
+                    }
+
+
+                    if (
+                        !data.access_token ||
+                        !data.refresh_token ||
+                        !data.role ||
+                        !data.user
+                    ) {
+
+                        throw new Error(
+                            "Invalid authentication response from server."
+                        );
+
+                    }
+
+
+                    redirectAfterLogin(
+                        data
+                    );
+
+
+                    loginButtonText.textContent =
+                        "Success!";
+
+
+                    if (icon) {
+
+                        icon.className =
+                            "bi bi-check-circle";
+
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Password login error:",
+                        error
+                    );
+
+
+                    showError(
+                        error.message ||
+                        "Login failed. Please try again."
+                    );
+
+
+                    resetLoginButton();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           GOOGLE CREDENTIAL HANDLER
+        ====================================================== */
+
+        async function handleGoogleCredential(
+            response
+        ) {
+
+            hideMessages();
+
+
+            if (
+                !response ||
+                !response.credential
+            ) {
+
+                showError(
+                    "Google authentication failed. Please try again."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                googleBtn.classList.add(
+                    "google-loading"
+                );
+
+
+                googleBtn.disabled =
+                    true;
+
+
+                googleBtn.innerHTML =
+                    `
+                        <i class="bi bi-hourglass-split"></i>
+                        Signing in...
+                    `;
+
+
+                const apiResponse =
+                    await fetch(
+                        `${API_BASE_URL}${API_PREFIX}/auth/google`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                id_token:
+                                    response.credential
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await parseResponse(
+                        apiResponse
+                    );
+
+
+                console.log(
+                    "Google login response:",
+                    data
+                );
+
+
+                if (!apiResponse.ok) {
+
+                    throw new Error(
+                        data.detail ||
+                        data.message ||
+                        "Google login failed."
+                    );
+
+                }
+
+
+                if (
+                    !data.access_token ||
+                    !data.refresh_token ||
+                    !data.role ||
+                    !data.user
+                ) {
+
+                    throw new Error(
+                        "Invalid authentication response from server."
+                    );
+
+                }
+
+
+                redirectAfterLogin(
+                    data
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Google login error:",
+                    error
+                );
+
+
+                showError(
+                    error.message ||
+                    "Google Sign-In failed."
+                );
+
+
+                googleBtn.classList.remove(
+                    "google-loading"
+                );
+
+
+                googleBtn.disabled =
+                    false;
+
+
+                googleBtn.innerHTML =
+                    `
+                        <i class="bi bi-google"></i>
+                        Continue with Google
+                    `;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           GOOGLE INITIALIZATION
+        ====================================================== */
+
+        function initializeGoogleAuth() {
+
+            if (
+                typeof google === "undefined" ||
+                !google.accounts ||
+                !google.accounts.id
+            ) {
+
+                return false;
+
+            }
+
+
+            try {
+
+                google.accounts.id.initialize({
+
+                    client_id:
+                        GOOGLE_CLIENT_ID,
+
+                    callback:
+                        handleGoogleCredential,
+
+                    ux_mode:
+                        "popup",
+
+                    auto_select:
+                        false,
+
+                    cancel_on_tap_outside:
+                        true
+
+                });
+
+
+                google.accounts.id.renderButton(
+
+                    googleContainer,
+
+                    {
+                        type:
+                            "standard",
+
+                        theme:
+                            "outline",
+
+                        size:
+                            "large",
+
+                        text:
+                            "signin_with",
+
+                        shape:
+                            "rectangular",
+
+                        logo_alignment:
+                            "left",
+
+                        width:
+                            "100%"
+                    }
+
+                );
+
+
+                googleContainer.style.display =
+                    "none";
+
+
+                console.log(
+                    "Google Identity Services ready."
+                );
+
+
+                return true;
+
+
+            } catch (error) {
+
+                console.error(
+                    "Google initialization error:",
+                    error
+                );
+
+                return false;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           WAIT FOR GOOGLE
+        ====================================================== */
+
+        (function waitForGoogle() {
+
+            let attempts = 0;
+
+            const maxAttempts = 20;
+
+
+            const timer =
+                setInterval(
+                    function () {
+
+                        attempts++;
+
+
+                        const initialized =
+                            initializeGoogleAuth();
+
+
+                        if (initialized) {
+
+                            clearInterval(
+                                timer
+                            );
+
+                            return;
+
+                        }
+
+
+                        if (
+                            attempts >= maxAttempts
+                        ) {
+
+                            clearInterval(
+                                timer
+                            );
+
+                            console.warn(
+                                "Google Identity Services unavailable."
+                            );
+
+                        }
+
+                    },
+                    500
+                );
+
+        })();
+
+
+        /* =====================================================
+           GOOGLE CUSTOM BUTTON
+        ====================================================== */
+
+        googleBtn.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                hideMessages();
+
+
+                if (
+                    typeof google === "undefined" ||
+                    !google.accounts ||
+                    !google.accounts.id
+                ) {
+
+                    showError(
+                        "Google Sign-In is still loading. Please try again."
+                    );
+
+                    return;
+
+                }
+
+
+                try {
+
+                    google.accounts.id.prompt();
+
+                } catch (error) {
+
+                    console.error(
+                        "Google prompt error:",
+                        error
+                    );
+
+
+                    showError(
+                        "Unable to start Google Sign-In. Please try again."
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           OTP TOGGLE
+        ====================================================== */
+
+        otpToggleBtn.addEventListener(
+            "click",
+            function () {
+
+                hideMessages();
+
+
+                const isActive =
+                    otpPanel.classList.contains(
+                        "active"
+                    );
+
+
+                if (isActive) {
+
+                    otpPanel.classList.remove(
+                        "active"
+                    );
+
+
+                    otpToggleBtn.innerHTML =
+                        `
+                            <i class="bi bi-envelope-at"></i>
+                            Login with Email OTP
+                        `;
+
+
+                    return;
+
+                }
+
+
+                otpPanel.classList.add(
+                    "active"
+                );
+
+
+                otpToggleBtn.innerHTML =
+                    `
+                        <i class="bi bi-x-lg"></i>
+                        Close OTP Login
+                    `;
+
+
+                if (!otpEmail.value) {
+
+                    otpEmail.value =
+                        emailInput.value
+                            .trim();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           REQUEST OTP
+        ====================================================== */
+
+        requestOtpBtn.addEventListener(
+            "click",
+            async function () {
+
+                hideMessages();
+
+
+                const email =
+                    otpEmail.value
+                        .trim()
+                        .toLowerCase();
+
+
+                if (!email) {
+
+                    showError(
+                        "Please enter your email address."
+                    );
+
+                    otpEmail.focus();
+
+                    return;
+
+                }
+
+
+                if (!email.includes("@")) {
+
+                    showError(
+                        "Please enter a valid email address."
+                    );
+
+                    otpEmail.focus();
+
+                    return;
+
+                }
+
+
+                requestOtpBtn.disabled =
+                    true;
+
+
+                requestOtpText.textContent =
+                    "Sending...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `${API_BASE_URL}${API_PREFIX}/auth/otp/request`,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    email: email
+                                })
+                            }
+                        );
+
+
+                    const data =
+                        await parseResponse(
+                            response
+                        );
+
+
+                    console.log(
+                        "OTP request response:",
+                        data
+                    );
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.detail ||
+                            data.message ||
+                            "Unable to send OTP."
+                        );
+
+                    }
+
+
+                    showSuccess(
+                        "OTP sent successfully. Check your email."
+                    );
+
+
+                    otpCodeGroup.style.display =
+                        "block";
+
+
+                    verifyOtpBtn.style.display =
+                        "inline-flex";
+
+
+                    otpCode.value =
+                        "";
+
+
+                    otpCode.focus();
+
+
+                } catch (error) {
+
+                    console.error(
+                        "OTP request error:",
+                        error
+                    );
+
+
+                    showError(
+                        error.message ||
+                        "Unable to send OTP."
+                    );
+
+                } finally {
+
+                    requestOtpBtn.disabled =
+                        false;
+
+
+                    requestOtpText.textContent =
+                        "Send OTP";
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           VERIFY OTP
+        ====================================================== */
+
+        verifyOtpBtn.addEventListener(
+            "click",
+            async function () {
+
+                hideMessages();
+
+
+                const email =
+                    otpEmail.value
+                        .trim()
+                        .toLowerCase();
+
+
+                const code =
+                    otpCode.value.trim();
+
+
+                if (!email) {
+
+                    showError(
+                        "Please enter your email address."
+                    );
+
+                    otpEmail.focus();
+
+                    return;
+
+                }
+
+
+                if (!/^\d{6}$/.test(code)) {
+
+                    showError(
+                        "Please enter the 6-digit OTP."
+                    );
+
+                    otpCode.focus();
+
+                    return;
+
+                }
+
+
+                verifyOtpBtn.disabled =
+                    true;
+
+
+                verifyOtpText.textContent =
+                    "Verifying...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `${API_BASE_URL}${API_PREFIX}/auth/otp/verify`,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    email: email,
+                                    code: code
+                                })
+                            }
+                        );
+
+
+                    const data =
+                        await parseResponse(
+                            response
+                        );
+
+
+                    console.log(
+                        "OTP verify response:",
+                        data
+                    );
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.detail ||
+                            data.message ||
+                            "OTP verification failed."
+                        );
+
+                    }
+
+
+                    if (
+                        !data.access_token ||
+                        !data.refresh_token ||
+                        !data.role ||
+                        !data.user
+                    ) {
+
+                        throw new Error(
+                            "Invalid authentication response from server."
+                        );
+
+                    }
+
+
+                    redirectAfterLogin(
+                        data
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "OTP verification error:",
+                        error
+                    );
+
+
+                    showError(
+                        error.message ||
+                        "OTP verification failed."
+                    );
+
+                } finally {
+
+                    verifyOtpBtn.disabled =
+                        false;
+
+
+                    verifyOtpText.textContent =
+                        "Verify & Login";
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           OTP INPUT RESTRICTION
+        ====================================================== */
+
+        otpCode.addEventListener(
+            "input",
+            function () {
+
+                this.value =
+                    this.value
+                        .replace(/\D/g, "")
+                        .slice(0, 6);
+
+            }
+        );
+
+
+        /* =====================================================
+           COPY MAIN EMAIL INTO OTP EMAIL
+        ====================================================== */
+
+        emailInput.addEventListener(
+            "input",
+            function () {
+
+                if (
+                    otpPanel.classList.contains(
+                        "active"
+                    )
+                ) {
+
+                    otpEmail.value =
+                        this.value.trim();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           ENTER KEY IN OTP
+        ====================================================== */
+
+        otpCode.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+                    event.preventDefault();
+
+                    verifyOtpBtn.click();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           PAGE READY
+        ====================================================== */
+
+        console.log(
+            "========================================"
+        );
+
+        console.log(
+            "Ecolyy Authentication UI Ready"
+        );
+
+        console.log(
+            "Backend:",
+            `${API_BASE_URL}${API_PREFIX}`
+        );
+
+        console.log(
+            "Role detection:",
+            "BACKEND ONLY"
+        );
+
+        console.log(
+            "========================================"
+        );
+
+    </script>
+
+</body>
+
+</html>

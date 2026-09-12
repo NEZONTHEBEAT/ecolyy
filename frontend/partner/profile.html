@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Profile | Ecolyy</title>
+
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Ecolyy CSS -->
+    <link rel="stylesheet" href="../css/glass.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="../css/pages.css">
+
+    <style>
+        /* =============================================
+           PARTNER PROFILE - SAME COLORS AS DASHBOARD
+        ============================================= */
+
+        .page-glow {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-one {
+            width: 500px;
+            height: 500px;
+            top: -100px;
+            right: -100px;
+            background: #4CAF50;
+        }
+
+        .glow-two {
+            width: 400px;
+            height: 400px;
+            bottom: -50px;
+            left: -50px;
+            background: #2196F3;
+        }
+
+        .dashboard-body {
+            min-height: 100vh;
+            background: #f5f7fa;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .dark-mode .dashboard-body {
+            background: #0d0d1a;
+        }
+
+        /* SIDEBAR USER */
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0.8rem 1rem 0.8rem;
+            background: rgba(76, 175, 80, 0.06);
+            border-radius: 12px;
+            border: 1px solid rgba(76, 175, 80, 0.08);
+        }
+
+        .dark-mode .sidebar-user {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar-user .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+            flex-shrink: 0;
+        }
+
+        .dark-mode .sidebar-user .user-avatar {
+            background: rgba(76, 175, 80, 0.2);
+            color: #81C784;
+        }
+
+        .sidebar-user .user-info .user-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .dark-mode .sidebar-user .user-info .user-name {
+            color: #e0e0e0;
+        }
+
+        .sidebar-user .user-info .user-role {
+            font-size: 0.65rem;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .dark-mode .sidebar-user .user-info .user-role {
+            color: #888;
+        }
+
+        /* PROFILE MINI */
+        .profile-mini .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            background: rgba(76, 175, 80, 0.12);
+            color: #4CAF50;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .profile-mini .user-avatar:hover {
+            background: #4CAF50;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .dark-mode .profile-mini .user-avatar {
+            background: rgba(76, 175, 80, 0.2);
+            color: #81C784;
+        }
+
+        .dark-mode .profile-mini .user-avatar:hover {
+            background: #4CAF50;
+            color: white;
+        }
+
+        /* DASHBOARD PANELS */
+        .dashboard-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 2rem;
+        }
+
+        .dark-mode .dashboard-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .panel-header .panel-label {
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #4CAF50;
+            text-transform: uppercase;
+        }
+
+        .panel-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0.2rem 0 0 0;
+            color: #1a1a2e;
+        }
+
+        .dark-mode .panel-header h2 {
+            color: #e0e0e0;
+        }
+
+        /* FORM */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.7rem 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            transition: all 0.3s ease;
+            outline: none;
+            width: 100%;
+        }
+
+        .dark-mode .form-group input,
+        .dark-mode .form-group select,
+        .dark-mode .form-group textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #e0e0e0;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .dark-mode .form-group input:focus,
+        .dark-mode .form-group select:focus,
+        .dark-mode .form-group textarea:focus {
+            border-color: #81C784;
+            box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.1);
+        }
+
+        .form-group input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group small {
+            font-size: 0.65rem;
+            color: #888;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .dark-mode .form-actions {
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+
+        /* BUTTONS */
+        .button-50 {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+        }
+
+        .button-50:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .button-50:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .button-50-outline {
+            background: transparent;
+            border: 2px solid rgba(0, 0, 0, 0.08);
+            color: #1a1a2e;
+        }
+
+        .button-50-outline:hover {
+            background: rgba(76, 175, 80, 0.06);
+            border-color: #4CAF50;
+            color: #4CAF50;
+            transform: translateY(-2px);
+        }
+
+        .dark-mode .button-50-outline {
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #e0e0e0;
+        }
+
+        .dark-mode .button-50-outline:hover {
+            background: rgba(76, 175, 80, 0.12);
+            border-color: #81C784;
+            color: #81C784;
+        }
+
+        /* TOPBAR */
+        .dashboard-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0 1.5rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-topbar .topbar-left h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 0;
+        }
+
+        .dashboard-topbar .topbar-left p {
+            font-size: 0.85rem;
+            color: #888;
+            margin: 0;
+        }
+
+        .dark-mode .dashboard-topbar .topbar-left h1 {
+            color: #e0e0e0;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .icon-button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.04);
+            color: #888;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .icon-button:hover {
+            background: rgba(76, 175, 80, 0.08);
+            color: #4CAF50;
+        }
+
+        .dark-mode .icon-button {
+            background: rgba(255, 255, 255, 0.04);
+            color: #888;
+        }
+
+        .dark-mode .icon-button:hover {
+            background: rgba(76, 175, 80, 0.12);
+            color: #81C784;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #e74c3c;
+            border: 2px solid #fff;
+        }
+
+        .sidebar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #1a1a2e;
+            cursor: pointer;
+            padding: 0.3rem;
+        }
+
+        .dark-mode .sidebar-toggle {
+            color: #e0e0e0;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar-toggle {
+                display: block;
+            }
+        }
+
+        /* FOOTER */
+        .dashboard-footer {
+            text-align: center;
+            padding: 1.5rem 0 0.5rem 0;
+            font-size: 0.75rem;
+            color: #888;
+            border-top: 1px solid rgba(0, 0, 0, 0.04);
+            margin-top: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dark-mode .dashboard-footer {
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+
+        /* MESSAGES */
+        .message {
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .message.success {
+            display: block;
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+        }
+
+        .message.error {
+            display: block;
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+
+        .dark-mode .message.success {
+            background: rgba(76, 175, 80, 0.15);
+            border-color: rgba(76, 175, 80, 0.2);
+        }
+
+        .dark-mode .message.error {
+            background: rgba(231, 76, 60, 0.15);
+            border-color: rgba(231, 76, 60, 0.2);
+        }
+
+        /* SETTINGS */
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .dark-mode .setting-item {
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .setting-item .setting-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1a1a2e;
+        }
+
+        .dark-mode .setting-item .setting-title {
+            color: #e0e0e0;
+        }
+
+        .setting-item .setting-desc {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .dark-mode .setting-item .setting-desc {
+            color: #888;
+        }
+
+        /* SIDEBAR MENU */
+        .sidebar-menu .sidebar-link {
+            color: #888;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu .sidebar-link:hover {
+            background: rgba(76, 175, 80, 0.06);
+            color: #4CAF50;
+        }
+
+        .sidebar-menu .sidebar-link.active {
+            background: rgba(76, 175, 80, 0.08);
+            color: #4CAF50;
+        }
+
+        .dark-mode .sidebar-menu .sidebar-link {
+            color: #888;
+        }
+
+        .dark-mode .sidebar-menu .sidebar-link:hover {
+            background: rgba(76, 175, 80, 0.12);
+            color: #81C784;
+        }
+
+        .dark-mode .sidebar-menu .sidebar-link.active {
+            background: rgba(76, 175, 80, 0.12);
+            color: #81C784;
+        }
+
+        .sidebar-menu .nav-section-label {
+            color: #888;
+        }
+
+        .dark-mode .sidebar-menu .nav-section-label {
+            color: #666;
+        }
+
+        .sidebar-bottom .sidebar-home {
+            color: #888;
+        }
+
+        .sidebar-bottom .sidebar-home:hover {
+            color: #4CAF50;
+        }
+
+        .dark-mode .sidebar-bottom .sidebar-home {
+            color: #888;
+        }
+
+        .dark-mode .sidebar-bottom .sidebar-home:hover {
+            color: #81C784;
+        }
+
+        .sidebar-logout {
+            color: #e74c3c;
+        }
+
+        .sidebar-logout:hover {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+        }
+
+        .dark-mode .sidebar-logout:hover {
+            background: rgba(231, 76, 60, 0.15);
+        }
+
+        /* SIDEBAR */
+        .dashboard-sidebar {
+            background: rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: blur(20px) !important;
+            border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
+        }
+
+        .dark-mode .dashboard-sidebar {
+            background: transparent !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+        }
+    </style>
+
+</head>
+
+<body class="dashboard-body" id="appBody">
+
+    <!-- Background Glow -->
+    <div class="page-glow glow-one"></div>
+    <div class="page-glow glow-two"></div>
+
+    <div class="dashboard-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="dashboard-sidebar" id="dashboardSidebar">
+
+            <div class="sidebar-brand">
+                <a href="../index.html">
+                    <img src="../assets/images/ecolyy.png" alt="Ecolyy">
+                </a>
+            </div>
+
+            <div class="sidebar-user">
+                <div class="user-avatar" id="sidebarUserAvatar">EP</div>
+                <div class="user-info">
+                    <span class="user-name" id="sidebarUserName">Ecolyy Partner</span>
+                    <span class="user-role" id="sidebarUserRole">Collection Partner</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+
+                <div class="nav-section-label">Overview</div>
+                <a href="dashboard.html" class="sidebar-link">
+                    <i class="bi bi-grid-1x2-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <div class="nav-section-label">Pickups</div>
+                <a href="pickups.html" class="sidebar-link">
+                    <i class="bi bi-truck"></i>
+                    <span>Assigned Pickups</span>
+                </a>
+
+                <div class="nav-section-label">Earnings</div>
+                <a href="earnings.html" class="sidebar-link">
+                    <i class="bi bi-wallet2"></i>
+                    <span>Earnings</span>
+                </a>
+
+                <div class="nav-section-label">Account</div>
+                <a href="documents.html" class="sidebar-link">
+                    <i class="bi bi-file-earmark-text"></i>
+                    <span>Documents</span>
+                </a>
+                <a href="profile.html" class="sidebar-link active">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="../index.html" class="sidebar-home">
+                    <i class="bi bi-house"></i>
+                    <span>Back to Ecolyy</span>
+                </a>
+                <button type="button" class="sidebar-logout" id="sidebarLogout">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- MAIN -->
+        <main class="dashboard-main">
+
+            <!-- TOPBAR -->
+            <header class="dashboard-topbar">
+
+                <div class="header-left">
+                    <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Open navigation">
+                        <i class="bi bi-list"></i>
+                    </button>
+
+                    <div class="topbar-left">
+                        <h1>Partner Profile</h1>
+                        <p>Manage your partner information and account settings.</p>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <!-- ===== THEME TOGGLE ===== -->
+                    <button type="button" class="icon-button" id="themeToggle" aria-label="Toggle theme">
+                        <i class="bi bi-sun" id="themeIcon"></i>
+                    </button>
+
+                    <button type="button" class="icon-button" aria-label="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <a href="profile.html" class="profile-mini">
+                        <div class="user-avatar" id="topbarUserAvatar">EP</div>
+                    </a>
+                </div>
+
+            </header>
+
+            <!-- PROFILE PANEL -->
+            <section class="dashboard-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <span class="panel-label">PROFILE</span>
+                        <h2>Personal Information</h2>
+                    </div>
+                </div>
+
+                <!-- Message Display -->
+                <div class="message" id="messageDisplay"></div>
+
+                <form id="profileForm">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label for="partnerName">Partner Name</label>
+                            <input type="text" id="partnerName" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="partnerEmail">Email Address</label>
+                            <input type="email" id="partnerEmail" placeholder="partner@example.com" disabled>
+                            <small>Email cannot be changed</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="partnerPhone">Phone Number</label>
+                            <input type="tel" id="partnerPhone" placeholder="+91 0000000000">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="serviceArea">Service Area</label>
+                            <input type="text" id="serviceArea" placeholder="e.g., Siliguri, Kolkata">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="partnerAddress">Address</label>
+                            <input type="text" id="partnerAddress" placeholder="Enter your address">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="partnerPincode">Pincode</label>
+                            <input type="text" id="partnerPincode" placeholder="Enter pincode">
+                        </div>
+
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label for="partnerBio">Bio / Description</label>
+                            <textarea id="partnerBio" placeholder="Tell us about yourself and your recycling services..."></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="button-50 button-50-outline" id="resetBtn">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                            Reset
+                        </button>
+                        <button type="submit" class="button-50" id="saveBtn">
+                            <i class="bi bi-check-circle"></i>
+                            Save Changes
+                        </button>
+                    </div>
+
+                </form>
+
+            </section>
+
+            <!-- ACCOUNT SETTINGS -->
+            <section class="dashboard-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <span class="panel-label">SECURITY</span>
+                        <h2>Account Settings</h2>
+                    </div>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:1rem;">
+
+                    <div class="setting-item">
+                        <div>
+                            <div class="setting-title">Change Password</div>
+                            <div class="setting-desc">Update your account password</div>
+                        </div>
+                        <button class="button-50 button-50-outline" onclick="window.location.href='change-password.html'" style="font-size:0.75rem;padding:0.4rem 1.2rem;">
+                            <i class="bi bi-key"></i>
+                            Change Password
+                        </button>
+                    </div>
+
+                    <div class="setting-item">
+                        <div>
+                            <div class="setting-title">Two-Factor Authentication</div>
+                            <div class="setting-desc">Add an extra layer of security</div>
+                        </div>
+                        <button class="button-50 button-50-outline" style="font-size:0.75rem;padding:0.4rem 1.2rem;">
+                            <i class="bi bi-shield-lock"></i>
+                            Enable 2FA
+                        </button>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="dashboard-footer">
+                © 2026 Ecolyy by CodeCraft 💌. All rights reserved. Partner Panel.
+            </footer>
+
+        </main>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="../js/api.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+    // =====================================================
+    // THEME
+    // =====================================================
+
+    const body = document.getElementById("appBody");
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+
+    function applyTheme(theme) {
+
+        if (theme === "dark") {
+
+            body?.classList.add("dark-mode");
+
+            if (themeIcon) {
+                themeIcon.className = "bi bi-moon";
+            }
+
+            localStorage.setItem(
+                "ecolyy_theme",
+                "dark"
+            );
+
+        } else {
+
+            body?.classList.remove("dark-mode");
+
+            if (themeIcon) {
+                themeIcon.className = "bi bi-sun";
+            }
+
+            localStorage.setItem(
+                "ecolyy_theme",
+                "light"
+            );
+        }
+    }
+
+    const savedTheme =
+        localStorage.getItem("ecolyy_theme");
+
+    applyTheme(
+        savedTheme === "dark"
+            ? "dark"
+            : "light"
+    );
+
+    themeToggle?.addEventListener(
+        "click",
+        (event) => {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            const isDark =
+                body?.classList.contains("dark-mode");
+
+            applyTheme(
+                isDark
+                    ? "light"
+                    : "dark"
+            );
+        }
+    );
+
+
+    // =====================================================
+    // AUTH
+    // =====================================================
+
+    const token =
+        localStorage.getItem(
+            "ecolyy_access_token"
+        );
+
+    const role =
+        (
+            localStorage.getItem(
+                "ecolyy_role"
+            ) || ""
+        ).toLowerCase();
+
+    if (!token || role !== "partner") {
+
+        localStorage.removeItem("ecolyy_access_token");
+        localStorage.removeItem("ecolyy_refresh_token");
+        localStorage.removeItem("ecolyy_token_type");
+        localStorage.removeItem("ecolyy_role");
+        localStorage.removeItem("ecolyy_user");
+
+        window.location.replace(
+            "../pages/login.html"
+        );
+
+        return;
+    }
+
+
+    // =====================================================
+    // ELEMENTS
+    // =====================================================
+
+    const profileForm =
+        document.getElementById(
+            "profileForm"
+        );
+
+    const partnerName =
+        document.getElementById(
+            "partnerName"
+        );
+
+    const partnerEmail =
+        document.getElementById(
+            "partnerEmail"
+        );
+
+    const partnerPhone =
+        document.getElementById(
+            "partnerPhone"
+        );
+
+    const serviceArea =
+        document.getElementById(
+            "serviceArea"
+        );
+
+    const partnerAddress =
+        document.getElementById(
+            "partnerAddress"
+        );
+
+    const partnerPincode =
+        document.getElementById(
+            "partnerPincode"
+        );
+
+    const partnerBio =
+        document.getElementById(
+            "partnerBio"
+        );
+
+    const saveBtn =
+        document.getElementById(
+            "saveBtn"
+        );
+
+    const resetBtn =
+        document.getElementById(
+            "resetBtn"
+        );
+
+    const messageDisplay =
+        document.getElementById(
+            "messageDisplay"
+        );
+
+
+    // =====================================================
+    // HELPERS
+    // =====================================================
+
+    function getInitials(name) {
+
+        if (!name) {
+            return "EP";
+        }
+
+        return name
+            .trim()
+            .split(/\s+/)
+            .map(word => word[0])
+            .join("")
+            .substring(0, 2)
+            .toUpperCase() || "EP";
+    }
+
+
+    function showMessage(
+        message,
+        type = "success"
+    ) {
+
+        if (!messageDisplay) {
+            return;
+        }
+
+        messageDisplay.textContent =
+            message;
+
+        messageDisplay.className =
+            `message ${type}`;
+
+        messageDisplay.style.display =
+            "block";
+
+        clearTimeout(
+            messageDisplay._timeout
+        );
+
+        messageDisplay._timeout =
+            setTimeout(() => {
+
+                messageDisplay.style.display =
+                    "none";
+
+            }, 5000);
+    }
+
+
+    function setSavingState(
+        saving
+    ) {
+
+        if (!saveBtn) {
+            return;
+        }
+
+        if (saving) {
+
+            saveBtn.disabled = true;
+
+            saveBtn.innerHTML =
+                '<span class="spinner-border spinner-border-sm"></span> Saving...';
+
+        } else {
+
+            saveBtn.disabled = false;
+
+            saveBtn.innerHTML =
+                '<i class="bi bi-check-circle"></i> Save Changes';
+        }
+    }
+
+
+    // =====================================================
+    // PROFILE UI
+    // =====================================================
+
+    function updateUserUI(
+        profile
+    ) {
+
+        const name =
+            profile?.name ||
+            "Ecolyy Partner";
+
+        const initials =
+            profile?.initials ||
+            getInitials(name);
+
+        const sidebarAvatar =
+            document.getElementById(
+                "sidebarUserAvatar"
+            );
+
+        const sidebarName =
+            document.getElementById(
+                "sidebarUserName"
+            );
+
+        const sidebarRole =
+            document.getElementById(
+                "sidebarUserRole"
+            );
+
+        const topbarAvatar =
+            document.getElementById(
+                "topbarUserAvatar"
+            );
+
+
+        if (sidebarAvatar) {
+            sidebarAvatar.textContent =
+                initials;
+        }
+
+        if (sidebarName) {
+            sidebarName.textContent =
+                name;
+        }
+
+        if (sidebarRole) {
+            sidebarRole.textContent =
+                "Collection Partner";
+        }
+
+        if (topbarAvatar) {
+            topbarAvatar.textContent =
+                initials;
+        }
+    }
+
+
+    // =====================================================
+    // LOAD REAL PROFILE
+    // =====================================================
+
+    async function loadProfile() {
+
+        try {
+
+            const profile =
+                await EcolyyAPI.get(
+                    "/partners/me"
+                );
+
+            if (!profile) {
+                throw new Error(
+                    "Partner profile not found."
+                );
+            }
+
+
+            // ---------------------------------------------
+            // Personal information
+            // ---------------------------------------------
+
+            if (partnerName) {
+                partnerName.value =
+                    profile?.name || "";
+            }
+
+            if (partnerEmail) {
+                partnerEmail.value =
+                    profile?.email || "";
+            }
+
+            if (partnerPhone) {
+                partnerPhone.value =
+                    profile?.phone || "";
+            }
+
+
+            // ---------------------------------------------
+            // Service area
+            //
+            // Backend returns service_areas.
+            // It can be either a string or an array.
+            // ---------------------------------------------
+
+            if (serviceArea) {
+
+                const areas =
+                    profile?.service_areas;
+
+                if (Array.isArray(areas)) {
+
+                    serviceArea.value =
+                        areas.join(", ");
+
+                } else {
+
+                    serviceArea.value =
+                        areas || "";
+                }
+            }
+
+
+            // ---------------------------------------------
+            // Unsupported fields
+            //
+            // Current backend /partners/me/profile does
+            // not expose address, pincode or bio.
+            // We intentionally do NOT pretend these are
+            // saved on the server.
+            // ---------------------------------------------
+
+            if (partnerAddress) {
+                partnerAddress.value =
+                    "";
+            }
+
+            if (partnerPincode) {
+                partnerPincode.value =
+                    "";
+            }
+
+            if (partnerBio) {
+                partnerBio.value =
+                    "";
+            }
+
+
+            // ---------------------------------------------
+            // Store latest real backend profile
+            // ---------------------------------------------
+
+            localStorage.setItem(
+                "ecolyy_user",
+                JSON.stringify(profile)
+            );
+
+
+            updateUserUI(
+                profile
+            );
+
+
+            return profile;
+
+        } catch (error) {
+
+            console.error(
+                "Partner profile load failed:",
+                error
+            );
+
+            showMessage(
+                error?.message ||
+                "Unable to load your profile.",
+                "error"
+            );
+
+            throw error;
+        }
+    }
+
+
+    // =====================================================
+    // SAVE PROFILE
+    // =====================================================
+
+    profileForm?.addEventListener(
+        "submit",
+        async (event) => {
+
+            event.preventDefault();
+
+
+            const name =
+                partnerName?.value.trim() || "";
+
+            const phone =
+                partnerPhone?.value.trim() || "";
+
+            const rawServiceArea =
+                serviceArea?.value.trim() || "";
+
+
+            // ---------------------------------------------
+            // Validation
+            // ---------------------------------------------
+
+            if (!name) {
+
+                showMessage(
+                    "Please enter your partner name.",
+                    "error"
+                );
+
+                partnerName?.focus();
+
+                return;
+            }
+
+
+            // ---------------------------------------------
+            // Convert service area text to backend format
+            // ---------------------------------------------
+
+            const serviceAreas =
+                rawServiceArea
+                    ? rawServiceArea
+                        .split(",")
+                        .map(item => item.trim())
+                        .filter(Boolean)
+                    : [];
+
+
+            // ---------------------------------------------
+            // Backend-supported payload only
+            // ---------------------------------------------
+
+            const payload = {
+                name: name,
+                phone: phone,
+                service_areas: serviceAreas
+            };
+
+
+            setSavingState(true);
+
+
+            try {
+
+                const updated =
+                    await EcolyyAPI.patch(
+                        "/partners/me/profile",
+                        payload
+                    );
+
+
+                // -----------------------------------------
+                // Update form with backend response
+                // -----------------------------------------
+
+                if (updated?.name && partnerName) {
+                    partnerName.value =
+                        updated.name;
+                }
+
+                if (updated?.phone !== undefined &&
+                    partnerPhone) {
+
+                    partnerPhone.value =
+                        updated.phone || "";
+                }
+
+                if (serviceArea) {
+
+                    const updatedAreas =
+                        updated?.service_areas;
+
+                    serviceArea.value =
+                        Array.isArray(updatedAreas)
+                            ? updatedAreas.join(", ")
+                            : (
+                                updatedAreas || ""
+                            );
+                }
+
+
+                // -----------------------------------------
+                // Update local user cache
+                // -----------------------------------------
+
+                const latestProfile =
+                    updated || await EcolyyAPI.get(
+                        "/partners/me"
+                    );
+
+                localStorage.setItem(
+                    "ecolyy_user",
+                    JSON.stringify(
+                        latestProfile
+                    )
+                );
+
+                updateUserUI(
+                    latestProfile
+                );
+
+
+                showMessage(
+                    "✅ Profile updated successfully!",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Partner profile update failed:",
+                    error
+                );
+
+                showMessage(
+                    error?.message ||
+                    "Failed to update profile.",
+                    "error"
+                );
+
+            } finally {
+
+                setSavingState(
+                    false
+                );
+            }
+        }
+    );
+
+
+    // =====================================================
+    // RESET
+    // =====================================================
+
+    resetBtn?.addEventListener(
+        "click",
+        async () => {
+
+            const confirmed =
+                confirm(
+                    "Reset the form to your saved profile?"
+                );
+
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+
+                await loadProfile();
+
+                showMessage(
+                    "🔄 Profile reset.",
+                    "success"
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Profile reset failed:",
+                    error
+                );
+            }
+        }
+    );
+
+
+    // =====================================================
+    // SIDEBAR
+    // =====================================================
+
+    const sidebar =
+        document.getElementById(
+            "dashboardSidebar"
+        );
+
+    const toggle =
+        document.getElementById(
+            "sidebarToggle"
+        );
+
+    const overlay =
+        document.getElementById(
+            "sidebarOverlay"
+        );
+
+    const logoutBtn =
+        document.getElementById(
+            "sidebarLogout"
+        );
+
+
+    toggle?.addEventListener(
+        "click",
+        () => {
+
+            sidebar?.classList.add(
+                "open"
+            );
+
+            overlay?.classList.add(
+                "active"
+            );
+
+            document.body.style.overflow =
+                "hidden";
+        }
+    );
+
+
+    overlay?.addEventListener(
+        "click",
+        () => {
+
+            sidebar?.classList.remove(
+                "open"
+            );
+
+            overlay?.classList.remove(
+                "active"
+            );
+
+            document.body.style.overflow =
+                "";
+        }
+    );
+
+
+    document
+        .querySelectorAll(
+            ".sidebar-link"
+        )
+        .forEach(
+            link => {
+
+                link.addEventListener(
+                    "click",
+                    () => {
+
+                        if (
+                            window.innerWidth <=
+                            900
+                        ) {
+
+                            sidebar?.classList.remove(
+                                "open"
+                            );
+
+                            overlay?.classList.remove(
+                                "active"
+                            );
+
+                            document.body.style.overflow =
+                                "";
+                        }
+                    }
+                );
+            }
+        );
+
+
+    // =====================================================
+    // LOGOUT
+    // =====================================================
+
+    logoutBtn?.addEventListener(
+        "click",
+        (event) => {
+
+            event.preventDefault();
+
+
+            if (
+                !confirm(
+                    "Are you sure you want to logout?"
+                )
+            ) {
+                return;
+            }
+
+
+            [
+                "ecolyy_access_token",
+                "ecolyy_refresh_token",
+                "ecolyy_token_type",
+                "ecolyy_role",
+                "ecolyy_user",
+                "ecolyy_partner_name",
+                "ecolyy_partner_email"
+            ].forEach(
+                key =>
+                    localStorage.removeItem(
+                        key
+                    )
+            );
+
+
+            sessionStorage.clear();
+
+
+            window.location.replace(
+                "../pages/login.html"
+            );
+        }
+    );
+
+
+    // =====================================================
+    // GSAP
+    // =====================================================
+
+    if (
+        typeof gsap !==
+        "undefined"
+    ) {
+
+        gsap.killTweensOf(
+            ".dashboard-panel"
+        );
+
+        gsap.set(
+            ".dashboard-panel",
+            {
+                opacity: 1,
+                y: 0,
+                clearProps: "all"
+            }
+        );
+
+        gsap.from(
+            ".dashboard-panel",
+            {
+                opacity: 0,
+                y: 15,
+                duration: 0.5,
+                stagger: 0.1,
+                ease: "power2.out"
+            }
+        );
+    }
+
+
+    // =====================================================
+    // INIT
+    // =====================================================
+
+    try {
+
+        await loadProfile();
+
+        console.log(
+            "✅ Partner Profile loaded from API"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Partner Profile initialization failed:",
+            error
+        );
+    }
+
+});
+</script>
+
+
+</body>
+</html>

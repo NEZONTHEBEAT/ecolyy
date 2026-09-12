@@ -1,0 +1,880 @@
+/* =========================================================
+   ECOLYY INSTITUTION PANEL
+   Shared CSS for all institution pages
+   ========================================================= */
+
+:root {
+    --eco-primary: #0b4f3a;
+    --eco-primary-dark: #073a2b;
+    --eco-primary-light: #e7f5ef;
+
+    --eco-blue: #2563eb;
+    --eco-blue-light: #eff6ff;
+
+    --text-main: #17221d;
+    --text-muted: #6b7a72;
+    --text-light: #94a39a;
+
+    --bg-main: #f5f8f6;
+    --bg-card: rgba(255, 255, 255, 0.88);
+
+    --border: rgba(11, 79, 58, 0.10);
+    --shadow: 0 10px 30px rgba(11, 79, 58, 0.08);
+
+    --success: #16a34a;
+    --warning: #f59e0b;
+    --danger: #dc2626;
+
+    --sidebar-width: 270px;
+    --topbar-height: 72px;
+}
+
+/* -------------------------
+   GLOBAL
+------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Inter, "Segoe UI", sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(11, 79, 58, 0.05), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(37, 99, 235, 0.04), transparent 25%),
+        var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+}
+
+/* -------------------------
+   LAYOUT
+------------------------- */
+
+.institution-layout {
+    min-height: 100vh;
+}
+
+.institution-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.96);
+    border-right: 1px solid var(--border);
+    box-shadow: 10px 0 30px rgba(11, 79, 58, 0.04);
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.institution-main {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* -------------------------
+   SIDEBAR
+------------------------- */
+
+.sidebar-brand {
+    padding: 22px 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.sidebar-brand a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-brand img {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    object-fit: contain;
+}
+
+.sidebar-brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-brand-text strong {
+    color: var(--eco-primary);
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 800;
+}
+
+.sidebar-brand-text span {
+    color: var(--text-muted);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+/* -------------------------
+   SIDEBAR USER
+------------------------- */
+
+.sidebar-user {
+    padding: 18px 18px;
+    margin: 14px;
+    border-radius: 16px;
+    background: linear-gradient(
+        135deg,
+        rgba(11, 79, 58, 0.08),
+        rgba(37, 99, 235, 0.05)
+    );
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-user-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--eco-primary), var(--eco-blue));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.sidebar-user-info {
+    min-width: 0;
+}
+
+.sidebar-user-info strong {
+    display: block;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-user-info span {
+    display: block;
+    margin-top: 3px;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* -------------------------
+   NAVIGATION
+------------------------- */
+
+.sidebar-section {
+    padding: 10px 14px 0;
+}
+
+.sidebar-section-title {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-light);
+    letter-spacing: 1.2px;
+    margin: 12px 10px 8px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 13px;
+    margin-bottom: 4px;
+    border-radius: 11px;
+    text-decoration: none;
+    color: #4e5c55;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.sidebar-link i {
+    width: 20px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.sidebar-link:hover {
+    color: var(--eco-primary);
+    background: var(--eco-primary-light);
+    transform: translateX(2px);
+}
+
+.sidebar-link.active {
+    background: linear-gradient(
+        135deg,
+        var(--eco-primary),
+        #12654b
+    );
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(11, 79, 58, 0.18);
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: 14px;
+    border-top: 1px solid var(--border);
+}
+
+.sidebar-footer .sidebar-link {
+    margin-bottom: 5px;
+}
+
+/* -------------------------
+   TOPBAR
+------------------------- */
+
+.institution-topbar {
+    height: var(--topbar-height);
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.mobile-sidebar-toggle {
+    display: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--eco-primary-light);
+    color: var(--eco-primary);
+    cursor: pointer;
+}
+
+.topbar-title h1 {
+    font-size: 18px;
+    margin: 0;
+    font-weight: 800;
+}
+
+.topbar-title p {
+    margin: 3px 0 0;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.topbar-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: white;
+    background: linear-gradient(135deg, var(--eco-primary), var(--eco-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* -------------------------
+   CONTENT
+------------------------- */
+
+.institution-content {
+    padding: 28px;
+}
+
+.welcome-card {
+    background: linear-gradient(
+        135deg,
+        rgba(11, 79, 58, 0.98),
+        rgba(18, 101, 75, 0.94)
+    );
+    color: white;
+    border-radius: 22px;
+    padding: 28px;
+    margin-bottom: 25px;
+    box-shadow: 0 15px 35px rgba(11, 79, 58, 0.16);
+}
+
+.welcome-card h2 {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.welcome-card p {
+    margin: 0;
+    opacity: 0.86;
+    font-size: 13px;
+}
+
+/* -------------------------
+   STATS
+------------------------- */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transition: 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(11, 79, 58, 0.10);
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--eco-primary-light);
+    color: var(--eco-primary);
+    font-size: 18px;
+}
+
+.stat-label {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 14px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    margin-top: 3px;
+}
+
+/* -------------------------
+   PANELS
+------------------------- */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+}
+
+.panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.panel-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.panel-header h3 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.panel-header a {
+    text-decoration: none;
+    font-size: 12px;
+    color: var(--eco-primary);
+    font-weight: 700;
+}
+
+.panel-body {
+    padding: 20px;
+}
+
+/* -------------------------
+   TABLE
+------------------------- */
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.eco-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.eco-table th {
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 700;
+    white-space: nowrap;
+    background: rgba(11, 79, 58, 0.03);
+}
+
+.eco-table td {
+    padding: 13px 14px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.eco-table tbody tr:hover {
+    background: rgba(11, 79, 58, 0.025);
+}
+
+/* -------------------------
+   STATUS
+------------------------- */
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 999px;
+    padding: 5px 9px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.status.completed {
+    background: rgba(22, 163, 74, 0.10);
+    color: var(--success);
+}
+
+.status.pending {
+    background: rgba(245, 158, 11, 0.12);
+    color: #b45309;
+}
+
+.status.cancelled {
+    background: rgba(220, 38, 38, 0.10);
+    color: var(--danger);
+}
+
+.status.active {
+    background: rgba(37, 99, 235, 0.10);
+    color: var(--eco-blue);
+}
+
+/* -------------------------
+   PAGE HEADER
+------------------------- */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.page-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.page-header p {
+    margin: 5px 0 0;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.page-actions {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.btn-eco {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: white;
+    background: var(--eco-primary);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+}
+
+.btn-eco:hover {
+    color: white;
+    background: var(--eco-primary-dark);
+}
+
+.btn-outline-eco {
+    border: 1px solid rgba(11, 79, 58, 0.18);
+    padding: 9px 14px;
+    border-radius: 10px;
+    color: var(--eco-primary);
+    background: transparent;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+}
+
+.btn-outline-eco:hover {
+    background: var(--eco-primary-light);
+    color: var(--eco-primary);
+}
+
+/* -------------------------
+   CARDS / GRIDS
+------------------------- */
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.info-card {
+    padding: 20px;
+    border-radius: 17px;
+    background: white;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+
+.info-card-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 13px;
+    background: var(--eco-primary-light);
+    color: var(--eco-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 13px;
+}
+
+.info-card h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.info-card p {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin: 7px 0 0;
+    line-height: 1.6;
+}
+
+/* -------------------------
+   FORMS
+------------------------- */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #4b5a52;
+    margin-bottom: 7px;
+}
+
+.form-control-eco,
+.form-select-eco,
+textarea.form-control-eco {
+    width: 100%;
+    border: 1px solid rgba(11, 79, 58, 0.14);
+    border-radius: 11px;
+    padding: 11px 13px;
+    outline: none;
+    background: white;
+    color: var(--text-main);
+    font-size: 12px;
+}
+
+.form-control-eco:focus,
+.form-select-eco:focus,
+textarea.form-control-eco:focus {
+    border-color: var(--eco-primary);
+    box-shadow: 0 0 0 3px rgba(11, 79, 58, 0.07);
+}
+
+/* -------------------------
+   REPORTS
+------------------------- */
+
+.report-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.report-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.report-number {
+    font-size: 29px;
+    font-weight: 800;
+    color: var(--eco-primary);
+}
+
+.report-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* -------------------------
+   SCHEDULE
+------------------------- */
+
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.schedule-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+}
+
+.schedule-date {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.schedule-card h4 {
+    margin: 7px 0;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.schedule-card p {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* -------------------------
+   PROFILE
+------------------------- */
+
+.profile-card {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 24px;
+}
+
+.profile-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--eco-primary), var(--eco-blue));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 21px;
+}
+
+.profile-head h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.profile-head p {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+/* -------------------------
+   MOBILE OVERLAY
+------------------------- */
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1050;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+/* -------------------------
+   RESPONSIVE
+------------------------- */
+
+@media (max-width: 1100px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .schedule-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .institution-sidebar {
+        transform: translateX(-100%);
+        transition: 0.25s ease;
+    }
+
+    .institution-sidebar.open {
+        transform: translateX(0);
+    }
+
+    .institution-main {
+        margin-left: 0;
+    }
+
+    .mobile-sidebar-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .institution-topbar {
+        padding: 0 18px;
+    }
+
+    .institution-content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 700px) {
+    .stats-grid,
+    .card-grid,
+    .report-grid,
+    .schedule-grid,
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .welcome-card {
+        padding: 22px;
+    }
+
+    .welcome-card h2 {
+        font-size: 21px;
+    }
+
+    .topbar-title p {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .institution-content {
+        padding: 14px;
+    }
+
+    .institution-topbar {
+        padding: 0 12px;
+    }
+
+    .topbar-title h1 {
+        font-size: 15px;
+    }
+}

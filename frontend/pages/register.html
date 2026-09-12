@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Account — Ecolyy</title>
+
+    <meta
+        name="description"
+        content="Create your Ecolyy account."
+    >
+
+    <meta
+        name="theme-color"
+        content="#0B4F3A"
+    >
+
+    <link
+        rel="icon"
+        type="image/x-icon"
+        href="../favicon.ico"
+    >
+
+
+    <!-- =====================================================
+         GOOGLE FONTS
+    ====================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         GOOGLE IDENTITY SERVICES
+    ====================================================== -->
+
+    <script
+        src="https://accounts.google.com/gsi/client"
+        async
+        defer
+    ></script>
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+
+
+    <!-- =====================================================
+         ECOLYY CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/glass.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/responsive.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/dark-mode.css"
+    >
+
+
+    <!-- =====================================================
+         REGISTER PAGE CSS
+    ====================================================== -->
+
+    <style>
+
+        .register-method {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            margin-top: 1.5rem;
+        }
+
+
+        .register-google-btn {
+            width: 100%;
+        }
+
+
+        .register-message {
+            display: none;
+            margin-top: 1rem;
+            padding: 0.75rem 0.9rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            line-height: 1.45;
+            text-align: center;
+        }
+
+
+        .register-message.error {
+            display: block;
+            color: #dc3545;
+            background: rgba(220, 53, 69, 0.10);
+        }
+
+
+        .register-message.success {
+            display: block;
+            color: #198754;
+            background: rgba(25, 135, 84, 0.10);
+        }
+
+
+        .register-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            margin-top: 1rem;
+            padding: 0.8rem 0.9rem;
+            border-radius: 10px;
+            background: rgba(11, 79, 58, 0.05);
+            color: #666;
+            font-size: 0.74rem;
+            line-height: 1.5;
+        }
+
+
+        .register-info i {
+            margin-top: 0.1rem;
+            color: #0B4F3A;
+            flex-shrink: 0;
+        }
+
+
+        .dark-mode .register-info {
+            background: rgba(255, 255, 255, 0.04);
+            color: #aaa;
+        }
+
+
+        .dark-mode .register-info i {
+            color: #81C784;
+        }
+
+
+        .register-features {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 1.4rem;
+        }
+
+
+        .register-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.9rem;
+            border-radius: 12px;
+            border: 1px solid rgba(11, 79, 58, 0.08);
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+
+        .register-feature-icon {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            flex-shrink: 0;
+            background: rgba(76, 175, 80, 0.10);
+            color: #0B4F3A;
+        }
+
+
+        .register-feature strong {
+            display: block;
+            margin-bottom: 0.15rem;
+            font-size: 0.84rem;
+        }
+
+
+        .register-feature span {
+            display: block;
+            font-size: 0.74rem;
+            line-height: 1.45;
+            opacity: 0.72;
+        }
+
+
+        .dark-mode .register-feature {
+            border-color: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+
+        .dark-mode .register-feature-icon {
+            color: #81C784;
+        }
+
+
+        .google-loading {
+            opacity: 0.65;
+            pointer-events: none;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="page-glow glow-one"></div>
+    <div class="page-glow glow-two"></div>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar-wrapper">
+
+        <nav class="rekart-navbar glass-nav">
+
+            <a
+                href="../index.html"
+                class="brand"
+            >
+
+                <img
+                    src="../assets/images/ecolyy.png"
+                    alt="Ecolyy"
+                    class="brand-logo"
+                >
+
+            </a>
+
+
+            <div class="desktop-nav">
+
+                <a href="../index.html">
+                    Home
+                </a>
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="how-it-works.html">
+                    How It Works
+                </a>
+
+                <a href="collect.html">
+                    What We Collect
+                </a>
+
+                <a href="institutions.html">
+                    Institutions
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+            </div>
+
+
+            <div class="nav-actions">
+
+                <button
+                    class="theme-toggle"
+                    id="themeToggle"
+                    type="button"
+                    aria-label="Toggle dark mode"
+                >
+                    <i class="bi bi-moon-stars"></i>
+                </button>
+
+
+                <a
+                    href="login.html"
+                    class="button-50"
+                >
+                    Login
+                </a>
+
+
+                <button
+                    class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                    type="button"
+                    aria-label="Open menu"
+                >
+                    <i class="bi bi-list"></i>
+                </button>
+
+            </div>
+
+        </nav>
+
+
+        <div
+            class="mobile-menu glass-card"
+            id="mobileMenu"
+        >
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a href="how-it-works.html">
+                How It Works
+            </a>
+
+            <a href="collect.html">
+                What We Collect
+            </a>
+
+            <a href="institutions.html">
+                Institutions
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+
+            <a
+                href="login.html"
+                class="button-50 mobile-cta"
+            >
+                Login
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         REGISTER
+    ====================================================== -->
+
+    <main>
+
+        <section class="auth-section section-spacing">
+
+            <div class="container">
+
+                <div class="auth-wrapper glass-card">
+
+                    <div class="auth-content">
+
+                        <span class="section-label">
+                            JOIN ECOLYY
+                        </span>
+
+
+                        <h1>
+                            Create your
+                            <span>Ecolyy account.</span>
+                        </h1>
+
+
+                        <p>
+                            Join Ecolyy, manage recycling pickups,
+                            track your environmental impact and
+                            earn rewards.
+                        </p>
+
+
+                        <!-- =============================================
+                             GOOGLE REGISTER / SIGN IN
+                        ============================================== -->
+
+                        <div class="register-method">
+
+                            <button
+                                type="button"
+                                id="googleRegisterBtn"
+                                class="button-50 social-auth register-google-btn"
+                            >
+
+                                <i class="bi bi-google"></i>
+
+                                Continue with Google
+
+                            </button>
+
+
+                            <div
+                                id="googleRegisterContainer"
+                                style="display:none;"
+                            ></div>
+
+                        </div>
+
+
+                        <!-- =============================================
+                             MESSAGE
+                        ============================================== -->
+
+                        <div
+                            id="registerMessage"
+                            class="register-message"
+                            role="alert"
+                        ></div>
+
+
+                        <!-- =============================================
+                             INFO
+                        ============================================== -->
+
+                        <div class="register-info">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            <span>
+                                Your Google account is securely verified.
+                                Ecolyy automatically determines your account
+                                type from the verified email address.
+                                You do not need to select a role.
+                            </span>
+
+                        </div>
+
+
+                        <!-- =============================================
+                             DIVIDER
+                        ============================================== -->
+
+                        <div
+                            class="auth-divider"
+                            style="margin: 1.7rem 0 1.2rem;"
+                        >
+
+                            <span>
+                                WHY JOIN ECOLYY?
+                            </span>
+
+                        </div>
+
+
+                        <!-- =============================================
+                             FEATURES
+                        ============================================== -->
+
+                        <div class="register-features">
+
+                            <div class="register-feature">
+
+                                <div class="register-feature-icon">
+
+                                    <i class="bi bi-recycle"></i>
+
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+                                        Start Recycling
+                                    </strong>
+
+                                    <span>
+                                        Schedule pickups and manage
+                                        your recycling activity easily.
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="register-feature">
+
+                                <div class="register-feature-icon">
+
+                                    <i class="bi bi-graph-up-arrow"></i>
+
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+                                        Track Your Impact
+                                    </strong>
+
+                                    <span>
+                                        Monitor your recycling contribution
+                                        and environmental impact.
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="register-feature">
+
+                                <div class="register-feature-icon">
+
+                                    <i class="bi bi-gift"></i>
+
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+                                        Earn Rewards
+                                    </strong>
+
+                                    <span>
+                                        Earn points through responsible
+                                        recycling and redeem rewards.
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =============================================
+                             LOGIN LINK
+                        ============================================== -->
+
+                        <p class="auth-bottom">
+
+                            Already have an account?
+
+                            <a href="login.html">
+                                Login
+                            </a>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <div class="footer-main">
+
+                <div class="footer-brand">
+
+                    <img
+                        src="../assets/images/ecolyy.png"
+                        alt="Ecolyy"
+                        class="footer-logo"
+                    >
+
+                    <p>
+                        Recycling, Simplified.
+                    </p>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h4>
+                        Platform
+                    </h4>
+
+                    <a href="how-it-works.html">
+                        How It Works
+                    </a>
+
+                    <a href="collect.html">
+                        What We Collect
+                    </a>
+
+                    <a href="institutions.html">
+                        Institutions
+                    </a>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h4>
+                        Company
+                    </h4>
+
+                    <a href="about.html">
+                        About
+                    </a>
+
+                    <a href="contact.html">
+                        Contact
+                    </a>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h4>
+                        Account
+                    </h4>
+
+                    <a href="login.html">
+                        Login
+                    </a>
+
+                    <a href="register.html">
+                        Create Account
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer-bottom">
+
+                <span>
+                    © 2026 Ecolyy by CodeCraft 💌.
+                    All rights reserved.
+                </span>
+
+
+                <div class="social-links">
+
+                    <a
+                        href="#"
+                        aria-label="Instagram"
+                    >
+                        <i class="bi bi-instagram"></i>
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="LinkedIn"
+                    >
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="Facebook"
+                    >
+                        <i class="bi bi-facebook"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+
+    <!-- =====================================================
+         ECOLYY JS
+    ====================================================== -->
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/animations.js"></script>
+    <script src="../js/main.js"></script>
+
+
+    <!-- =====================================================
+         REGISTER SCRIPT
+    ====================================================== -->
+
+    <script>
+
+        "use strict";
+
+
+        /* =====================================================
+           API CONFIG
+        ====================================================== */
+
+        const API_BASE_URL =
+            "http://localhost:8000";
+
+        const API_PREFIX =
+            "/api/v1";
+
+
+        /* =====================================================
+           GOOGLE CLIENT
+        ====================================================== */
+
+        const GOOGLE_CLIENT_ID =
+            "243474168990-90ci2ll2bpcn85lu9dd4lpipprhqbpr3.apps.googleusercontent.com";
+
+
+        /* =====================================================
+           DOM
+        ====================================================== */
+
+        const googleRegisterBtn =
+            document.getElementById(
+                "googleRegisterBtn"
+            );
+
+        const googleRegisterContainer =
+            document.getElementById(
+                "googleRegisterContainer"
+            );
+
+        const registerMessage =
+            document.getElementById(
+                "registerMessage"
+            );
+
+
+        /* =====================================================
+           MESSAGE
+        ====================================================== */
+
+        function showRegisterMessage(
+            message,
+            type = "error"
+        ) {
+
+            if (!registerMessage) {
+                return;
+            }
+
+
+            registerMessage.textContent =
+                message || "";
+
+
+            registerMessage.className =
+                "register-message " +
+                (
+                    type === "success"
+                        ? "success"
+                        : "error"
+                );
+
+
+            registerMessage.style.display =
+                "block";
+        }
+
+
+        function hideRegisterMessage() {
+
+            if (!registerMessage) {
+                return;
+            }
+
+
+            registerMessage.textContent =
+                "";
+
+            registerMessage.className =
+                "register-message";
+
+            registerMessage.style.display =
+                "none";
+        }
+
+
+        /* =====================================================
+           PARSE RESPONSE
+        ====================================================== */
+
+        async function parseResponse(
+            response
+        ) {
+
+            try {
+
+                return await response.json();
+
+            } catch (error) {
+
+                return {};
+
+            }
+
+        }
+
+
+        /* =====================================================
+           SAVE AUTH SESSION
+           ROLE COMES FROM BACKEND ONLY
+        ====================================================== */
+
+        function saveAuthData(data) {
+
+            if (
+                !data ||
+                !data.access_token ||
+                !data.refresh_token ||
+                !data.role ||
+                !data.user
+            ) {
+
+                throw new Error(
+                    "Invalid authentication response from server."
+                );
+
+            }
+
+
+            const role =
+                data.role;
+
+            const user =
+                data.user || {};
+
+
+            const name =
+                user.name ||
+                "User";
+
+
+            const email =
+                user.email ||
+                "";
+
+
+            /* -------------------------------------------------
+               Clear previous authentication
+            ------------------------------------------------- */
+
+            const keysToRemove = [
+
+                "ecolyy_access_token",
+                "ecolyy_refresh_token",
+                "ecolyy_token_type",
+                "ecolyy_role",
+                "ecolyy_user",
+                "ecolyy_user_name",
+                "ecolyy_user_email",
+
+                "ecolyy_admin_name",
+                "ecolyy_admin_email",
+
+                "ecolyy_partner_name",
+                "ecolyy_partner_email",
+
+                "ecolyy_institute_name",
+                "ecolyy_institute_email"
+
+            ];
+
+
+            keysToRemove.forEach(
+                function (key) {
+
+                    localStorage.removeItem(
+                        key
+                    );
+
+                }
+            );
+
+
+            /* -------------------------------------------------
+               Tokens
+            ------------------------------------------------- */
+
+            localStorage.setItem(
+                "ecolyy_access_token",
+                data.access_token
+            );
+
+
+            localStorage.setItem(
+                "ecolyy_refresh_token",
+                data.refresh_token
+            );
+
+
+            localStorage.setItem(
+                "ecolyy_token_type",
+                data.token_type || "bearer"
+            );
+
+
+            /* -------------------------------------------------
+               User
+            ------------------------------------------------- */
+
+            localStorage.setItem(
+                "ecolyy_role",
+                role
+            );
+
+
+            localStorage.setItem(
+                "ecolyy_user",
+                JSON.stringify({
+                    ...user,
+                    name: name,
+                    email: email,
+                    role: role
+                })
+            );
+
+
+            localStorage.setItem(
+                "ecolyy_user_name",
+                name
+            );
+
+
+            localStorage.setItem(
+                "ecolyy_user_email",
+                email
+            );
+
+
+            /* -------------------------------------------------
+               Convenience values
+            ------------------------------------------------- */
+
+            if (role === "admin") {
+
+                localStorage.setItem(
+                    "ecolyy_admin_name",
+                    name
+                );
+
+                localStorage.setItem(
+                    "ecolyy_admin_email",
+                    email
+                );
+
+            }
+
+
+            if (role === "partner") {
+
+                localStorage.setItem(
+                    "ecolyy_partner_name",
+                    name
+                );
+
+                localStorage.setItem(
+                    "ecolyy_partner_email",
+                    email
+                );
+
+            }
+
+
+            if (role === "institution") {
+
+                localStorage.setItem(
+                    "ecolyy_institute_name",
+                    name
+                );
+
+                localStorage.setItem(
+                    "ecolyy_institute_email",
+                    email
+                );
+
+            }
+
+
+            return role;
+        }
+
+
+        /* =====================================================
+           REDIRECT
+        ====================================================== */
+
+        function redirectAfterAuth(
+            data,
+            role
+        ) {
+
+            const backendRedirect =
+                data?.user?.redirect_url;
+
+
+            const fallbackRedirects = {
+
+                admin:
+                    "../../admin/dashboard.html",
+
+                partner:
+                    "../../partner/dashboard.html",
+
+                institution:
+                    "../../institute/dashboard.html",
+
+                user:
+                    "../../user/dashboard.html"
+
+            };
+
+
+            const redirectUrl =
+                (
+                    backendRedirect &&
+                    typeof backendRedirect === "string"
+                )
+                    ? backendRedirect
+                    : (
+                        fallbackRedirects[role] ||
+                        fallbackRedirects.user
+                    );
+
+
+            setTimeout(
+                function () {
+
+                    window.location.href =
+                        redirectUrl;
+
+                },
+                900
+            );
+
+        }
+
+
+        /* =====================================================
+           GOOGLE CREDENTIAL HANDLER
+        ====================================================== */
+
+        async function handleGoogleRegister(
+            response
+        ) {
+
+            hideRegisterMessage();
+
+
+            if (
+                !response ||
+                !response.credential
+            ) {
+
+                showRegisterMessage(
+                    "Google authentication failed. Please try again."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                googleRegisterBtn.classList.add(
+                    "google-loading"
+                );
+
+
+                googleRegisterBtn.disabled =
+                    true;
+
+
+                googleRegisterBtn.innerHTML =
+                    `
+                        <i class="bi bi-hourglass-split"></i>
+                        Connecting to Google...
+                    `;
+
+
+                /* ---------------------------------------------
+                   Backend Google authentication
+                --------------------------------------------- */
+
+                const apiResponse =
+                    await fetch(
+                        `${API_BASE_URL}${API_PREFIX}/auth/google`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                id_token:
+                                    response.credential
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await parseResponse(
+                        apiResponse
+                    );
+
+
+                console.log(
+                    "Google registration response:",
+                    data
+                );
+
+
+                if (!apiResponse.ok) {
+
+                    throw new Error(
+                        data.detail ||
+                        data.message ||
+                        "Unable to create your Ecolyy account."
+                    );
+
+                }
+
+
+                const role =
+                    saveAuthData(
+                        data
+                    );
+
+
+                showRegisterMessage(
+                    "Account connected successfully. Redirecting...",
+                    "success"
+                );
+
+
+                googleRegisterBtn.innerHTML =
+                    `
+                        <i class="bi bi-check-circle"></i>
+                        Success!
+                    `;
+
+
+                redirectAfterAuth(
+                    data,
+                    role
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Google registration error:",
+                    error
+                );
+
+
+                showRegisterMessage(
+                    error.message ||
+                    "Registration failed. Please try again."
+                );
+
+
+                googleRegisterBtn.classList.remove(
+                    "google-loading"
+                );
+
+
+                googleRegisterBtn.disabled =
+                    false;
+
+
+                googleRegisterBtn.innerHTML =
+                    `
+                        <i class="bi bi-google"></i>
+                        Continue with Google
+                    `;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           INITIALIZE GOOGLE
+        ====================================================== */
+
+        function initializeGoogleRegistration() {
+
+            if (
+                typeof google === "undefined" ||
+                !google.accounts ||
+                !google.accounts.id
+            ) {
+
+                return false;
+
+            }
+
+
+            try {
+
+                google.accounts.id.initialize({
+
+                    client_id:
+                        GOOGLE_CLIENT_ID,
+
+                    callback:
+                        handleGoogleRegister,
+
+                    ux_mode:
+                        "popup",
+
+                    auto_select:
+                        false,
+
+                    cancel_on_tap_outside:
+                        true
+
+                });
+
+
+                /*
+                 * We render the official Google button in a hidden
+                 * container only so the Google Identity Services
+                 * configuration remains available.
+                 */
+
+                google.accounts.id.renderButton(
+
+                    googleRegisterContainer,
+
+                    {
+                        type:
+                            "standard",
+
+                        theme:
+                            "outline",
+
+                        size:
+                            "large",
+
+                        text:
+                            "continue_with",
+
+                        shape:
+                            "rectangular",
+
+                        logo_alignment:
+                            "left",
+
+                        width:
+                            "100%"
+                    }
+
+                );
+
+
+                googleRegisterContainer.style.display =
+                    "none";
+
+
+                console.log(
+                    "Google Registration ready."
+                );
+
+
+                return true;
+
+            } catch (error) {
+
+                console.error(
+                    "Google registration initialization error:",
+                    error
+                );
+
+
+                return false;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           CUSTOM GOOGLE BUTTON
+        ====================================================== */
+
+        googleRegisterBtn.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                hideRegisterMessage();
+
+
+                if (
+                    typeof google === "undefined" ||
+                    !google.accounts ||
+                    !google.accounts.id
+                ) {
+
+                    showRegisterMessage(
+                        "Google Sign-In is still loading. Please try again."
+                    );
+
+                    return;
+
+                }
+
+
+                try {
+
+                    google.accounts.id.prompt();
+
+                } catch (error) {
+
+                    console.error(
+                        "Google prompt error:",
+                        error
+                    );
+
+
+                    showRegisterMessage(
+                        "Unable to start Google Sign-In. Please try again."
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           WAIT FOR GOOGLE
+        ====================================================== */
+
+        (function waitForGoogle() {
+
+            let attempts = 0;
+
+            const maxAttempts = 20;
+
+
+            const timer =
+                setInterval(
+                    function () {
+
+                        attempts++;
+
+
+                        if (
+                            initializeGoogleRegistration()
+                        ) {
+
+                            clearInterval(
+                                timer
+                            );
+
+                            return;
+
+                        }
+
+
+                        if (
+                            attempts >= maxAttempts
+                        ) {
+
+                            clearInterval(
+                                timer
+                            );
+
+
+                            console.warn(
+                                "Google Identity Services unavailable."
+                            );
+
+                        }
+
+                    },
+                    500
+                );
+
+        })();
+
+
+        /* =====================================================
+           READY
+        ====================================================== */
+
+        console.log(
+            "========================================"
+        );
+
+        console.log(
+            "Ecolyy Registration UI Ready"
+        );
+
+        console.log(
+            "Role detection:",
+            "BACKEND ONLY"
+        );
+
+        console.log(
+            "========================================"
+        );
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,111 @@
+body.dark-mode {
+
+    --bg: #071b16;
+    --surface: #0c2720;
+
+    --text: #e9f4ef;
+    --text-muted: #91aaa2;
+
+    --border: rgba(176, 224, 204, 0.10);
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(105, 181, 50, 0.08),
+            transparent 30%
+        ),
+        #071b16;
+
+    color: var(--text);
+}
+
+.dark-mode .glass-card,
+body.dark-mode .glass-card {
+    border-color: rgba(255, 255, 255, 0.08);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.075),
+            rgba(255, 255, 255, 0.025)
+        );
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .glass-nav {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .theme-toggle,
+body.dark-mode .btn-secondary,
+body.dark-mode .eyebrow {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+}
+
+body.dark-mode .desktop-nav a {
+    color: #8fa9a0;
+}
+
+body.dark-mode .desktop-nav a:hover {
+    color: #a7dc70;
+}
+
+body.dark-mode .problem-card,
+body.dark-mode .step-card {
+    background: rgba(255, 255, 255, 0.025);
+    border-color: rgba(255, 255, 255, 0.07);
+}
+
+body.dark-mode .step-card:hover {
+    background: rgba(255, 255, 255, 0.055);
+}
+
+body.dark-mode .logo-circle {
+    background:
+        radial-gradient(
+            circle at 35% 25%,
+            rgba(255, 255, 255, 0.18),
+            rgba(29, 75, 59, 0.75)
+        );
+
+    border-color: rgba(255, 255, 255, 0.10);
+}
+
+body.dark-mode .floating-item,
+body.dark-mode .glass-mini {
+    background: rgba(11, 38, 31, 0.72);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .category-card {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+body.dark-mode .footer {
+    border-color: rgba(255, 255, 255, 0.07);
+}
+
+body.dark-mode .footer-bottom {
+    border-color: rgba(255, 255, 255, 0.07);
+}
+
+body.dark-mode .social-links a {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .mobile-menu {
+    background: rgba(7, 27, 22, 0.92);
+}
+
+body.dark-mode .mobile-menu > a {
+    color: #91aaa2;
+}
+
+body.dark-mode ::-webkit-scrollbar-track {
+    background: #071b16;
+}
