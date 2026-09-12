@@ -12,7 +12,7 @@
  * - Refresh token
  *
  * Backend:
- * http://127.0.0.1:8000
+ * https://ecolyy.onrender.com
  */
 
 "use strict";
@@ -22,7 +22,7 @@
    CONFIG
 ========================================================= */
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "https://ecolyy.onrender.com";
 
 
 /*
@@ -483,7 +483,7 @@ if (googleLoginBtn) {
              * NEVER do:
              *
              * window.location.href =
-             * "http://127.0.0.1:8000/api/v1/auth/google";
+             * "https://ecolyy.onrender.com/api/v1/auth/google";
              *
              * That would send GET request.
              *

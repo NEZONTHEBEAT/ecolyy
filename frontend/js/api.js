@@ -4,7 +4,7 @@
    ========================================================= */
 
 const API_CONFIG = {
-    BASE_URL: "http://localhost:8000/api/v1"
+    BASE_URL: "https://ecolyy.onrender.com/api/v1"
 };
 
 
