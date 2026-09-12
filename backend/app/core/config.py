@@ -1,33 +1,8 @@
 """
 Ecolyy Application Configuration
 
-Central configuration for:
-- Application settings
-- MongoDB
-- CORS
-- Google Sign-In
-- Authentication
-- Role detection
-- Dashboard redirects
-- Email/OTP settings
-
-IMPORTANT ROLE RULES
---------------------
-
-ADMIN:
-    neelspunkryderz71@gmail.com
-
-PARTNER:
-    himanshu.b.11231@gmail.com
-
-INSTITUTION:
-    shamik.b.1123@inspiria.edu.in
-
-USER:
-    Any other email address
-
-The frontend MUST NOT decide the user's role.
-The backend determines the role from the verified email.
+All production-sensitive values are loaded from environment variables
+or backend/.env during local development.
 """
 
 from functools import lru_cache
@@ -38,8 +13,13 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     """
-    Application settings loaded from environment variables
-    and the .env file.
+    Central application configuration.
+
+    Local development:
+        backend/.env
+
+    Production:
+        Render Environment Variables
     """
 
     model_config = SettingsConfigDict(
@@ -54,33 +34,25 @@ class Settings(BaseSettings):
     # =========================================================
 
     APP_NAME: str = "Ecolyy API"
-
     ENV: str = "development"
-
     DEBUG: bool = True
-
     API_V1_PREFIX: str = "/api/v1"
 
     # =========================================================
     # SECURITY / JWT
     # =========================================================
 
-    # IMPORTANT:
-    # Change this in production and put it inside .env
-    SECRET_KEY: str = "insecure-dev-secret-change-me"
-
+    SECRET_KEY: str
     ALGORITHM: str = "HS256"
-
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
-
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
     # =========================================================
     # MONGODB
     # =========================================================
 
-    MONGO_URI: str = "mongodb://localhost:27017"
-
+    # Supports the existing MONGODB_URI variable from .env.
+    MONGO_URI: str = ""
     MONGO_DB_NAME: str = "ecolyy"
 
     # =========================================================
@@ -100,68 +72,39 @@ class Settings(BaseSettings):
     # GOOGLE SIGN-IN
     # =========================================================
 
-    GOOGLE_CLIENT_ID: str = (
-        "243474168990-90ci2ll2bpcn85lu9dd4lpipprhqbpr3"
-        ".apps.googleusercontent.com"
-    )
+    GOOGLE_CLIENT_ID: str = ""
+    GOOGLE_CLIENT_SECRET: str = ""
 
     # =========================================================
     # ROLE / EMAIL CONFIGURATION
     # =========================================================
 
-    # ---------------------------------------------------------
-    # ADMIN
-    # ---------------------------------------------------------
+    SUPER_ADMIN_EMAIL: str = ""
 
-    SUPER_ADMIN_EMAIL: str = (
-        "neelspunkryderz71@gmail.com"
-    )
+    PARTNER_EMAILS: str = ""
 
-    # ---------------------------------------------------------
-    # PARTNER
-    # ---------------------------------------------------------
-
-    # ONLY this email gets the partner role.
-    PARTNER_EMAILS: str = (
-        "himanshu.b.11231@gmail.com"
-    )
-
-    # ---------------------------------------------------------
-    # INSTITUTION
-    # ---------------------------------------------------------
-
-    # ONLY this email gets the institution role.
-    INSTITUTE_EMAILS: str = (
-        "shamik.b.1123@inspiria.edu.in"
-    )
+    INSTITUTE_EMAILS: str = ""
 
     # =========================================================
     # DEFAULT PASSWORDS
     # =========================================================
     #
-    # These are mainly useful for demo-login/testing.
+    # Kept for backward compatibility with existing project code.
+    # These MUST be configured through environment variables if used.
     #
-    # DO NOT use these passwords for real production accounts.
-    # =========================================================
 
-    DEFAULT_PARTNER_PASSWORD: str = "partner123"
-
-    DEFAULT_INSTITUTE_PASSWORD: str = "institute123"
-
-    DEFAULT_USER_PASSWORD: str = "user123"
-
-    DEFAULT_ADMIN_PASSWORD: str = "admin123"
+    DEFAULT_PARTNER_PASSWORD: str = ""
+    DEFAULT_INSTITUTE_PASSWORD: str = ""
+    DEFAULT_USER_PASSWORD: str = ""
+    DEFAULT_ADMIN_PASSWORD: str = ""
 
     # =========================================================
     # DASHBOARD REDIRECTS
     # =========================================================
 
     REDIRECT_ADMIN: str = "/admin/dashboard.html"
-
     REDIRECT_PARTNER: str = "/partner/dashboard.html"
-
     REDIRECT_INSTITUTE: str = "/institution/dashboard.html"
-
     REDIRECT_USER: str = "/user/dashboard.html"
 
     # =========================================================
@@ -169,11 +112,8 @@ class Settings(BaseSettings):
     # =========================================================
 
     DISPLAY_ADMIN: str = "Super Admin"
-
     DISPLAY_PARTNER: str = "Collection Partner"
-
     DISPLAY_INSTITUTE: str = "Institute"
-
     DISPLAY_USER: str = "User"
 
     # =========================================================
@@ -187,13 +127,9 @@ class Settings(BaseSettings):
     # =========================================================
 
     SMTP_HOST: str = ""
-
     SMTP_PORT: int = 587
-
     SMTP_USER: str = ""
-
     SMTP_PASSWORD: str = ""
-
     SMTP_FROM: str = "no-reply@ecolyy.app"
 
     # =========================================================
@@ -202,9 +138,7 @@ class Settings(BaseSettings):
 
     @property
     def cors_origins_list(self) -> List[str]:
-        """
-        Convert comma-separated CORS origins into a list.
-        """
+        """Convert comma-separated CORS origins into a list."""
 
         return [
             origin.strip()
@@ -218,9 +152,7 @@ class Settings(BaseSettings):
 
     @property
     def partner_emails_list(self) -> List[str]:
-        """
-        Return normalized partner email addresses.
-        """
+        """Return normalized partner email addresses."""
 
         return [
             email.strip().lower()
@@ -230,9 +162,7 @@ class Settings(BaseSettings):
 
     @property
     def institute_emails_list(self) -> List[str]:
-        """
-        Return normalized institution email addresses.
-        """
+        """Return normalized institution email addresses."""
 
         return [
             email.strip().lower()
@@ -248,49 +178,29 @@ class Settings(BaseSettings):
         """
         Determine the user's role from their email address.
 
-        This is the SINGLE SOURCE OF TRUTH for role detection.
+        Admin:
+            SUPER_ADMIN_EMAIL
 
-        Rules:
+        Partner:
+            PARTNER_EMAILS
 
-            neelspunkryderz71@gmail.com
-                -> admin
+        Institution:
+            INSTITUTE_EMAILS
 
-            himanshu.b.11231@gmail.com
-                -> partner
-
-            shamik.b.1123@inspiria.edu.in
-                -> institution
-
-            everything else
-                -> user
+        Everything else:
+            user
         """
 
         email = email.strip().lower()
 
-        # -----------------------------------------------------
-        # ADMIN
-        # -----------------------------------------------------
-
         if email == self.SUPER_ADMIN_EMAIL.lower():
             return "admin"
-
-        # -----------------------------------------------------
-        # PARTNER
-        # -----------------------------------------------------
 
         if email in self.partner_emails_list:
             return "partner"
 
-        # -----------------------------------------------------
-        # INSTITUTION
-        # -----------------------------------------------------
-
         if email in self.institute_emails_list:
             return "institution"
-
-        # -----------------------------------------------------
-        # DEFAULT
-        # -----------------------------------------------------
 
         return "user"
 
@@ -299,48 +209,30 @@ class Settings(BaseSettings):
     # =========================================================
 
     def is_admin_email(self, email: str) -> bool:
-        """
-        Check whether an email belongs to the super admin.
-        """
+        """Check whether an email belongs to the super admin."""
 
-        return (
-            email.strip().lower()
-            == self.SUPER_ADMIN_EMAIL.lower()
-        )
+        return email.strip().lower() == self.SUPER_ADMIN_EMAIL.lower()
 
     def is_partner_email(self, email: str) -> bool:
-        """
-        Check whether an email belongs to the configured partner.
-        """
+        """Check whether an email belongs to a configured partner."""
 
-        return (
-            email.strip().lower()
-            in self.partner_emails_list
-        )
+        return email.strip().lower() in self.partner_emails_list
 
     def is_institute_email(self, email: str) -> bool:
-        """
-        Check whether an email belongs to the configured institution.
-        """
+        """Check whether an email belongs to a configured institution."""
 
-        return (
-            email.strip().lower()
-            in self.institute_emails_list
-        )
+        return email.strip().lower() in self.institute_emails_list
 
     # =========================================================
     # DEFAULT PASSWORD
     # =========================================================
 
-    def get_default_password_for_role(
-        self,
-        role: str,
-    ) -> str:
+    def get_default_password_for_role(self, role: str) -> str:
         """
-        Return demo/default password for a role.
+        Return configured default password for a role.
 
-        NOTE:
-        These are NOT intended for production authentication.
+        These values are intentionally empty by default and should
+        only be configured when legacy/demo functionality requires them.
         """
 
         passwords = {
@@ -350,22 +242,14 @@ class Settings(BaseSettings):
             "user": self.DEFAULT_USER_PASSWORD,
         }
 
-        return passwords.get(
-            role,
-            self.DEFAULT_USER_PASSWORD,
-        )
+        return passwords.get(role, self.DEFAULT_USER_PASSWORD)
 
     # =========================================================
     # DASHBOARD REDIRECT
     # =========================================================
 
-    def get_redirect_url_for_role(
-        self,
-        role: str,
-    ) -> str:
-        """
-        Return dashboard URL for the detected role.
-        """
+    def get_redirect_url_for_role(self, role: str) -> str:
+        """Return dashboard URL for the detected role."""
 
         redirects = {
             "admin": self.REDIRECT_ADMIN,
@@ -374,22 +258,14 @@ class Settings(BaseSettings):
             "user": self.REDIRECT_USER,
         }
 
-        return redirects.get(
-            role,
-            self.REDIRECT_USER,
-        )
+        return redirects.get(role, self.REDIRECT_USER)
 
     # =========================================================
     # DISPLAY ROLE
     # =========================================================
 
-    def get_display_role(
-        self,
-        role: str,
-    ) -> str:
-        """
-        Return human-readable role name.
-        """
+    def get_display_role(self, role: str) -> str:
+        """Return human-readable role name."""
 
         display_names = {
             "admin": self.DISPLAY_ADMIN,
@@ -398,10 +274,7 @@ class Settings(BaseSettings):
             "user": self.DISPLAY_USER,
         }
 
-        return display_names.get(
-            role,
-            self.DISPLAY_USER,
-        )
+        return display_names.get(role, self.DISPLAY_USER)
 
     # =========================================================
     # ROLE VALIDATION
@@ -413,20 +286,11 @@ class Settings(BaseSettings):
         role: str,
     ) -> bool:
         """
-        Validate whether a role matches the authoritative
-        role detected from an email address.
-
-        This method exists mainly for compatibility with
-        existing parts of the project.
-
-        IMPORTANT:
-        The application should prefer detect_role_from_email()
-        rather than trusting a client-provided role.
+        Validate whether a role matches the authoritative role
+        detected from the email address.
         """
 
-        detected_role = self.detect_role_from_email(
-            email
-        )
+        detected_role = self.detect_role_from_email(email)
 
         return detected_role == role
 
@@ -435,9 +299,7 @@ class Settings(BaseSettings):
     # =========================================================
 
     def get_all_roles(self) -> List[str]:
-        """
-        Return all supported roles.
-        """
+        """Return all supported roles."""
 
         return [
             "admin",
@@ -454,17 +316,10 @@ class Settings(BaseSettings):
         self,
         role: str,
     ) -> List[str]:
-        """
-        Return explicitly configured emails for a role.
-
-        For normal users, there is no fixed email list because
-        every non-special account becomes a user.
-        """
+        """Return explicitly configured emails for a role."""
 
         if role == "admin":
-            return [
-                self.SUPER_ADMIN_EMAIL.lower()
-            ]
+            return [self.SUPER_ADMIN_EMAIL.lower()]
 
         if role == "partner":
             return self.partner_emails_list
@@ -481,9 +336,7 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
-    """
-    Create and cache the application settings instance.
-    """
+    """Create and cache the application settings instance."""
 
     return Settings()
 

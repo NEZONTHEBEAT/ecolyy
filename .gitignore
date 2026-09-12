@@ -21,3 +21,4 @@ node_modules/
 *.temp
 backend/uploads/
 uploads/
+backend/app/core/config.py.backup
