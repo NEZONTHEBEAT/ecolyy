@@ -1,5 +1,3 @@
-# backend/test_login.py
-
 import requests
 import json
 
